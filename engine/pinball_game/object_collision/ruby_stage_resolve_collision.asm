@@ -36,13 +36,58 @@ ResolveRubyFieldBottomGameObjectCollisions: ; 0x14652
 	call ResolveSlotCollision_RubyField
 	call ApplySlotForceField_RubyFieldBottom
 	call OpenSlotCave_RubyField
-	callba UpdateAgainText
-	callba UpdateBallSaver
+	callba UpdateBallSaver_RubyField
 	call UpdatePokeballs_RubyField
 	callba ShowExtraBallMessage
 	ld a, $0
 	callba CheckSpecialModeColision
 	ret
+
+UpdateBallSaver_RubyField:
+	call UpdateBallSaverState
+	call nz, DrawBallSaverIcon_RubyField ;redraw icon if its state changed
+	ret
+
+DrawBallSaverIcon_RubyField:
+	ld a, [wBallSaverIconOn]
+	and a
+	jr nz, .DrawIconOn
+	ld a, BANK(BallSaverIconOffSprite_RubyField)
+	ld hl, BallSaverIconOffSprite_RubyField
+	deCoord 8, 12, vBGMap
+	ld bc, $0004
+	call LoadOrCopyVRAMData
+	ld hl, BallSaverIconOffSprite_RubyField + 4
+	deCoord 8, 13, vBGMap
+	ld bc, $0004
+	call LoadOrCopyVRAMData
+	ld hl, BallSaverIconOffSprite_RubyField + 8
+	deCoord 8, 14, vBGMap
+	ld bc, $0004
+	call LoadOrCopyVRAMData
+	ret
+
+.DrawIconOn
+	ld a, BANK(BallSaverIconOnSprite_RubyField)
+	ld hl, BallSaverIconOnSprite_RubyField
+	deCoord 8, 12, vBGMap
+	ld bc, $0004
+	call LoadOrCopyVRAMData
+	ld hl, BallSaverIconOnSprite_RubyField + 4
+	deCoord 8, 13, vBGMap
+	ld bc, $0004
+	call LoadOrCopyVRAMData
+	ld hl, BallSaverIconOnSprite_RubyField + 8
+	deCoord 8, 14, vBGMap
+	ld bc, $0004
+	call LoadOrCopyVRAMData
+	ret
+
+BallSaverIconOffSprite_RubyField:
+	db $B9, $BA, $BB, $BC, $C1, $C2, $C3, $C4, $C9, $CA, $CB, $CC
+
+BallSaverIconOnSprite_RubyField:
+	db $B5, $B6, $B7, $B8, $BD, $BE, $BF, $C0, $C5, $C6, $C7, $C8
 
 ResolveWildMonCollision_RubyField: ; 0x14795
 	ld a, [wWildMonCollision]
@@ -1453,7 +1498,7 @@ LoadBumperGraphics_RubyField: ; 0x15fc0
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_15fd0
-	ld hl, TileData_16080_RubyField
+	ld hl, TileData_Slingshots_RubyField
 .asm_15fd0
 	add hl, bc
 	ld a, [hli]
@@ -2341,7 +2386,6 @@ ResolveStaryuCollision_Bottom_RubyField: ; 0x167ff
 	ld [wd502], a ;flip bit 0
 	ld a, $14
 	ld [wd503], a
-	call LoadStaryuGraphics_Bottom_RubyField
 	ld a, $6
 	callba CheckSpecialModeColision
 	ret
@@ -2381,22 +2425,6 @@ LoadStaryuGraphics_Top_RubyField: ; 0x16859
 	call QueueGraphicsToLoad
 	ret
 
-LoadStaryuGraphics_Bottom_RubyField: ; 0x16878
-	ld a, [wd502]
-	and $1
-	sla a
-	ld c, a
-	ld b, $0
-	ld hl, TileDataPointers_16980_RubyField
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	or h
-	ret z
-	ld a, Bank(TileDataPointers_16980_RubyField)
-	call QueueGraphicsToLoad
-	ret
 
 INCLUDE "data/queued_tiledata/ruby_field/staryu_bumper.asm"
 

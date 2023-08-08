@@ -18,10 +18,8 @@ _LoadStageDataRubyFieldBottom: ; 0x1401c
 	call LoadBillboardStatusBarGraphics_RubyField
 	call Func_1414b_RubyField
 	call LoadEvolutionTrinketGraphics_RubyField
-	callba LoadAgainTextGraphics
-	callba DrawBallSaverIcon
+	callba DrawBallSaverIcon_RubyField
 	call LoadDiglettGraphics_RubyField
-	call LoadStaryuGraphics_Bottom_RubyField
 	call LoadBonusMultiplierRailingGraphics_RubyField
 	call LoadSlotCaveCoverGraphics_RubyField
 	callba LoadBallGraphics

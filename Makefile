@@ -40,11 +40,32 @@ tidy:
 	$(MAKE) -C tools clean
 
 clean: tidy
-	find . \( -iname '*.1bpp' -o -iname '*.2bpp' -o -iname '*.pcm' \) -exec rm {} +
+	find . \( -iname '*.1bpp' -o -iname '*.2bpp' -o -iname '*.pcm' -o -iname '*.tilemap' -o -iname '*.attrmap' -o -iname '*.gbpal' \) -exec rm {} +
 
 %.interleave.2bpp: %.interleave.png
 	rgbgfx -o $@ $<
 	tools/gfx --interleave --png $< -o $@ $@
+
+gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.attrmap gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.tilemap gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.gbpal gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.2bpp: gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.png gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.pal
+	rgbgfx -u -m -b128 \
+		-c psp:gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.pal \
+		-a gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.attrmap.tmp \
+		-t gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.tilemap.tmp \
+		-p gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.gbpal \
+		-o gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.2bpp \
+		gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.png
+	tail --bytes=+513 <gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.attrmap.tmp >gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.attrmap
+	tail --bytes=+513 <gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.tilemap.tmp >gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.tilemap
+	truncate --size 4096 gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.2bpp
+	rgbgfx -r16 \
+		-o gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.2bpp \
+		gfx/stage/ruby_bottom/ruby_bottom_gameboycolor_tiles.png
+	rgbgfx  -r32 -b128 \
+		-a gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.attrmap \
+		-t gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.tilemap \
+		-p gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.gbpal \
+		-o gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.2bpp \
+		gfx/stage/ruby_bottom/ruby_bottom_gameboycolor_reversed.png
 
 %.2bpp: %.png
 	rgbgfx -o $@ $<

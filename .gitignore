@@ -30,6 +30,9 @@
 # converted image data
 *.1bpp
 *.2bpp
+*.tilemap
+*.attrmap
+*.gbpal
 
 # converted audio data
 *.pcm

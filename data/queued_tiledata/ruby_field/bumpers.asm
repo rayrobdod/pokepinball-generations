@@ -108,112 +108,112 @@ TileData_16069_RubyField: ; 0x16069
 
 	db $00 ; terminator
 
-TileData_16080_RubyField:
-	dw TileData_16088_RubyField
-	dw TileData_1608b_RubyField
-	dw TileData_1608e_RubyField
-	dw TileData_16091_RubyField
+TileData_Slingshots_RubyField:
+	dw TileData_Slingshot_Left_Pointer_RubyField
+	dw TileData_Slingshot_Left_Lit_Pointer_RubyField
+	dw TileData_Slingshot_Right_Pointer_RubyField
+	dw TileData_Slingshot_Right_Lit_Pointer_RubyField
 
-TileData_16088_RubyField: ; 0x16088
+TileData_Slingshot_Left_Pointer_RubyField:
 	db $01
-	dw TileData_16094_RubyField
+	dw TileData_Slingshot_Left_RubyField
 
-TileData_1608b_RubyField: ; 0x1608b
+TileData_Slingshot_Left_Lit_Pointer_RubyField:
 	db $01
-	dw TileData_160ab_RubyField
+	dw TileData_Slingshot_Left_Lit_RubyField
 
-TileData_1608e_RubyField: ; 0x1608e
+TileData_Slingshot_Right_Pointer_RubyField:
 	db $01
-	dw TileData_160c2_RubyField
+	dw TileData_Slingshot_Right_RubyField
 
-TileData_16091_RubyField: ; 0x16091
+TileData_Slingshot_Right_Lit_Pointer_RubyField:
 	db $01
-	dw TileData_160d9_RubyField
+	dw TileData_Slingshot_Right_Lit_RubyField
 
-TileData_16094_RubyField: ; 0x16094
+TileData_Slingshot_Left_RubyField:
 	dw LoadTileLists
 	db $07 ; total number of tiles
 
 	db $01 ; number of tiles
 	dw vBGMap + $124
-	db $2A
+	db $CD
 
 	db $02 ; number of tiles
 	dw vBGMap + $144
-	db $2B, $2C
+	db $CF, $D0
 
 	db $02 ; number of tiles
 	dw vBGMap + $164
-	db $2D, $2E
+	db $D3, $D4
 
 	db $02 ; number of tiles
 	dw vBGMap + $185
-	db $2F, $30
+	db $D8, $D9
 
 	db $00 ; terminator
 
-TileData_160ab_RubyField: ; 0x160ab
+TileData_Slingshot_Left_Lit_RubyField:
 	dw LoadTileLists
 	db $07 ; total number of tiles
 
 	db $01 ; number of tiles
 	dw vBGMap + $124
-	db $31
+	db $CE
 
 	db $02 ; number of tiles
 	dw vBGMap + $144
-	db $32, $33
+	db $D1, $D2
 
 	db $02 ; number of tiles
 	dw vBGMap + $164
-	db $34, $35
+	db $D5, $D6
 
 	db $02 ; number of tiles
 	dw vBGMap + $185
-	db $36, $37
+	db $DA, $DB
 
 	db $00 ; terminator
 
-TileData_160c2_RubyField: ; 0x160c2
+TileData_Slingshot_Right_RubyField:
 	dw LoadTileLists
 	db $07 ; total number of tiles
 
 	db $01 ; number of tiles
 	dw vBGMap + $12F
-	db $2A
+	db $CD
 
 	db $02 ; number of tiles
 	dw vBGMap + $14E
-	db $2C, $2B
+	db $D0, $CF
 
 	db $02 ; number of tiles
 	dw vBGMap + $16E
-	db $2E, $2D
+	db $D4, $D3
 
 	db $02 ; number of tiles
 	dw vBGMap + $18D
-	db $30, $2F
+	db $D9, $D8
 
 	db $00 ; terminator
 
-TileData_160d9_RubyField: ; 0x160d9
+TileData_Slingshot_Right_Lit_RubyField:
 	dw LoadTileLists
 	db $07 ; total number of tiles
 
 	db $01 ; number of tiles
 	dw vBGMap + $12F
-	db $31
+	db $CE
 
 	db $02 ; number of tiles
 	dw vBGMap + $14E
-	db $33, $32
+	db $D2, $D1
 
 	db $02 ; number of tiles
 	dw vBGMap + $16E
-	db $35, $34
+	db $D6, $D5
 
 	db $02 ; number of tiles
 	dw vBGMap + $18D
-	db $37, $36
+	db $DB, $DA
 
 	db $00 ; terminator

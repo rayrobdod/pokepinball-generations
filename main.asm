@@ -1334,9 +1334,9 @@ INCLUDE "engine/pinball_game/evolution_mode/evolution_mode_ruby_field.asm"
 INCLUDE "engine/pinball_game/evolution_mode/evolution_mode_sapphire_field.asm"
 
 StageRubyFieldBottomTilemap_GameBoyColor:
-	INCBIN "gfx/tilemaps/stage_ruby_field_bottom_gameboycolor.map"
+	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.tilemap"
 StageRubyFieldBottomTilemap2_GameBoyColor:
-	INCBIN "gfx/tilemaps/stage_ruby_field_bottom_gameboycolor_2.map"
+	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.attrmap"
 StageSapphireFieldBottomTilemap_GameBoyColor:
 	INCBIN "gfx/tilemaps/stage_sapphire_field_bottom_gameboycolor.map"
 StageSapphireFieldBottomTilemap2_GameBoyColor:
@@ -1371,7 +1371,7 @@ StageRubyFieldTopTilemap2_GameBoyColor:
 	INCBIN "gfx/tilemaps/stage_ruby_field_top_gameboycolor_2.map"
 
 StageRubyFieldBottomBaseGameBoyColorGfx:
-	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_base_gameboycolor.2bpp"
+	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.2bpp"
 StageRubyFieldBottomGfx5:
 	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_5.2bpp"
 StageRubyFieldTopStatusBarSymbolsGfx_GameBoyColor:

@@ -9,7 +9,7 @@ TileData_1f2c1_RubyField: ; 0x1f2c1
 
 	db $06 ; number of tiles
 	dw vBGMap + $107
-	db $B0, $B1, $B0, $B1, $B0, $B1
+	db $B0, $B0, $B0, $B0, $B0, $B0
 
 	db $00 ; terminator
 
@@ -18,7 +18,7 @@ TileData_1f2cc_RubyField: ; 0x1f2cc
 
 	db $06 ; number of tiles
 	dw vBGMap + $107
-	db $AE, $AF, $B0, $B1, $B0, $B1
+	db $AE, $AF, $B0, $B0, $B0, $B0
 
 	db $00 ; terminator
 
@@ -27,7 +27,7 @@ TileData_1f2d7_RubyField: ; 0x1f2d7
 
 	db $06 ; number of tiles
 	dw vBGMap + $107
-	db $AE, $AF, $AE, $AF, $B0, $B1
+	db $AE, $AF, $AE, $AF, $B0, $B0
 
 	db $00 ; terminator
 

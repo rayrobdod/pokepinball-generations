@@ -78,21 +78,21 @@ TileDataPointers_164a1_RubyField:
 
 TileData_164a9_RubyField: ; 0x164a9
 	db $01
-	dw TileData_164b5_RubyField
+	dw TileData_SlotCave_Closed_Top_RubyField
 
 TileData_164ac_RubyField: ; 0x164ac
 	db $01
-	dw TileData_164be_RubyField
+	dw TileData_SlotCave_Open_Top_RubyField
 
 TileData_164af_RubyField: ; 0x164af
 	db $01
-	dw TileData_164c7_RubyField
+	dw TileData_SlotCave_Closed_RubyField
 
 TileData_164b2_RubyField: ; 0x164b2
 	db $01
-	dw TileData_164d5_RubyField
+	dw TileData_SlotCave_Open_RubyField
 
-TileData_164b5_RubyField: ; 0x164b5
+TileData_SlotCave_Closed_Top_RubyField:
 	dw LoadTileLists
 	db $02
 
@@ -102,7 +102,7 @@ TileData_164b5_RubyField: ; 0x164b5
 
 	db $00
 
-TileData_164be_RubyField: ; 0x164be
+TileData_SlotCave_Open_Top_RubyField:
 	dw LoadTileLists
 	db $02
 
@@ -113,30 +113,30 @@ TileData_164be_RubyField: ; 0x164be
 
 	db $00
 
-TileData_164c7_RubyField: ; 0x164c7
+TileData_SlotCave_Closed_RubyField:
 	dw LoadTileLists
 	db $04
 
 	db $02
 	dw vBGMap + $9
-	db $38, $39
+	db $dc, $dd
 
 	db $02
 	dw vBGMap + $29
-	db $3a, $3b
+	db $e0, $e1
 
 	db $00
 
-TileData_164d5_RubyField: ; 0x164d5
+TileData_SlotCave_Open_RubyField:
 	dw LoadTileLists
 	db $04
 
 	db $02
 	dw vBGMap + $9
-	db $3c, $3d
+	db $de, $df
 
 	db $02
 	dw vBGMap + $29
-	db $3e, $3f
+	db $e2, $e3
 
 	db $00
