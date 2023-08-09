@@ -121,6 +121,7 @@ struct InputfileSource {
 	char *filename;
 	bool horizontal_flip;
 	bool generate_maps;
+	bool no_check_mirror;
 	struct {
 		unsigned int x;
 		unsigned int y;
@@ -130,6 +131,7 @@ struct InputfileSource {
 	struct {
 		char *label;
 		char *header_label;
+		char *function;
 		bool ignore_tiles_with_palette_set;
 		unsigned int ignore_tiles_with_palette;
 		unsigned int position_x;
@@ -281,6 +283,8 @@ struct Inputfile parse_inputfile(char* filename) {
 			case INPUTFILE_TABLE_SOURCE:
 				if (0 == strcmp("filename", key)) {
 					result_current_source.filename = extract_toml_string_value(value, filename, line);
+				} else if (0 == strcmp("check_mirror", key)) {
+					result_current_source.no_check_mirror = ! extract_toml_bool_value(value, filename, line);
 				} else if (0 == strcmp("horizontal_flip", key)) {
 					result_current_source.horizontal_flip = extract_toml_bool_value(value, filename, line);
 				} else if (0 == strcmp("generate_maps", key)) {
@@ -304,6 +308,8 @@ struct Inputfile parse_inputfile(char* filename) {
 					result_current_source.tiledata.label = extract_toml_string_value(value, filename, line);
 				} else if (0 == strcmp("header_label", key)) {
 					result_current_source.tiledata.header_label = extract_toml_string_value(value, filename, line);
+				} else if (0 == strcmp("function", key)) {
+					result_current_source.tiledata.function = extract_toml_string_value(value, filename, line);
 				} else if (0 == strcmp("ignore_tiles_with_palette", key)) {
 					result_current_source.tiledata.ignore_tiles_with_palette_set = true;
 					result_current_source.tiledata.ignore_tiles_with_palette = extract_toml_uint_value(value, filename, line);
@@ -445,6 +451,7 @@ struct queued_tiledata_item {
 struct queued_tiledata_list {
 	char *label;
 	char *header_label;
+	char *function;
 	size_t count;
 	struct queued_tiledata_item *data;
 };
@@ -651,6 +658,10 @@ void extract_tiles(
 				goto next_tile;
 			}
 
+			if (input->no_check_mirror) {
+				continue;
+			}
+
 			bool horizontal_mirror_matches = true;
 			for (int j = 0; j < 16; j++) {
 				horizontal_mirror_matches &= (*sink)[i].data[j] == bitreverse(tiledata[j]);
@@ -711,7 +722,16 @@ next_tile:
 		written_queued_tiledata->count = written_queued_tiledata->count + 1;
 
 		written_queued_tiledata->data[index].label = strdup(input->tiledata.label);
-		written_queued_tiledata->data[index].header_label = strdup(input->tiledata.header_label);
+		if (input->tiledata.header_label) {
+			written_queued_tiledata->data[index].header_label = strdup(input->tiledata.header_label);
+		} else {
+			written_queued_tiledata->data[index].header_label = NULL;
+		}
+		if (input->tiledata.function) {
+			written_queued_tiledata->data[index].function = strdup(input->tiledata.function);
+		} else {
+			written_queued_tiledata->data[index].function = NULL;
+		}
 		written_queued_tiledata->data[index].count = queued_tiledata.count;
 		written_queued_tiledata->data[index].data = queued_tiledata.data;
 	} else {
@@ -850,8 +870,14 @@ int main(int argc, char *argv[]) {
 
 		for (size_t i = 0; i < queued_tiledata.count; i++) {
 			struct queued_tiledata_list list = queued_tiledata.data[i];
-			fprintf(file, "%s:\n\tdb $01\n\tdw %s\n\n", list.header_label, list.label);
-			fprintf(file, "%s:\n\tdw LoadTileLists\n\tdb $%02zX\n\n", list.label, list.count);
+			if (list.header_label) {
+				fprintf(file, "%s:\n\tdb $01\n\tdw %s\n\n", list.header_label, list.label);
+			}
+			fprintf(file, "%s:\n", list.label);
+			if (list.function) {
+				fprintf(file, "\tdw %s\n", list.function);
+			}
+			fprintf(file, "\tdb $%02zX\n\n", list.count);
 			for (size_t j = 0; j < list.count; j++) {
 				struct queued_tiledata_item elem = list.data[j];
 				uint32_t offset = 0x20 * elem.y + elem.x;

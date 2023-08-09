@@ -17,14 +17,11 @@ slice.width_in_tiles = 32
 slice.height_in_tiles = 2
 
 [[source]]
-filename = 'gfx/stage/ruby_bottom/base_gameboycolor.png'
-generate_maps = true
-
-[[source]]
 filename = 'gfx/stage/ruby_bottom/cave_open.png'
 [source.tiledata]
 label = 'TileData_SlotCave_Open_RubyField'
 header_label = 'TileDataPointer_SlotCave_Open_RubyField'
+function = 'LoadTileLists'
 position.x = 9
 position.y = 0
 
@@ -33,6 +30,7 @@ filename = 'gfx/stage/ruby_bottom/cave_closed.png'
 [source.tiledata]
 label = 'TileData_SlotCave_Closed_RubyField'
 header_label = 'TileDataPointer_SlotCave_Closed_RubyField'
+function = 'LoadTileLists'
 position.x = 9
 position.y = 0
 
@@ -42,6 +40,7 @@ filename = 'gfx/stage/ruby_bottom/slingshot_off.png'
 ignore_tiles_with_palette = 6
 label = 'TileData_Slingshot_Left_RubyField'
 header_label = 'TileDataPointer_Slingshot_Left_RubyField'
+function = 'LoadTileLists'
 position.x = 4
 position.y = 9
 
@@ -51,6 +50,7 @@ filename = 'gfx/stage/ruby_bottom/slingshot_on.png'
 ignore_tiles_with_palette = 6
 label = 'TileData_Slingshot_Left_Lit_RubyField'
 header_label = 'TileDataPointer_Slingshot_Left_Lit_RubyField'
+function = 'LoadTileLists'
 position.x = 4
 position.y = 9
 
@@ -61,6 +61,7 @@ horizontal_flip = true
 ignore_tiles_with_palette = 6
 label = 'TileData_Slingshot_Right_RubyField'
 header_label = 'TileDataPointer_Slingshot_Right_RubyField'
+function = 'LoadTileLists'
 position.x = 13
 position.y = 9
 
@@ -71,6 +72,7 @@ horizontal_flip = true
 ignore_tiles_with_palette = 6
 label = 'TileData_Slingshot_Right_Lit_RubyField'
 header_label = 'TileDataPointer_Slingshot_Right_Lit_RubyField'
+function = 'LoadTileLists'
 position.x = 13
 position.y = 9
 
@@ -79,6 +81,7 @@ filename = 'gfx/stage/ruby_bottom/ball_saver_on.png'
 [source.tiledata]
 label = 'TileData_BallSaver_On_RubyField'
 header_label = 'TileDataPointer_BallSaver_On_RubyField'
+function = 'LoadTileLists'
 position.x = 8
 position.y = 12
 
@@ -87,5 +90,106 @@ filename = 'gfx/stage/ruby_bottom/ball_saver_off.png'
 [source.tiledata]
 label = 'TileData_BallSaver_Off_RubyField'
 header_label = 'TileDataPointer_BallSaver_Off_RubyField'
+function = 'LoadTileLists'
 position.x = 8
 position.y = 12
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/cave_lights_on.png'
+check_mirror = false
+slice.x = 0
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+[source.tiledata]
+label = 'TileData_CaveLight_C_On_GameBoyColor_RubyField'
+position.x = 1
+position.y = 9
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/cave_lights_off.png'
+check_mirror = false
+slice.x = 0
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+[source.tiledata]
+label = 'TileData_CaveLight_C_Off_GameBoyColor_RubyField'
+position.x = 1
+position.y = 9
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/cave_lights_on.png'
+check_mirror = false
+slice.x = 8
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+[source.tiledata]
+label = 'TileData_CaveLight_A_On_GameBoyColor_RubyField'
+position.x = 3
+position.y = 9
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/cave_lights_off.png'
+check_mirror = false
+slice.x = 8
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+[source.tiledata]
+label = 'TileData_CaveLight_A_Off_GameBoyColor_RubyField'
+position.x = 3
+position.y = 9
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/cave_lights_on.png'
+check_mirror = false
+slice.x = 16
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+[source.tiledata]
+label = 'TileData_CaveLight_V_On_GameBoyColor_RubyField'
+position.x = 16
+position.y = 9
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/cave_lights_off.png'
+check_mirror = false
+slice.x = 16
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+[source.tiledata]
+label = 'TileData_CaveLight_V_Off_GameBoyColor_RubyField'
+position.x = 16
+position.y = 9
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/cave_lights_on.png'
+check_mirror = false
+slice.x = 24
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+[source.tiledata]
+label = 'TileData_CaveLight_E_On_GameBoyColor_RubyField'
+position.x = 18
+position.y = 9
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/cave_lights_off.png'
+check_mirror = false
+slice.x = 24
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+[source.tiledata]
+label = 'TileData_CaveLight_E_Off_GameBoyColor_RubyField'
+position.x = 18
+position.y = 9
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/base_gameboycolor.png'
+generate_maps = true

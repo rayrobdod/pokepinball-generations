@@ -663,22 +663,22 @@ LoadCAVELightGraphics_RubyField: ; 0x1523c
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .toggledOnGameboy
-	ld hl, TileDataPointers_152dd_RubyField
+	ld hl, TileDataPointers_CaveLights_On_GameBoy_RubyField
 	jr .load
 
 .toggledOnGameboy
-	ld hl, TileDataPointers_1531d_RubyField
+	ld hl, TileDataPointers_CaveLights_On_GameBoyColor_RubyField
 	jr .load
 
 .toggledOff
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr nz, .toggledOffGameboy
-	ld hl, TileDataPointers_152e5_RubyField
+	ld hl, TileDataPointers_CaveLights_Off_GameBoy_RubyField
 	jr .load
 
 .toggledOffGameboy
-	ld hl, TileDataPointers_15325_RubyField
+	ld hl, TileDataPointers_CaveLights_Off_GameBoyColor_RubyField
 .load
 	push bc
 	dec b
@@ -689,7 +689,7 @@ LoadCAVELightGraphics_RubyField: ; 0x1523c
 	ld c, [hl]
 	inc hl
 	ld b, [hl]
-	ld a, Bank(TileDataPointers_152dd_RubyField)
+	ld a, Bank(TileDataPointers_CaveLights_On_GameBoy_RubyField)
 	ld de, LoadTileLists
 	call QueueGraphicsToLoadWithFunc
 	pop bc
