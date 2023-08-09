@@ -52,42 +52,16 @@ DrawBallSaverIcon_RubyField:
 	ld a, [wBallSaverIconOn]
 	and a
 	jr nz, .DrawIconOn
-	ld a, BANK(BallSaverIconOffSprite_RubyField)
-	ld hl, BallSaverIconOffSprite_RubyField
-	deCoord 8, 12, vBGMap
-	ld bc, $0004
-	call LoadOrCopyVRAMData
-	ld hl, BallSaverIconOffSprite_RubyField + 4
-	deCoord 8, 13, vBGMap
-	ld bc, $0004
-	call LoadOrCopyVRAMData
-	ld hl, BallSaverIconOffSprite_RubyField + 8
-	deCoord 8, 14, vBGMap
-	ld bc, $0004
-	call LoadOrCopyVRAMData
+	ld a, BANK(TileDataPointer_BallSaver_Off_RubyField)
+	ld hl, TileDataPointer_BallSaver_Off_RubyField
+	call QueueGraphicsToLoad
 	ret
 
 .DrawIconOn
-	ld a, BANK(BallSaverIconOnSprite_RubyField)
-	ld hl, BallSaverIconOnSprite_RubyField
-	deCoord 8, 12, vBGMap
-	ld bc, $0004
-	call LoadOrCopyVRAMData
-	ld hl, BallSaverIconOnSprite_RubyField + 4
-	deCoord 8, 13, vBGMap
-	ld bc, $0004
-	call LoadOrCopyVRAMData
-	ld hl, BallSaverIconOnSprite_RubyField + 8
-	deCoord 8, 14, vBGMap
-	ld bc, $0004
-	call LoadOrCopyVRAMData
+	ld a, BANK(TileDataPointer_BallSaver_On_RubyField)
+	ld hl, TileDataPointer_BallSaver_On_RubyField
+	call QueueGraphicsToLoad
 	ret
-
-BallSaverIconOffSprite_RubyField:
-	db $B9, $BA, $BB, $BC, $C1, $C2, $C3, $C4, $C9, $CA, $CB, $CC
-
-BallSaverIconOnSprite_RubyField:
-	db $B5, $B6, $B7, $B8, $BD, $BE, $BF, $C0, $C5, $C6, $C7, $C8
 
 ResolveWildMonCollision_RubyField: ; 0x14795
 	ld a, [wWildMonCollision]
@@ -1498,7 +1472,7 @@ LoadBumperGraphics_RubyField: ; 0x15fc0
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_15fd0
-	ld hl, TileData_Slingshots_RubyField
+	ld hl, TileDataPointers_Slingshots_RubyField
 .asm_15fd0
 	add hl, bc
 	ld a, [hli]
@@ -2800,3 +2774,5 @@ UpdateBlinkingPokeballs_RubyField: ; 0x174ea
 	ret
 
 INCLUDE "data/queued_tiledata/ruby_field/pokeballs.asm"
+
+INCLUDE "gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.table.queued-tiledata"

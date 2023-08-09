@@ -1,0 +1,91 @@
+palette = 'gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.pal'
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/reserved.png'
+
+[[source]]
+# The window uses tiles in the $00-$7F VRAM area,
+# and thus requires the $8000 addressing mode.
+# The window is drawn over the bottom two rows of the screen,
+# and so the bottom two rows of the bg must also use $8000 addressing mode.
+# Putting these tiles in the first half of the output 2bpp makes them accessible
+# to either addressing mode.
+filename = 'gfx/stage/ruby_bottom/base_gameboycolor.png'
+slice.x = 0
+slice.y = 128
+slice.width_in_tiles = 32
+slice.height_in_tiles = 2
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/base_gameboycolor.png'
+generate_maps = true
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/cave_open.png'
+[source.tiledata]
+label = 'TileData_SlotCave_Open_RubyField'
+header_label = 'TileDataPointer_SlotCave_Open_RubyField'
+position.x = 9
+position.y = 0
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/cave_closed.png'
+[source.tiledata]
+label = 'TileData_SlotCave_Closed_RubyField'
+header_label = 'TileDataPointer_SlotCave_Closed_RubyField'
+position.x = 9
+position.y = 0
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/slingshot_off.png'
+[source.tiledata]
+ignore_tiles_with_palette = 6
+label = 'TileData_Slingshot_Left_RubyField'
+header_label = 'TileDataPointer_Slingshot_Left_RubyField'
+position.x = 4
+position.y = 9
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/slingshot_on.png'
+[source.tiledata]
+ignore_tiles_with_palette = 6
+label = 'TileData_Slingshot_Left_Lit_RubyField'
+header_label = 'TileDataPointer_Slingshot_Left_Lit_RubyField'
+position.x = 4
+position.y = 9
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/slingshot_off.png'
+horizontal_flip = true
+[source.tiledata]
+ignore_tiles_with_palette = 6
+label = 'TileData_Slingshot_Right_RubyField'
+header_label = 'TileDataPointer_Slingshot_Right_RubyField'
+position.x = 13
+position.y = 9
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/slingshot_on.png'
+horizontal_flip = true
+[source.tiledata]
+ignore_tiles_with_palette = 6
+label = 'TileData_Slingshot_Right_Lit_RubyField'
+header_label = 'TileDataPointer_Slingshot_Right_Lit_RubyField'
+position.x = 13
+position.y = 9
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/ball_saver_on.png'
+[source.tiledata]
+label = 'TileData_BallSaver_On_RubyField'
+header_label = 'TileDataPointer_BallSaver_On_RubyField'
+position.x = 8
+position.y = 12
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/ball_saver_off.png'
+[source.tiledata]
+label = 'TileData_BallSaver_Off_RubyField'
+header_label = 'TileDataPointer_BallSaver_Off_RubyField'
+position.x = 8
+position.y = 12

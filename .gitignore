@@ -33,6 +33,7 @@
 *.tilemap
 *.attrmap
 *.gbpal
+*.queued-tiledata
 
 # converted audio data
 *.pcm

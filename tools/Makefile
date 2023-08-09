@@ -6,13 +6,17 @@ CFLAGS := -std=c99 -Wall -Wextra
 tools := \
 	gfx \
 	pcm \
-	scan_includes
+	scan_includes \
+	tablegfx
 
 all: $(tools)
 	@:
 
 clean:
 	rm -f $(tools)
+
+tablegfx: tablegfx.c
+	$(CC) $(CFLAGS) -o $@ $< -lpng
 
 %: %.c
 	$(CC) $(CFLAGS) -o $@ $<

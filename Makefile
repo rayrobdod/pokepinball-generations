@@ -46,26 +46,19 @@ clean: tidy
 	rgbgfx -o $@ $<
 	tools/gfx --interleave --png $< -o $@ $@
 
-gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.attrmap gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.tilemap gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.gbpal gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.2bpp: gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.png gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.pal
-	rgbgfx -u -m -b128 \
-		-c psp:gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.pal \
-		-a gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.attrmap.tmp \
-		-t gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.tilemap.tmp \
-		-p gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.gbpal \
-		-o gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.2bpp \
-		gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.png
-	tail --bytes=+513 <gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.attrmap.tmp >gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.attrmap
-	tail --bytes=+513 <gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.tilemap.tmp >gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.tilemap
-	truncate --size 4096 gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.2bpp
+
+%.table.2bpp: dep = $(shell tools/tablegfx --list-dependencies $*.tablegfx)
+%.table.2bpp %.table.gbpal %.table.tilemap %.table.attrmap %.table.queued-tiledata: %.tablegfx tools/tablegfx $$(dep)
+	tools/tablegfx \
+		--attr-map $*.table.attrmap \
+		--tilemap $*.table.tilemap \
+		--queued-tiledata $*.table.queued-tiledata \
+		--palette $*.table.gbpal \
+		--output $*.table.2bpp \
+		$*.tablegfx
 	rgbgfx -r16 \
-		-o gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.2bpp \
-		gfx/stage/ruby_bottom/ruby_bottom_gameboycolor_tiles.png
-	rgbgfx  -r32 -b128 \
-		-a gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.attrmap \
-		-t gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.tilemap \
-		-p gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.gbpal \
-		-o gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.2bpp \
-		gfx/stage/ruby_bottom/ruby_bottom_gameboycolor_reversed.png
+		--output $*.table.2bpp \
+		$*.table.2bpp.png
 
 %.2bpp: %.png
 	rgbgfx -o $@ $<

@@ -2310,7 +2310,7 @@ StageRubyFieldTopOBJPalette7: ; 0xdc9f8
 	RGB 4, 0, 0
 	
 StageRubyFieldBottomPalettes: ; 0xdca80
-	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.gbpal"
+	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.table.gbpal"
 
 StageRubyFieldBottomOBJPalette0: ; 0xdcac0
 	RGB 21, 21, 21
