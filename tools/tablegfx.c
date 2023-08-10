@@ -52,6 +52,18 @@ char *strstrip_inplace(char* str) {
 	return str;
 }
 
+struct slice {
+	unsigned int x;
+	unsigned int y;
+	unsigned int width_in_tiles;
+	unsigned int height_in_tiles;
+};
+
+struct position {
+	unsigned int x;
+	unsigned int y;
+};
+
 /****** Options ******/
 
 struct Options {
@@ -112,36 +124,51 @@ void get_args(int argc, char *argv[]) {
 /****** Inputfile ******/
 
 struct Inputfile {
+	char* field_label;
+	char* platform_label;
 	char* palette_filename;
-	size_t imagec;
-	struct InputfileSource* imagev;
+
+	/** the primary board graphics */
+	struct {
+		char* filename;
+	} base;
+
+	/** The reserved tiles  */
+	struct {
+		char* filename;
+		unsigned int base_id;
+		unsigned int length;
+	} reserved;
+
+	size_t tiledataset_count;
+	struct InputfileTiledataset *tiledataset_values;
 };
 
-struct InputfileSource {
-	char *filename;
+struct InputfileTiledataset {
+	char* label;
+	bool generate_header;
+	char* function;
+
+	struct position position;
+
+	size_t frame_count;
+	struct InputfileTiledatasetFrame *frame_values;
+};
+
+struct InputfileTiledatasetFrame {
+	char* label;
+	char* filename;
 	bool horizontal_flip;
-	bool generate_maps;
-	bool no_check_mirror;
-	struct {
-		unsigned int x;
-		unsigned int y;
-		unsigned int width_in_tiles;
-		unsigned int height_in_tiles;
-	} slice;
-	struct {
-		char *label;
-		char *header_label;
-		char *function;
-		bool ignore_tiles_with_palette_set;
-		unsigned int ignore_tiles_with_palette;
-		unsigned int position_x;
-		unsigned int position_y;
-	} tiledata;
+	bool ignore_tiles_with_palette_set;
+	unsigned int ignore_tiles_with_palette;
+	struct slice slice;
 };
 
 enum InputfileCurrentTable {
-	INPUTFILE_TABLE_SOURCE,
-	INPUTFILE_TABLE_SOURCE_TILEDATA,
+	INPUTFILE_TABLE_BASE,
+	INPUTFILE_TABLE_RESERVED,
+	INPUTFILE_TABLE_TILEDATASET,
+	INPUTFILE_TABLE_TILEDATASET_FRAME,
 	INPUTFILE_TABLE_ROOT
 };
 
@@ -156,7 +183,7 @@ char *extract_toml_string_value(const char* input, const char* filename, size_t 
 		retval[strlen(retval) - 1] = '\0';
 		return retval;
 	} else {
-		fprintf(stderr, "%s:%zd: could not parse string value: %s\n", filename, line, input);
+		fprintf(stderr, "%s:%zd:0: could not parse string value: %s\n", filename, line, input);
 		exit(1);
 	}
 }
@@ -173,7 +200,7 @@ unsigned int extract_toml_uint_value(const char* input, const char* filename, si
 			retval *= 10;
 			retval += input[0] - '0';
 		} else {
-			fprintf(stderr, "%s:%zd: could not parse integer value: %s\n", filename, line, input);
+			fprintf(stderr, "%s:%zd:0: could not parse integer value: %s\n", filename, line, input);
 			exit(1);
 		}
 
@@ -189,8 +216,42 @@ bool extract_toml_bool_value(const char* input, const char* filename, size_t lin
 	} else if (0 == strcmp("false", input)) {
 		return false;
 	} else {
-		fprintf(stderr, "%s:%zd: could not parse boolean value: %s\n", filename, line, input);
+		fprintf(stderr, "%s:%zd:0: could not parse boolean value: %s\n", filename, line, input);
 		exit(1);
+	}
+}
+
+void close_tiledataset_frame_if_open(
+		bool *dataset_is_open,
+		struct InputfileTiledataset *dataset,
+		bool *frame_is_open,
+		struct InputfileTiledatasetFrame *frame) {
+	if (*frame_is_open) {
+		if (! *dataset_is_open) {
+			fprintf(stderr, "assumption violated: tiledataset_frame open but tiledataset closed");
+			exit(1);
+		}
+
+		dataset->frame_values = reallocarray(dataset->frame_values, dataset->frame_count + 1, sizeof(struct InputfileTiledatasetFrame));
+		memcpy(dataset->frame_values + dataset->frame_count, frame, sizeof(struct InputfileTiledatasetFrame));
+		dataset->frame_count = dataset->frame_count + 1;
+
+		*frame_is_open = false;
+		memset(frame, 0, sizeof(struct InputfileTiledatasetFrame));
+	}
+}
+
+void close_tiledataset_if_open(
+		struct Inputfile *inputfile,
+		bool *dataset_is_open,
+		struct InputfileTiledataset *dataset) {
+	if (*dataset_is_open) {
+		inputfile->tiledataset_values = reallocarray(inputfile->tiledataset_values, inputfile->tiledataset_count + 1, sizeof(struct InputfileTiledataset));
+		memcpy(inputfile->tiledataset_values + inputfile->tiledataset_count, dataset, sizeof(struct InputfileTiledataset));
+		inputfile->tiledataset_count = inputfile->tiledataset_count + 1;
+
+		*dataset_is_open = false;
+		memset(dataset, 0, sizeof(struct InputfileTiledataset));
 	}
 }
 
@@ -206,8 +267,12 @@ struct Inputfile parse_inputfile(char* filename) {
 	enum InputfileCurrentTable current_table = INPUTFILE_TABLE_ROOT;
 	size_t line = 0;
 
-	struct Inputfile result = {0};
-	struct InputfileSource result_current_source = {0};
+	struct Inputfile retval = {0};
+
+	bool tiledataset_open = false;
+	bool tiledataset_frame_open = false;
+	struct InputfileTiledataset retval_tiledataset = {0};
+	struct InputfileTiledatasetFrame retval_tiledataset_frame = {0};
 
 	getlineretval = getline(&bufferv, &bufferc, file);
 	while (getlineretval >= 0) {
@@ -227,36 +292,56 @@ struct Inputfile parse_inputfile(char* filename) {
 		if ('[' == bufferv[0] && ']' == bufferv[strlen(bufferv) - 2] && '\n' == bufferv[strlen(bufferv) - 1]) {
 			// change table
 
-			switch (current_table) {
-			case INPUTFILE_TABLE_ROOT:
-				if (0 == strcmp("[[source]]\n", bufferv)) {
-					current_table = INPUTFILE_TABLE_SOURCE;
-				} else {
-					fprintf(stderr, "%s:%zd:0: illegal table transition from root to %s\n", filename, line, bufferv);
-					exit(1);
-				}
-
-				break;
-			case INPUTFILE_TABLE_SOURCE:
-			case INPUTFILE_TABLE_SOURCE_TILEDATA:
-				if (0 == strcmp("[source.tiledata]\n", bufferv)) {
-					current_table = INPUTFILE_TABLE_SOURCE_TILEDATA;
-				} else if (0 == strcmp("[[source]]\n", bufferv)) {
-					current_table = INPUTFILE_TABLE_SOURCE;
-					result.imagev = realloc(result.imagev, sizeof(struct InputfileSource) * (result.imagec + 1));
-					memcpy(result.imagev + result.imagec, &result_current_source, sizeof(struct InputfileSource));
-					memset(&result_current_source, '\0', sizeof(struct InputfileSource));
-					result.imagec = result.imagec + 1;
-				} else {
-					fprintf(stderr, "%s:%zd:0: illegal table transition from [source] to %s\n", filename, line, bufferv);
-					exit(1);
-				}
-
-				break;
-			default:
-				fprintf(stderr, "%s:%zd:0: unknown current_table value", filename, line);
+			enum InputfileCurrentTable transition_to;
+			if (0 == strcmp("[base]\n", bufferv)) {
+				transition_to = INPUTFILE_TABLE_BASE;
+			} else if (0 == strcmp("[reserved]\n", bufferv)) {
+				transition_to = INPUTFILE_TABLE_RESERVED;
+			} else if (0 == strcmp("[[tiledataset]]\n", bufferv)) {
+				transition_to = INPUTFILE_TABLE_TILEDATASET;
+			} else if (0 == strcmp("[[tiledataset.frame]]\n", bufferv)) {
+				transition_to = INPUTFILE_TABLE_TILEDATASET_FRAME;
+			} else {
+				fprintf(stderr, "%s:%zd:0: unknown table: %s\n", filename, line, bufferv);
 				exit(1);
 			}
+
+			close_tiledataset_frame_if_open(
+				&tiledataset_open,
+				&retval_tiledataset,
+				&tiledataset_frame_open,
+				&retval_tiledataset_frame
+			);
+
+			if (transition_to != INPUTFILE_TABLE_TILEDATASET_FRAME) {
+				close_tiledataset_if_open(
+					&retval,
+					&tiledataset_open,
+					&retval_tiledataset
+				);
+			}
+
+			switch (transition_to) {
+			case INPUTFILE_TABLE_ROOT:
+				break;
+			case INPUTFILE_TABLE_BASE:
+				break;
+			case INPUTFILE_TABLE_RESERVED:
+				break;
+			case INPUTFILE_TABLE_TILEDATASET:
+				tiledataset_open = true;
+				break;
+			case INPUTFILE_TABLE_TILEDATASET_FRAME:
+				if (! tiledataset_open) {
+					fprintf(stderr, "%s:%zd:0: cannot transition to [[tiledataset.frame]] exept from inside a [[tiledataset]]", filename, line);
+					exit(1);
+				}
+				tiledataset_frame_open = true;
+
+				break;
+			}
+
+			current_table = transition_to;
 
 			++line;
 			getlineretval = getline(&bufferv, &bufferc, file);
@@ -273,50 +358,74 @@ struct Inputfile parse_inputfile(char* filename) {
 			switch (current_table) {
 			case INPUTFILE_TABLE_ROOT:
 				if (0 == strcmp("palette", key)) {
-					result.palette_filename = extract_toml_string_value(value, filename, line);
+					retval.palette_filename = extract_toml_string_value(value, filename, line);
+				} else if (0 == strcmp("field", key)) {
+					retval.field_label = extract_toml_string_value(value, filename, line);
+				} else if (0 == strcmp("platform", key)) {
+					retval.platform_label = extract_toml_string_value(value, filename, line);
 				} else {
 					fprintf(stderr, "%s:%zd:0: unknown key in root table: %s\n", filename, line, key);
 					exit(1);
 				}
-
 				break;
-			case INPUTFILE_TABLE_SOURCE:
+
+			case INPUTFILE_TABLE_BASE:
 				if (0 == strcmp("filename", key)) {
-					result_current_source.filename = extract_toml_string_value(value, filename, line);
-				} else if (0 == strcmp("check_mirror", key)) {
-					result_current_source.no_check_mirror = ! extract_toml_bool_value(value, filename, line);
-				} else if (0 == strcmp("horizontal_flip", key)) {
-					result_current_source.horizontal_flip = extract_toml_bool_value(value, filename, line);
-				} else if (0 == strcmp("generate_maps", key)) {
-					result_current_source.generate_maps = extract_toml_bool_value(value, filename, line);
-				} else if (0 == strcmp("slice.x", key)) {
-					result_current_source.slice.x = extract_toml_uint_value(value, filename, line);
-				} else if (0 == strcmp("slice.y", key)) {
-					result_current_source.slice.y = extract_toml_uint_value(value, filename, line);
-				} else if (0 == strcmp("slice.width_in_tiles", key)) {
-					result_current_source.slice.width_in_tiles = extract_toml_uint_value(value, filename, line);
-				} else if (0 == strcmp("slice.height_in_tiles", key)) {
-					result_current_source.slice.height_in_tiles = extract_toml_uint_value(value, filename, line);
+					retval.base.filename = extract_toml_string_value(value, filename, line);
+				} else {
+					fprintf(stderr, "%s:%zd:0: unknown key in root table: %s\n", filename, line, key);
+					exit(1);
+				}
+				break;
+
+			case INPUTFILE_TABLE_RESERVED:
+				if (0 == strcmp("filename", key)) {
+					retval.reserved.filename = extract_toml_string_value(value, filename, line);
+				} else if (0 == strcmp("base_id", key)) {
+					retval.reserved.base_id = extract_toml_uint_value(value, filename, line);
+				} else if (0 == strcmp("length", key)) {
+					retval.reserved.length = extract_toml_uint_value(value, filename, line);
+				} else {
+					fprintf(stderr, "%s:%zd:0: unknown key in root table: %s\n", filename, line, key);
+					exit(1);
+				}
+				break;
+
+			case INPUTFILE_TABLE_TILEDATASET:
+				if (0 == strcmp("label", key)) {
+					retval_tiledataset.label = extract_toml_string_value(value, filename, line);
+				} else if (0 == strcmp("function", key)) {
+					retval_tiledataset.function = extract_toml_string_value(value, filename, line);
+				} else if (0 == strcmp("generate_header", key)) {
+					retval_tiledataset.generate_header = extract_toml_bool_value(value, filename, line);
+				} else if (0 == strcmp("position.x", key)) {
+					retval_tiledataset.position.x = extract_toml_uint_value(value, filename, line);
+				} else if (0 == strcmp("position.y", key)) {
+					retval_tiledataset.position.y = extract_toml_uint_value(value, filename, line);
 				} else {
 					fprintf(stderr, "%s:%zd:0: unknown key in [source] table: %s\n", filename, line, key);
 					exit(1);
 				}
 
 				break;
-			case INPUTFILE_TABLE_SOURCE_TILEDATA:
+			case INPUTFILE_TABLE_TILEDATASET_FRAME:
 				if (0 == strcmp("label", key)) {
-					result_current_source.tiledata.label = extract_toml_string_value(value, filename, line);
-				} else if (0 == strcmp("header_label", key)) {
-					result_current_source.tiledata.header_label = extract_toml_string_value(value, filename, line);
-				} else if (0 == strcmp("function", key)) {
-					result_current_source.tiledata.function = extract_toml_string_value(value, filename, line);
+					retval_tiledataset_frame.label = extract_toml_string_value(value, filename, line);
+				} else if (0 == strcmp("filename", key)) {
+					retval_tiledataset_frame.filename = extract_toml_string_value(value, filename, line);
 				} else if (0 == strcmp("ignore_tiles_with_palette", key)) {
-					result_current_source.tiledata.ignore_tiles_with_palette_set = true;
-					result_current_source.tiledata.ignore_tiles_with_palette = extract_toml_uint_value(value, filename, line);
-				} else if (0 == strcmp("position.x", key)) {
-					result_current_source.tiledata.position_x = extract_toml_uint_value(value, filename, line);
-				} else if (0 == strcmp("position.y", key)) {
-					result_current_source.tiledata.position_y = extract_toml_uint_value(value, filename, line);
+					retval_tiledataset_frame.ignore_tiles_with_palette_set = true;
+					retval_tiledataset_frame.ignore_tiles_with_palette = extract_toml_uint_value(value, filename, line);
+				} else if (0 == strcmp("horizontal_flip", key)) {
+					retval_tiledataset_frame.horizontal_flip = extract_toml_bool_value(value, filename, line);
+				} else if (0 == strcmp("slice.x", key)) {
+					retval_tiledataset_frame.slice.x = extract_toml_uint_value(value, filename, line);
+				} else if (0 == strcmp("slice.y", key)) {
+					retval_tiledataset_frame.slice.y = extract_toml_uint_value(value, filename, line);
+				} else if (0 == strcmp("slice.width_in_tiles", key)) {
+					retval_tiledataset_frame.slice.width_in_tiles = extract_toml_uint_value(value, filename, line);
+				} else if (0 == strcmp("slice.height_in_tiles", key)) {
+					retval_tiledataset_frame.slice.height_in_tiles = extract_toml_uint_value(value, filename, line);
 				} else {
 					fprintf(stderr, "%s:%zd:0: unknown key in [source.tiledata] table: %s\n", filename, line, key);
 					exit(1);
@@ -337,13 +446,22 @@ struct Inputfile parse_inputfile(char* filename) {
 		exit(1);
 	}
 
-	result.imagev = realloc(result.imagev, sizeof(struct InputfileSource) * (result.imagec + 1));
-	memcpy(result.imagev + result.imagec, &result_current_source, sizeof(struct InputfileSource));
-	++result.imagec;
+	close_tiledataset_frame_if_open(
+		&tiledataset_open,
+		&retval_tiledataset,
+		&tiledataset_frame_open,
+		&retval_tiledataset_frame
+	);
+
+	close_tiledataset_if_open(
+		&retval,
+		&tiledataset_open,
+		&retval_tiledataset
+	);
 
 	free(bufferv);
 	fclose(file);
-	return result;
+	return retval;
 }
 
 /****** Palette ******/
@@ -429,11 +547,6 @@ struct attrmap {
 	unsigned palette;
 };
 typedef uint8_t tilemap_t;
-struct maps {
-	size_t count;
-	struct attrmap *attrs;
-	tilemap_t *tiles;
-};
 
 typedef uint8_t tiledata_t[16];
 struct tile_bank_entry {
@@ -444,20 +557,30 @@ typedef struct tile_bank_entry tile_bank_t[256];
 
 
 struct queued_tiledata_item {
+	uint8_t count;
 	uint8_t x;
 	uint8_t y;
-	uint8_t tile;
+	uint8_t tiles[8];
 };
 struct queued_tiledata_list {
-	char *label;
-	char *header_label;
-	char *function;
-	size_t count;
-	struct queued_tiledata_item *data;
+	char label[64]; // does not include the `TileData_` prefix
+	char function[32];
+	bool generate_header;
+	uint8_t total_count;
+	uint8_t parts_count;
+	struct queued_tiledata_item parts[16];
 };
 struct queued_tiledata_list_list {
 	size_t count;
 	struct queued_tiledata_list *data;
+};
+
+struct tile_image {
+	png_uint_32 width; // in tiles
+	png_uint_32 height; // in tiles
+	struct attrmap *attrs;
+	tilemap_t *tiles;
+	// the image data itself is stored in tile banks, separately from this struct
 };
 
 /**
@@ -488,12 +611,248 @@ uint8_t bitreverse(const uint8_t in) {
 		((in & 0x80) >> 7);
 }
 
-void extract_tiles(
-		tile_bank_t *sink,
-		struct maps *written_maps,
-		struct queued_tiledata_list_list *written_queued_tiledata,
-		const struct InputfileSource *input,
-		const palettes_t palette) {
+/**
+ * Finds the index of the palette (in palettes) used by the tile described by the other parameters
+ */
+int8_t palette_of_tile(
+		const palettes_t palette,
+		png_byte **row_pointers,
+		const unsigned start_x,
+		const unsigned start_y,
+		const bool horizontal_flip,
+		const unsigned image_width,
+		const char* filename,
+		const unsigned tilex,
+		const unsigned tiley) {
+	color555_t current_tile_color_v[EXTRACT_TILE_MAX_PALETTE];
+	size_t current_tile_color_c;
+
+	current_tile_color_c = 0;
+
+	for (unsigned y = 0; y < 8; y++) {
+	for (unsigned x = 0; x < 8; x++) {
+		size_t pixel_x_in_image = (start_x + x);
+		if (horizontal_flip) {
+			pixel_x_in_image = image_width - 1 - pixel_x_in_image;
+		}
+
+		png_byte red = row_pointers[start_y + y][pixel_x_in_image * 3];
+		png_byte green = row_pointers[start_y + y][pixel_x_in_image * 3 + 1];
+		png_byte blue = row_pointers[start_y + y][pixel_x_in_image * 3 + 2];
+		color555_t current_color = rgb24_to_rgb16(red, green, blue);
+
+		unsigned i;
+		for (i = 0; i < current_tile_color_c; i++) {
+			if (current_color == current_tile_color_v[i]) {
+				break;
+			}
+		}
+		if (i == current_tile_color_c && current_tile_color_c < EXTRACT_TILE_MAX_PALETTE) {
+			current_tile_color_v[current_tile_color_c] = current_color;
+			++current_tile_color_c;
+		}
+	}
+	}
+
+	if (current_tile_color_c > 4) {
+		fprintf(stderr, "%s: tile (%u:%u) has more than four colors", filename, tilex, tiley);
+		return -1;
+	}
+
+	unsigned palette_index;
+	for (palette_index = 0; palette_index < 8; ++palette_index) {
+		const color555_t *current_palette = palette[palette_index];
+
+		bool current_is_subset_of_checking = true;
+		for (unsigned current_entry = 0; current_entry < current_tile_color_c; ++current_entry) {
+			bool current_entry_is_in_checking = false;
+
+			for (unsigned checking_entry = 0; checking_entry < 4; ++checking_entry) {
+				if (current_palette[checking_entry] == current_tile_color_v[current_entry]) {
+					current_entry_is_in_checking = true;
+					break;
+				}
+			}
+
+			current_is_subset_of_checking &= current_entry_is_in_checking;
+		}
+
+		if (current_is_subset_of_checking) {
+			break;
+		}
+	}
+
+	if (palette_index >= 8) {
+		fprintf(stderr, "%s: tile (%u:%u) colors does not fit in provided palettes\n", filename, tilex, tiley);
+		return -1;
+	}
+	return palette_index;
+}
+
+typedef void tile_bank_insert_fn(
+		tile_bank_t *out_tiles,
+		struct attrmap *out_attrs,
+		tilemap_t *out_index,
+		const unsigned tilex,
+		const unsigned tiley,
+		const unsigned tileid,
+		const tiledata_t *tiledata,
+		const char* filename,
+		void *arg);
+
+void tile_bank_insert_reserved(
+		tile_bank_t *out_tiles,
+		__attribute__((unused)) struct attrmap *out_attrs,
+		tilemap_t *out_index,
+		__attribute__((unused)) const unsigned tilex,
+		__attribute__((unused)) const unsigned tiley,
+		const unsigned tileid,
+		__attribute__((unused)) const tiledata_t *tiledata,
+		const char* filename,
+		void *arg) {
+	unsigned int *arg2 = (unsigned int*) arg;
+
+	unsigned int base_id = arg2[0];
+	unsigned int count = arg2[1];
+
+	if (count != 0 && tileid > count) return;
+
+	size_t i = (base_id + tileid) & 0xFF;
+	if ((*out_tiles)[i].used) {
+		fprintf(stderr, "%s: reserved tile %zd was already used\n", filename, i);
+		return;
+	}
+	(*out_tiles)[i].used = true;
+	memcpy((*out_tiles)[i].data, tiledata, 16);
+	*out_index = i;
+}
+
+void tile_bank_insert_base(
+		tile_bank_t *out_tiles,
+		struct attrmap *out_attrs,
+		tilemap_t *out_index,
+		__attribute__((unused)) const unsigned tilex,
+		__attribute__((unused)) const unsigned tiley,
+		__attribute__((unused)) const unsigned tileid,
+		const tiledata_t *tiledata,
+		const char* filename,
+		__attribute__((unused)) void *arg) {
+
+	for (size_t i = 0; i < 256; i++) {
+		if (! (*out_tiles)[i].used) {
+			continue;
+		}
+
+		if (0 == memcmp((*out_tiles)[i].data, tiledata, 16)) {
+			// the stage bg tiles are placed at tile indexes 0x80 through 0x17F
+			// the generated 2bpp is ignorant of this, but the tilemap has to care
+			*out_index = i & 0xFF;
+			return;
+		}
+
+		bool horizontal_mirror_matches = true;
+		for (int j = 0; j < 16; j++) {
+			horizontal_mirror_matches &= (*out_tiles)[i].data[j] == bitreverse((*tiledata)[j]);
+		}
+		if (horizontal_mirror_matches) {
+			out_attrs->horizontal_flip = 1;
+			*out_index = i & 0xFF;
+			return;
+		}
+
+		// TODO: vertical mirror duplicates
+	}
+
+	size_t i = 128;
+	while ((*out_tiles)[i & 0xFF].used) {
+		i++;
+
+		if (i >= 128 + 256) {
+			fprintf(stderr, "%s: too many unique tiles in images\n", filename);
+			return;
+		}
+
+	}
+	(*out_tiles)[i & 0xFF].used = true;
+	memcpy((*out_tiles)[i & 0xFF].data, tiledata, 16);
+
+	*out_index = i & 0xFF;
+}
+
+void tile_bank_insert_tiledataset(
+		tile_bank_t *out_tiles,
+		struct attrmap *out_attrs,
+		tilemap_t *out_index,
+		__attribute__((unused)) const unsigned tilex,
+		__attribute__((unused)) const unsigned tiley,
+		__attribute__((unused)) const unsigned tileid,
+		const tiledata_t *tiledata,
+		const char* filename,
+		__attribute__((unused)) void *arg) {
+	struct tile_image *base_img = ((struct tile_image **) arg)[0];
+	struct position *tiledataset_position = ((struct position **) arg)[1];
+
+	unsigned base_tileid = (tiledataset_position->y + tiley) * 0x20 + (tiledataset_position->x + tilex);
+	struct attrmap base_attrs = base_img->attrs[base_tileid];
+
+	tiledata_t tiledata2 = {0};
+	memcpy(&tiledata2, tiledata, 16);
+
+	if (base_attrs.horizontal_flip) {
+		out_attrs->horizontal_flip = 1;
+		for (int j = 0; j < 16; j++) {
+			tiledata2[j] = bitreverse(tiledata2[j]);
+		}
+	}
+
+	for (size_t i = 0; i < 256; i++) {
+		if (! (*out_tiles)[i].used) {
+			continue;
+		}
+
+		if (0 == memcmp((*out_tiles)[i].data, &tiledata2, 16)) {
+			*out_index = i;
+			return;
+		}
+	}
+
+	size_t i = 128;
+	while ((*out_tiles)[i & 0xFF].used) {
+		i++;
+
+		if (i >= 128 + 256) {
+			fprintf(stderr, "%s: too many unique tiles in images\n", filename);
+			return;
+		}
+
+	}
+	(*out_tiles)[i & 0xFF].used = true;
+	memcpy((*out_tiles)[i & 0xFF].data, tiledata, 16);
+
+	*out_index = i & 0xFF;
+}
+
+/**
+ * @param palette the palettes to choose from
+ * @param slice_of_input convert a portion of the image instead of the whole image
+ * @param horizontal_flip flip the image horizontally before converting
+ * @param check_mirror deduplicate tiles that are mirrors of each other
+ * @param filename the name of the png-encoded image to convert
+ */
+struct tile_image extract_tiles(
+		tile_bank_t *out_tiles,
+		const palettes_t palette,
+		const struct slice slice_of_input,
+		const bool horizontal_flip,
+		const char *filename,
+		tile_bank_insert_fn *tile_bank_insert_fn,
+		void *tile_bank_insert_arg) {
+
+	if (! out_tiles) {
+		fputs("assumption violated: out_tiles required", stderr);
+		exit(1);
+	}
+
 	png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (!png_ptr) {
 		fputs("could not initialize libpng structs", stderr);
@@ -510,7 +869,7 @@ void extract_tiles(
 		exit(1);
 	}
 
-	FILE *file = fopen_verbose(input->filename, "rb");
+	FILE *file = fopen_verbose(filename, "rb");
 	if (!file) {
 		exit(1);
 	}
@@ -518,112 +877,73 @@ void extract_tiles(
 
 	png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_STRIP_ALPHA | PNG_TRANSFORM_PACKING, NULL);
 
-	png_uint_32 image_width = png_get_image_width(png_ptr, info_ptr) - input->slice.x;
-	png_uint_32 image_height = png_get_image_height(png_ptr, info_ptr) - input->slice.y;
+	png_uint_32 image_width = png_get_image_width(png_ptr, info_ptr);
+	if (image_width < slice_of_input.x) {
+		fprintf(stderr, "image %s has slice.x is %u, but image width was only %u\n", filename, slice_of_input.x, image_width);
+		exit(1);
+	}
+	image_width -= slice_of_input.x;
+
+	png_uint_32 image_height = png_get_image_height(png_ptr, info_ptr);
+	if (image_height < slice_of_input.y) {
+		fprintf(stderr, "image %s has slice.y is %u, but image height was only %u\n", filename, slice_of_input.y, image_height);
+		exit(1);
+	}
+	image_height -= slice_of_input.y;
 
 	png_uint_32 width_in_tiles = image_width / 8;
 	png_uint_32 height_in_tiles = image_height / 8;
+	if (0 != slice_of_input.width_in_tiles && slice_of_input.width_in_tiles < width_in_tiles) {
+		width_in_tiles = slice_of_input.width_in_tiles;
+	}
+	if (0 != slice_of_input.height_in_tiles && slice_of_input.height_in_tiles < height_in_tiles) {
+		height_in_tiles = slice_of_input.height_in_tiles;
+	}
 
-	if (0 != input->slice.width_in_tiles && input->slice.width_in_tiles < width_in_tiles) {
-		width_in_tiles = input->slice.width_in_tiles;
-	}
-	if (0 != input->slice.height_in_tiles && input->slice.height_in_tiles < height_in_tiles) {
-		height_in_tiles = input->slice.height_in_tiles;
-	}
+	struct tile_image retval = {0};
+	retval.width = width_in_tiles;
+	retval.height = height_in_tiles;
+	retval.attrs = calloc(retval.width * retval.height, sizeof(struct attrmap));
+	retval.tiles = calloc(retval.width * retval.height, sizeof(tilemap_t));
+
 
 	png_byte **row_pointers = png_get_rows(png_ptr, info_ptr);
 
-	struct maps maps = {0};
-	maps.count = width_in_tiles * height_in_tiles;
-	maps.attrs = calloc(sizeof(struct attrmap), maps.count);
-	maps.tiles = calloc(sizeof(tilemap_t), maps.count);
-
-	struct queued_tiledata_list queued_tiledata = {0};
-	queued_tiledata.count = 0;
-	queued_tiledata.data = calloc(maps.count, sizeof(struct queued_tiledata_item));
-
-	bool has_errors = 0;
-	color555_t current_tile_color_v[EXTRACT_TILE_MAX_PALETTE];
-	size_t current_tile_color_c;
+	bool has_errors = false;
 
 	for (unsigned tiley = 0; tiley < height_in_tiles; tiley++) {
 	for (unsigned tilex = 0; tilex < width_in_tiles; tilex++) {
 		const unsigned tileid = tiley * width_in_tiles + tilex;
-		current_tile_color_c = 0;
 
-		for (unsigned y = 0; y < 8; y++) {
-		for (unsigned x = 0; x < 8; x++) {
-			size_t pixel_x_in_image = (input->slice.x + tilex * 8 + x);
-			if (input->horizontal_flip) {
-				pixel_x_in_image = image_width - 1 - pixel_x_in_image;
-			}
-
-			png_byte red = row_pointers[input->slice.y + tiley * 8 + y][pixel_x_in_image * 3];
-			png_byte green = row_pointers[input->slice.y + tiley * 8 + y][pixel_x_in_image * 3 + 1];
-			png_byte blue = row_pointers[input->slice.y + tiley * 8 + y][pixel_x_in_image * 3 + 2];
-			color555_t current_color = rgb24_to_rgb16(red, green, blue);
-
-			unsigned i;
-			for (i = 0; i < current_tile_color_c; i++) {
-				if (current_color == current_tile_color_v[i]) {
-					break;
-				}
-			}
-			if (i == current_tile_color_c && current_tile_color_c < EXTRACT_TILE_MAX_PALETTE) {
-				current_tile_color_v[current_tile_color_c] = current_color;
-				++current_tile_color_c;
-			}
-		}
-		}
-
-		if (current_tile_color_c > 4) {
-			fprintf(stderr, "%s: tile (%u:%u) has more than four colors", input->filename, tilex, tiley);
-			has_errors = true;
-		}
-
-		unsigned palette_index;
-		for (palette_index = 0; palette_index < 8; ++palette_index) {
-			const color555_t *current_palette = palette[palette_index];
-
-			bool current_is_subset_of_checking = true;
-			for (unsigned current_entry = 0; current_entry < current_tile_color_c; ++current_entry) {
-				bool current_entry_is_in_checking = false;
-
-				for (unsigned checking_entry = 0; checking_entry < 4; ++checking_entry) {
-					if (current_palette[checking_entry] == current_tile_color_v[current_entry]) {
-						current_entry_is_in_checking = true;
-						break;
-					}
-				}
-
-				current_is_subset_of_checking &= current_entry_is_in_checking;
-			}
-
-			if (current_is_subset_of_checking) {
-				break;
-			}
-		}
-
-		maps.attrs[tileid].palette = palette_index;
-		if (palette_index >= 8) {
-			fprintf(stderr, "%s: tile (%u:%u) colors does not fit in provided palettes\n", input->filename, tilex, tiley);
+		int palette_index = palette_of_tile(
+			palette,
+			row_pointers,
+			slice_of_input.x + tilex * 8,
+			slice_of_input.y + tiley * 8,
+			horizontal_flip,
+			image_width,
+			filename,
+			tilex,
+			tiley);
+		if (palette_index < 0) {
 			has_errors = true;
 			continue;
 		}
+		retval.attrs[tileid].palette = palette_index;
 
 		const color555_t *chosen_palette = palette[palette_index];
 		tiledata_t tiledata = {0};
 
 		for (unsigned y = 0; y < 8; y++) {
 		for (unsigned x = 0; x < 8; x++) {
-			size_t pixel_x_in_image = (input->slice.x + tilex * 8 + x);
-			if (input->horizontal_flip) {
+			size_t pixel_x_in_image = (slice_of_input.x + tilex * 8 + x);
+			if (horizontal_flip) {
 				pixel_x_in_image = image_width - 1 - pixel_x_in_image;
 			}
 
-			png_byte red = row_pointers[input->slice.y + tiley * 8 + y][pixel_x_in_image * 3];
-			png_byte green = row_pointers[input->slice.y + tiley * 8 + y][pixel_x_in_image * 3 + 1];
-			png_byte blue = row_pointers[input->slice.y + tiley * 8 + y][pixel_x_in_image * 3 + 2];
+			png_byte red = row_pointers[slice_of_input.y + tiley * 8 + y][pixel_x_in_image * 3];
+			png_byte green = row_pointers[slice_of_input.y + tiley * 8 + y][pixel_x_in_image * 3 + 1];
+			png_byte blue = row_pointers[slice_of_input.y + tiley * 8 + y][pixel_x_in_image * 3 + 2];
 			color555_t current_color = rgb24_to_rgb16(red, green, blue);
 			ssize_t current_color_index = index_of_color(chosen_palette, current_color, 4);
 
@@ -637,72 +957,16 @@ void extract_tiles(
 		}
 		}
 
-		queued_tiledata.data[queued_tiledata.count].x = tilex + input->tiledata.position_x;
-		queued_tiledata.data[queued_tiledata.count].y = tiley + input->tiledata.position_y;
-
-		// duplicate checking
-		for (size_t i = 0; i < 256; i++) {
-			if (! (*sink)[i].used) {
-				continue;
-			}
-
-			if (0 == memcmp((*sink)[i].data, &tiledata, 16)) {
-				// the stage bg tiles are placed at tile indexes 0x80 through 0x17F
-				// the generated 2bpp is ignorant of this, but the tilemap has to care
-				maps.tiles[tileid] = i ^ 0x80;
-				if (!input->tiledata.ignore_tiles_with_palette_set ||
-						palette_index != input->tiledata.ignore_tiles_with_palette) {
-					queued_tiledata.data[queued_tiledata.count].tile = i ^ 0x80;
-					queued_tiledata.count++;
-				}
-				goto next_tile;
-			}
-
-			if (input->no_check_mirror) {
-				continue;
-			}
-
-			bool horizontal_mirror_matches = true;
-			for (int j = 0; j < 16; j++) {
-				horizontal_mirror_matches &= (*sink)[i].data[j] == bitreverse(tiledata[j]);
-			}
-			if (horizontal_mirror_matches) {
-				maps.attrs[tileid].horizontal_flip = 1;
-				maps.tiles[tileid] = i ^ 0x80;
-				if (!input->tiledata.ignore_tiles_with_palette_set ||
-						palette_index != input->tiledata.ignore_tiles_with_palette) {
-					queued_tiledata.data[queued_tiledata.count].tile = i ^ 0x80;
-					queued_tiledata.count++;
-				}
-				goto next_tile;
-			}
-
-			// TODO: vertical mirror duplicates
-		}
-
-		size_t i = 0;
-		while ((*sink)[i].used) {
-			// TODO: overflow checking
-			i++;
-
-			if (i >= 256) {
-				fprintf(stderr, "%s: too many unique tiles in images\n", input->filename);
-				goto next_tile;
-			}
-
-		}
-		(*sink)[i].used = true;
-		memcpy((*sink)[i].data, &tiledata, 16);
-
-		// the stage bg tiles are placed at tile indexes 0x80 through 0x17F
-		// the generated 2bpp is ignorant of this, but the tilemap has to care
-		maps.tiles[tileid] = i ^ 0x80;
-		if (!input->tiledata.ignore_tiles_with_palette_set ||
-				palette_index != input->tiledata.ignore_tiles_with_palette) {
-			queued_tiledata.data[queued_tiledata.count].tile = i ^ 0x80;
-			queued_tiledata.count++;
-		}
-next_tile:
+		tile_bank_insert_fn(
+			out_tiles,
+			&(retval.attrs[tileid]),
+			&(retval.tiles[tileid]),
+			tilex,
+			tiley,
+			tileid,
+			&tiledata,
+			filename,
+			tile_bank_insert_arg);
 	}
 	}
 
@@ -712,57 +976,39 @@ next_tile:
 		exit(1);
 	}
 
-	if (input->tiledata.label) {
-		size_t index = written_queued_tiledata->count;
-
-		written_queued_tiledata->data = reallocarray(
-			written_queued_tiledata->data,
-			written_queued_tiledata->count + 1,
-			sizeof(struct queued_tiledata_list));
-		written_queued_tiledata->count = written_queued_tiledata->count + 1;
-
-		written_queued_tiledata->data[index].label = strdup(input->tiledata.label);
-		if (input->tiledata.header_label) {
-			written_queued_tiledata->data[index].header_label = strdup(input->tiledata.header_label);
-		} else {
-			written_queued_tiledata->data[index].header_label = NULL;
-		}
-		if (input->tiledata.function) {
-			written_queued_tiledata->data[index].function = strdup(input->tiledata.function);
-		} else {
-			written_queued_tiledata->data[index].function = NULL;
-		}
-		written_queued_tiledata->data[index].count = queued_tiledata.count;
-		written_queued_tiledata->data[index].data = queued_tiledata.data;
-	} else {
-		free(queued_tiledata.data);
-	}
-
-	if (input->generate_maps) {
-		free(written_maps->attrs);
-		free(written_maps->tiles);
-
-		written_maps->count = maps.count;
-		written_maps->attrs = maps.attrs;
-		written_maps->tiles = maps.tiles;
-	} else {
-		free(maps.attrs);
-		free(maps.tiles);
-	}
+	return retval;
 }
 
 
 /****** Main ******/
 
+/**
+ * Prints any files listed in the instructions in a space-separated format,
+ * for use as a dependency list in a Makefile
+ */
 void list_dependencies(struct Inputfile instructions) {
 	if (instructions.palette_filename) {
 		fputs(instructions.palette_filename, stdout);
 		fputs(" ", stdout);
 	}
-	for (size_t i = 0; i < instructions.imagec; i++) {
-		if (instructions.imagev[i].filename) {
-			fputs(instructions.imagev[i].filename, stdout);
-			fputs(" ", stdout);
+	if (instructions.base.filename) {
+		fputs(instructions.base.filename, stdout);
+		fputs(" ", stdout);
+	}
+	if (instructions.reserved.filename) {
+		fputs(instructions.reserved.filename, stdout);
+		fputs(" ", stdout);
+	}
+	for (size_t i = 0; i < instructions.tiledataset_count; i++) {
+		struct InputfileTiledataset *i_set = &(instructions.tiledataset_values[i]);
+
+		for (size_t j = 0; j < i_set->frame_count; j++) {
+			struct InputfileTiledatasetFrame *j_frame = &(i_set->frame_values[j]);
+
+			if (j_frame->filename) {
+				fputs(j_frame->filename, stdout);
+				fputs(" ", stdout);
+			}
 		}
 	}
 }
@@ -780,20 +1026,20 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 	char *infilename = argv[0];
-	struct Inputfile indata = parse_inputfile(infilename);
+	struct Inputfile instructions = parse_inputfile(infilename);
 
 	if (Options.list_dependencies) {
-		list_dependencies(indata);
+		list_dependencies(instructions);
 		exit(0);
 	}
 
-	if (! indata.palette_filename) {
+	if (! instructions.palette_filename) {
 		fprintf(stderr, "colorspec required\n");
 		exit(1);
 	}
 
 	palettes_t palette;
-	parse_psp_palette(&palette, indata.palette_filename);
+	parse_psp_palette(&palette, instructions.palette_filename);
 
 	if (Options.output_palette_filename) {
 		FILE *file = fopen_verbose(Options.output_palette_filename, "wb");
@@ -814,11 +1060,135 @@ int main(int argc, char *argv[]) {
 
 	tile_bank_t bank0 = {0};
 	struct queued_tiledata_list_list queued_tiledata = {0};
-	struct maps maps = {0};
 
-	for (size_t i = 0; i < indata.imagec; i++) {
-		extract_tiles(&bank0, &maps, &queued_tiledata, (indata.imagev) + i, palette);
+	{
+		struct slice slice = {0};
+		unsigned int tile_bank_insert_arg[2] = {
+			instructions.reserved.base_id,
+			instructions.reserved.length
+		};
+		struct tile_image img = extract_tiles(
+			&bank0,
+			palette,
+			slice,
+			/* horizontal_flip */ false,
+			instructions.reserved.filename,
+			&tile_bank_insert_reserved,
+			tile_bank_insert_arg);
+
+		free(img.attrs);
+		free(img.tiles);
 	}
+
+	/*
+	 * The window uses tiles in the $00-$7F VRAM area,
+	 * and thus requires the $8000 addressing mode.
+	 * The window is drawn over the bottom two rows of the screen,
+	 * and so the bottom two rows of the bg must also use $8000 addressing mode.
+	 * Putting these tiles in the first half of the output 2bpp makes them accessible
+	 * to either addressing mode.
+	 */
+	{
+		struct slice slice = {
+			.x = 0,
+			.y = 128,
+			.width_in_tiles = 32,
+			.height_in_tiles = 2,
+		};
+		struct tile_image img = extract_tiles(
+			&bank0,
+			palette,
+			slice,
+			/* horizontal_flip */ false,
+			instructions.base.filename,
+			tile_bank_insert_base,
+			NULL);
+
+		free(img.attrs);
+		free(img.tiles);
+	}
+
+	struct tile_image base_img;
+	{
+		struct slice slice = {0};
+		base_img = extract_tiles(
+			&bank0,
+			palette,
+			slice,
+			/* horizontal_flip */ false,
+			instructions.base.filename,
+			tile_bank_insert_base,
+			NULL);
+	}
+
+	for (size_t tiledataset_i = 0; tiledataset_i < instructions.tiledataset_count; tiledataset_i++) {
+		struct InputfileTiledataset *tiledataset_value = &(instructions.tiledataset_values[tiledataset_i]);
+
+		for (size_t frame_i = 0; frame_i < tiledataset_value->frame_count; frame_i++) {
+			struct InputfileTiledatasetFrame *frame_value = &(tiledataset_value->frame_values[frame_i]);
+
+			void* tile_bank_insert_arg[2] = {&base_img, &(tiledataset_value->position)};
+
+			struct tile_image img = extract_tiles(
+				&bank0,
+				palette,
+				frame_value->slice,
+				frame_value->horizontal_flip,
+				frame_value->filename,
+				tile_bank_insert_tiledataset,
+				tile_bank_insert_arg);
+
+			queued_tiledata.data = reallocarray(queued_tiledata.data, queued_tiledata.count + 1, sizeof(struct queued_tiledata_list));
+			struct queued_tiledata_list *current_tiledata = &(queued_tiledata.data[queued_tiledata.count]);
+
+			current_tiledata->function[0] = '\0';
+			if (tiledataset_value->function) {
+				strncpy(current_tiledata->function, tiledataset_value->function, 32);
+			}
+			current_tiledata->function[32] = '\0';
+			snprintf(current_tiledata->label, 64, "%s_%s_%s_%s",
+				tiledataset_value->label,
+				frame_value->label,
+				instructions.platform_label,
+				instructions.field_label);
+			current_tiledata->function[64] = '\0';
+			current_tiledata->generate_header = tiledataset_value->generate_header;
+			current_tiledata->total_count = 0;
+			current_tiledata->parts_count = 0;
+
+			for (size_t y = 0; y < img.height; y++) {
+				// TODO: combine rows
+				for (size_t x = 0; x < img.width; x++) {
+					size_t tileid = y * img.width + x;
+
+					if (frame_value->ignore_tiles_with_palette_set &&
+							img.attrs[tileid].palette == frame_value->ignore_tiles_with_palette) {
+						continue;
+					}
+
+					struct queued_tiledata_item *current_tiledata_item = &(current_tiledata->parts[current_tiledata->parts_count]);
+					++current_tiledata->total_count;
+					++current_tiledata->parts_count;
+
+					current_tiledata_item->count = 1;
+					current_tiledata_item->x = tiledataset_value->position.x + x;
+					current_tiledata_item->y = tiledataset_value->position.y + y;
+					current_tiledata_item->tiles[0] = img.tiles[tileid];
+				}
+			}
+
+			++queued_tiledata.count;
+		}
+	}
+
+	/* Not only does the row below the billboard have reserved tileids,
+	 * the graphics at those ids must be the same checkerboard pattern for all six.
+	 * Can't build the graphics to have these tileids, so hard-code it.
+	 */
+	for (int i = 0; i < 6; i++) {
+		base_img.tiles[8 * 0x20 + 7 + i] = 0xAE + i;
+	}
+
 
 	if (Options.output_pixeldata_filename) {
 		FILE *file = fopen_verbose(Options.output_pixeldata_filename, "wb");
@@ -826,7 +1196,11 @@ int main(int argc, char *argv[]) {
 			exit(1);
 		}
 
-		for (int i = 0; i < 256; i++) {
+		// writing for use in gfx 8800 bank mode,
+		for (int i = 128; i < 256; i++) {
+			fwrite(bank0[i].data, 1, 16, file);
+		}
+		for (int i = 0; i < 128; i++) {
 			fwrite(bank0[i].data, 1, 16, file);
 		}
 
@@ -839,13 +1213,14 @@ int main(int argc, char *argv[]) {
 			exit(1);
 		}
 
-		for (size_t i = 0; i < maps.count; i++) {
+		size_t count = base_img.width * base_img.height;
+		for (size_t i = 0; i < count; i++) {
 			uint8_t v = (
-				((maps.attrs[i].priority & 1) << 7) |
-				((maps.attrs[i].vertical_flip & 1) << 6) |
-				((maps.attrs[i].horizontal_flip & 1) << 5) |
-				((maps.attrs[i].bank & 1) << 3) |
-				(maps.attrs[i].palette & 7));
+				((base_img.attrs[i].priority & 1) << 7) |
+				((base_img.attrs[i].vertical_flip & 1) << 6) |
+				((base_img.attrs[i].horizontal_flip & 1) << 5) |
+				((base_img.attrs[i].bank & 1) << 3) |
+				(base_img.attrs[i].palette & 7));
 
 			fwrite(&v, 1, 1, file);
 		}
@@ -858,7 +1233,8 @@ int main(int argc, char *argv[]) {
 		if (!file) {
 			exit(1);
 		}
-		fwrite(maps.tiles, 1, maps.count, file);
+		size_t count = base_img.width * base_img.height;
+		fwrite(base_img.tiles, 1, count, file);
 		fclose(file);
 	}
 
@@ -869,26 +1245,26 @@ int main(int argc, char *argv[]) {
 		}
 
 		for (size_t i = 0; i < queued_tiledata.count; i++) {
-			struct queued_tiledata_list list = queued_tiledata.data[i];
-			if (list.header_label) {
-				fprintf(file, "%s:\n\tdb $01\n\tdw %s\n\n", list.header_label, list.label);
+			struct queued_tiledata_list *list = &(queued_tiledata.data[i]);
+			if (list->generate_header) {
+				fprintf(file, "TileDataPointer_%s:\n\tdb $01\n\tdw TileData_%s\n\n", list->label, list->label);
 			}
-			fprintf(file, "%s:\n", list.label);
-			if (list.function) {
-				fprintf(file, "\tdw %s\n", list.function);
+			fprintf(file, "TileData_%s:\n", list->label);
+			if ('\0' != list->function[0]) {
+				fprintf(file, "\tdw %s\n", list->function);
 			}
-			fprintf(file, "\tdb $%02zX\n\n", list.count);
-			for (size_t j = 0; j < list.count; j++) {
-				struct queued_tiledata_item elem = list.data[j];
-				uint32_t offset = 0x20 * elem.y + elem.x;
+			fprintf(file, "\tdb $%02X\n\n", list->total_count);
+			for (size_t j = 0; j < list->parts_count; j++) {
+				struct queued_tiledata_item *elem = &(list->parts[j]);
+				uint32_t offset = 0x20 * elem->y + elem->x;
 
-				// TODO: combine rows
-				fprintf(file, "\tdb $01\n\tdw vBGMap + $%02X\n\tdb $%02X\n\n", offset, elem.tile);
+				fprintf(file, "\tdb $%02X\n\tdw vBGMap + $%02X\n\tdb $%02X", elem->count, offset, elem->tiles[0]);
+				for (int k = 1; k < elem->count; k++) {
+					fprintf(file, ", $%02X", elem->tiles[k]);
+				}
+				fprintf(file, "\n\n");
 			}
 			fprintf(file, "\tdb $00\n\n");
-
-			free(list.label);
-			free(list.data);
 		}
 		free(queued_tiledata.data);
 		queued_tiledata.count = 0;

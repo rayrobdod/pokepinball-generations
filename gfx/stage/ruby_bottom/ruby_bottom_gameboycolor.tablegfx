@@ -1,250 +1,206 @@
+field = 'RubyField'
+platform = 'GameBoyColor'
 palette = 'gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.pal'
 
-[[source]]
+
+[base]
+filename = 'gfx/stage/ruby_bottom/base_gameboycolor.png'
+
+[reserved]
 filename = 'gfx/stage/ruby_bottom/reserved.png'
+base_id = 128
+length = 52
 
-[[source]]
-# The window uses tiles in the $00-$7F VRAM area,
-# and thus requires the $8000 addressing mode.
-# The window is drawn over the bottom two rows of the screen,
-# and so the bottom two rows of the bg must also use $8000 addressing mode.
-# Putting these tiles in the first half of the output 2bpp makes them accessible
-# to either addressing mode.
-filename = 'gfx/stage/ruby_bottom/base_gameboycolor.png'
-slice.x = 0
-slice.y = 128
-slice.width_in_tiles = 32
-slice.height_in_tiles = 2
+[[tiledataset]]
+label = 'SlotCave'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 9
+position.y = 0
 
-[[source]]
+[[tiledataset.frame]]
+label = 'Open'
 filename = 'gfx/stage/ruby_bottom/cave_open.png'
-[source.tiledata]
-label = 'TileData_SlotCave_Open_RubyField'
-header_label = 'TileDataPointer_SlotCave_Open_RubyField'
-function = 'LoadTileLists'
-position.x = 9
-position.y = 0
 
-[[source]]
+[[tiledataset.frame]]
+label = 'Closed'
 filename = 'gfx/stage/ruby_bottom/cave_closed.png'
-[source.tiledata]
-label = 'TileData_SlotCave_Closed_RubyField'
-header_label = 'TileDataPointer_SlotCave_Closed_RubyField'
-function = 'LoadTileLists'
-position.x = 9
-position.y = 0
 
-[[source]]
-filename = 'gfx/stage/ruby_bottom/slingshot_off.png'
-[source.tiledata]
-ignore_tiles_with_palette = 6
-label = 'TileData_Slingshot_Left_RubyField'
-header_label = 'TileDataPointer_Slingshot_Left_RubyField'
+
+[[tiledataset]]
+label = 'Slingshot_Left'
+generate_header = true
 function = 'LoadTileLists'
 position.x = 4
 position.y = 9
 
-[[source]]
+[[tiledataset.frame]]
+label = 'On'
 filename = 'gfx/stage/ruby_bottom/slingshot_on.png'
-[source.tiledata]
 ignore_tiles_with_palette = 6
-label = 'TileData_Slingshot_Left_Lit_RubyField'
-header_label = 'TileDataPointer_Slingshot_Left_Lit_RubyField'
+
+[[tiledataset.frame]]
+label = 'Off'
+filename = 'gfx/stage/ruby_bottom/slingshot_off.png'
+ignore_tiles_with_palette = 6
+
+
+[[tiledataset]]
+label = 'Slingshot_Right'
+generate_header = true
 function = 'LoadTileLists'
-position.x = 4
+position.x = 13
 position.y = 9
 
-[[source]]
+[[tiledataset.frame]]
+label = 'On'
+filename = 'gfx/stage/ruby_bottom/slingshot_on.png'
+horizontal_flip = true
+ignore_tiles_with_palette = 6
+
+[[tiledataset.frame]]
+label = 'Off'
 filename = 'gfx/stage/ruby_bottom/slingshot_off.png'
 horizontal_flip = true
-[source.tiledata]
 ignore_tiles_with_palette = 6
-label = 'TileData_Slingshot_Right_RubyField'
-header_label = 'TileDataPointer_Slingshot_Right_RubyField'
-function = 'LoadTileLists'
-position.x = 13
-position.y = 9
 
-[[source]]
-filename = 'gfx/stage/ruby_bottom/slingshot_on.png'
-horizontal_flip = true
-[source.tiledata]
-ignore_tiles_with_palette = 6
-label = 'TileData_Slingshot_Right_Lit_RubyField'
-header_label = 'TileDataPointer_Slingshot_Right_Lit_RubyField'
-function = 'LoadTileLists'
-position.x = 13
-position.y = 9
 
-[[source]]
+[[tiledataset]]
+label = 'BallSaver'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 8
+position.y = 12
+
+[[tiledataset.frame]]
+label = 'On'
 filename = 'gfx/stage/ruby_bottom/ball_saver_on.png'
-[source.tiledata]
-label = 'TileData_BallSaver_On_RubyField'
-header_label = 'TileDataPointer_BallSaver_On_RubyField'
-function = 'LoadTileLists'
-position.x = 8
-position.y = 12
 
-[[source]]
+[[tiledataset.frame]]
+label = 'Off'
 filename = 'gfx/stage/ruby_bottom/ball_saver_off.png'
-[source.tiledata]
-label = 'TileData_BallSaver_Off_RubyField'
-header_label = 'TileDataPointer_BallSaver_Off_RubyField'
+
+
+[[tiledataset]]
+label = 'CaveLight_C'
+generate_header = false
+position.x = 1
+position.y = 9
+
+[[tiledataset.frame]]
+label = 'On'
+filename = 'gfx/stage/ruby_bottom/cave_lights_on.png'
+slice.x = 0
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+
+[[tiledataset.frame]]
+label = 'Off'
+filename = 'gfx/stage/ruby_bottom/cave_lights_off.png'
+slice.x = 0
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+
+
+[[tiledataset]]
+label = 'CaveLight_A'
+generate_header = false
+position.x = 3
+position.y = 9
+
+[[tiledataset.frame]]
+label = 'On'
+filename = 'gfx/stage/ruby_bottom/cave_lights_on.png'
+slice.x = 8
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+
+[[tiledataset.frame]]
+label = 'Off'
+filename = 'gfx/stage/ruby_bottom/cave_lights_off.png'
+slice.x = 8
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+
+
+[[tiledataset]]
+label = 'CaveLight_V'
+generate_header = false
+position.x = 16
+position.y = 9
+
+[[tiledataset.frame]]
+label = 'On'
+filename = 'gfx/stage/ruby_bottom/cave_lights_on.png'
+slice.x = 16
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+
+[[tiledataset.frame]]
+label = 'Off'
+filename = 'gfx/stage/ruby_bottom/cave_lights_off.png'
+slice.x = 16
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+
+
+[[tiledataset]]
+label = 'CaveLight_E'
+generate_header = false
+position.x = 18
+position.y = 9
+
+[[tiledataset.frame]]
+label = 'On'
+filename = 'gfx/stage/ruby_bottom/cave_lights_on.png'
+slice.x = 24
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+
+[[tiledataset.frame]]
+label = 'Off'
+filename = 'gfx/stage/ruby_bottom/cave_lights_off.png'
+slice.x = 24
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 1
+
+
+[[tiledataset]]
+label = 'ArrowIndicator_Evo'
+generate_header = true
 function = 'LoadTileLists'
-position.x = 8
-position.y = 12
-
-[[source]]
-filename = 'gfx/stage/ruby_bottom/cave_lights_on.png'
-check_mirror = false
-slice.x = 0
-slice.y = 0
-slice.width_in_tiles = 1
-slice.height_in_tiles = 1
-[source.tiledata]
-label = 'TileData_CaveLight_C_On_GameBoyColor_RubyField'
-position.x = 1
-position.y = 9
-
-[[source]]
-filename = 'gfx/stage/ruby_bottom/cave_lights_off.png'
-check_mirror = false
-slice.x = 0
-slice.y = 0
-slice.width_in_tiles = 1
-slice.height_in_tiles = 1
-[source.tiledata]
-label = 'TileData_CaveLight_C_Off_GameBoyColor_RubyField'
-position.x = 1
-position.y = 9
-
-[[source]]
-filename = 'gfx/stage/ruby_bottom/cave_lights_on.png'
-check_mirror = false
-slice.x = 8
-slice.y = 0
-slice.width_in_tiles = 1
-slice.height_in_tiles = 1
-[source.tiledata]
-label = 'TileData_CaveLight_A_On_GameBoyColor_RubyField'
 position.x = 3
-position.y = 9
+position.y = 1
 
-[[source]]
-filename = 'gfx/stage/ruby_bottom/cave_lights_off.png'
-check_mirror = false
-slice.x = 8
-slice.y = 0
-slice.width_in_tiles = 1
-slice.height_in_tiles = 1
-[source.tiledata]
-label = 'TileData_CaveLight_A_Off_GameBoyColor_RubyField'
-position.x = 3
-position.y = 9
-
-[[source]]
-filename = 'gfx/stage/ruby_bottom/cave_lights_on.png'
-check_mirror = false
-slice.x = 16
-slice.y = 0
-slice.width_in_tiles = 1
-slice.height_in_tiles = 1
-[source.tiledata]
-label = 'TileData_CaveLight_V_On_GameBoyColor_RubyField'
-position.x = 16
-position.y = 9
-
-[[source]]
-filename = 'gfx/stage/ruby_bottom/cave_lights_off.png'
-check_mirror = false
-slice.x = 16
-slice.y = 0
-slice.width_in_tiles = 1
-slice.height_in_tiles = 1
-[source.tiledata]
-label = 'TileData_CaveLight_V_Off_GameBoyColor_RubyField'
-position.x = 16
-position.y = 9
-
-[[source]]
-filename = 'gfx/stage/ruby_bottom/cave_lights_on.png'
-check_mirror = false
-slice.x = 24
-slice.y = 0
-slice.width_in_tiles = 1
-slice.height_in_tiles = 1
-[source.tiledata]
-label = 'TileData_CaveLight_E_On_GameBoyColor_RubyField'
-position.x = 18
-position.y = 9
-
-[[source]]
-filename = 'gfx/stage/ruby_bottom/cave_lights_off.png'
-check_mirror = false
-slice.x = 24
-slice.y = 0
-slice.width_in_tiles = 1
-slice.height_in_tiles = 1
-[source.tiledata]
-label = 'TileData_CaveLight_E_Off_GameBoyColor_RubyField'
-position.x = 18
-position.y = 9
-
-[[source]]
+[[tiledataset.frame]]
+label = '0'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_0.png'
-check_mirror = false
-[source.tiledata]
 ignore_tiles_with_palette = 2
-label = 'TileData_ArrowIndicator_Evo_0_GameBoyColor_RubyField'
-header_label = 'TileDataPointer_ArrowIndicator_Evo_0_GameBoyColor_RubyField'
-function = 'LoadTileLists'
-position.x = 3
-position.y = 1
 
-[[source]]
+[[tiledataset.frame]]
+label = '1'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_1.png'
-check_mirror = false
-[source.tiledata]
 ignore_tiles_with_palette = 2
-label = 'TileData_ArrowIndicator_Evo_1_GameBoyColor_RubyField'
-header_label = 'TileDataPointer_ArrowIndicator_Evo_1_GameBoyColor_RubyField'
-function = 'LoadTileLists'
-position.x = 3
-position.y = 1
 
-[[source]]
+[[tiledataset.frame]]
+label = '2'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_2.png'
-check_mirror = false
-[source.tiledata]
 ignore_tiles_with_palette = 2
-label = 'TileData_ArrowIndicator_Evo_2_GameBoyColor_RubyField'
-header_label = 'TileDataPointer_ArrowIndicator_Evo_2_GameBoyColor_RubyField'
-function = 'LoadTileLists'
-position.x = 3
-position.y = 1
 
-[[source]]
+[[tiledataset.frame]]
+label = '3'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_3.png'
-check_mirror = false
-[source.tiledata]
 ignore_tiles_with_palette = 2
-label = 'TileData_ArrowIndicator_Evo_3_GameBoyColor_RubyField'
-header_label = 'TileDataPointer_ArrowIndicator_Evo_3_GameBoyColor_RubyField'
-function = 'LoadTileLists'
-position.x = 3
-position.y = 1
 
-[[source]]
+[[tiledataset.frame]]
+label = 'tail'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_tail.png'
-check_mirror = false
-[source.tiledata]
 ignore_tiles_with_palette = 2
-label = 'TileData_ArrowIndicator_Evo_tail_GameBoyColor_RubyField'
-header_label = 'TileDataPointer_ArrowIndicator_Evo_tail_GameBoyColor_RubyField'
-function = 'LoadTileLists'
-position.x = 3
-position.y = 1
-
-[[source]]
-filename = 'gfx/stage/ruby_bottom/base_gameboycolor.png'
-generate_maps = true

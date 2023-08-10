@@ -4,7 +4,7 @@
 int __getopt_long_i__;
 #define getopt_long(c, v, s, l) getopt_long(c, v, s, l, &__getopt_long_i__)
 
-FILE *fopen_verbose(char *filename, char *mode) {
+FILE *fopen_verbose(const char *filename, const char *mode) {
 	FILE *f = fopen(filename, mode);
 	if (!f) {
 		fprintf(stderr, "Could not open file: \"%s\"\n", filename);

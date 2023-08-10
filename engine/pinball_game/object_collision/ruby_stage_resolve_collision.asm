@@ -52,14 +52,14 @@ DrawBallSaverIcon_RubyField:
 	ld a, [wBallSaverIconOn]
 	and a
 	jr nz, .DrawIconOn
-	ld a, BANK(TileDataPointer_BallSaver_Off_RubyField)
-	ld hl, TileDataPointer_BallSaver_Off_RubyField
+	ld a, BANK(TileDataPointer_BallSaver_Off_GameBoyColor_RubyField)
+	ld hl, TileDataPointer_BallSaver_Off_GameBoyColor_RubyField
 	call QueueGraphicsToLoad
 	ret
 
 .DrawIconOn
-	ld a, BANK(TileDataPointer_BallSaver_On_RubyField)
-	ld hl, TileDataPointer_BallSaver_On_RubyField
+	ld a, BANK(TileDataPointer_BallSaver_On_GameBoyColor_RubyField)
+	ld hl, TileDataPointer_BallSaver_On_GameBoyColor_RubyField
 	call QueueGraphicsToLoad
 	ret
 

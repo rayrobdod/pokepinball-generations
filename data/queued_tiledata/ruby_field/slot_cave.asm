@@ -73,8 +73,8 @@ TileData_16497_RubyField: ; 0x16497
 TileDataPointers_164a1_RubyField:
 	dw TileData_164a9_RubyField
 	dw TileData_164ac_RubyField
-	dw TileDataPointer_SlotCave_Closed_RubyField
-	dw TileDataPointer_SlotCave_Open_RubyField
+	dw TileDataPointer_SlotCave_Closed_GameBoyColor_RubyField
+	dw TileDataPointer_SlotCave_Open_GameBoyColor_RubyField
 
 TileData_164a9_RubyField: ; 0x164a9
 	db $01

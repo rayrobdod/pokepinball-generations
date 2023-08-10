@@ -109,7 +109,7 @@ TileData_16069_RubyField: ; 0x16069
 	db $00 ; terminator
 
 TileDataPointers_Slingshots_RubyField:
-	dw TileDataPointer_Slingshot_Left_RubyField
-	dw TileDataPointer_Slingshot_Left_Lit_RubyField
-	dw TileDataPointer_Slingshot_Right_RubyField
-	dw TileDataPointer_Slingshot_Right_Lit_RubyField
+	dw TileDataPointer_Slingshot_Left_Off_GameBoyColor_RubyField
+	dw TileDataPointer_Slingshot_Left_On_GameBoyColor_RubyField
+	dw TileDataPointer_Slingshot_Right_Off_GameBoyColor_RubyField
+	dw TileDataPointer_Slingshot_Right_On_GameBoyColor_RubyField
