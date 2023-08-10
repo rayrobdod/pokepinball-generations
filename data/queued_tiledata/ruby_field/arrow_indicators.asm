@@ -422,18 +422,18 @@ TileData_16be5_RubyField: ; 0x16be5
 	db $00
 
 TileDataPointers_16bef_RubyField:
-	dw TileDataPointers_16bf9_RubyField
+	dw TileDataPointers_ArrowIndicator_Evo_GameBoyColor_RubyField
 	dw TileDataPointers_16c03_RubyField
 	dw TileDataPointers_16c0d_RubyField
 	dw TileDataPointers_16c11_RubyField
 	dw TileDataPointers_16c15_RubyField
 
-TileDataPointers_16bf9_RubyField: ; 0x16bf9
-	dw TileData_16c19_RubyField
-	dw TileData_16c1c_RubyField
-	dw TileData_16c1f_RubyField
-	dw TileData_16c22_RubyField
-	dw TileData_16c25_RubyField
+TileDataPointers_ArrowIndicator_Evo_GameBoyColor_RubyField:
+	dw TileDataPointer_ArrowIndicator_Evo_0_GameBoyColor_RubyField
+	dw TileDataPointer_ArrowIndicator_Evo_1_GameBoyColor_RubyField
+	dw TileDataPointer_ArrowIndicator_Evo_2_GameBoyColor_RubyField
+	dw TileDataPointer_ArrowIndicator_Evo_3_GameBoyColor_RubyField
+	dw TileDataPointer_ArrowIndicator_Evo_tail_GameBoyColor_RubyField
 
 TileDataPointers_16c03_RubyField: ; 0x16c03
 	dw TileData_16c28_RubyField
@@ -453,26 +453,6 @@ TileDataPointers_16c11_RubyField: ; 0x16c11
 TileDataPointers_16c15_RubyField: ; 0x16c15
 	dw TileData_16c43_RubyField
 	dw TileData_16c46_RubyField
-
-TileData_16c19_RubyField: ; 0x16c19
-	db $01
-	dw TileData_16c49_RubyField
-
-TileData_16c1c_RubyField: ; 0x16c1c
-	db $01
-	dw TileData_16c63_RubyField
-
-TileData_16c1f_RubyField: ; 0x16c1f
-	db $01
-	dw TileData_16c7d_RubyField
-
-TileData_16c22_RubyField: ; 0x16c22
-	db $01
-	dw TileData_16c97_RubyField
-
-TileData_16c25_RubyField: ; 0x16c25
-	db $01
-	dw TileData_16cb1_RubyField
 
 TileData_16c28_RubyField: ; 0x16c28
 	db $01
@@ -517,136 +497,6 @@ TileData_16c43_RubyField: ; 0x16c43
 TileData_16c46_RubyField: ; 0x16c46
 	db $01
 	dw TileData_16d8f_RubyField
-
-TileData_16c49_RubyField: ; 0x16c49
-	dw LoadTileLists
-	db $07
-
-	db $01
-	dw vBGMap + $23
-	db $5E
-
-	db $02
-	dw vBGMap + $43
-	db $5F, $60
-
-	db $02
-	dw vBGMap + $64
-	db $61, $62
-
-	db $01
-	dw vBGMap + $85
-	db $63
-
-	db $01
-	dw vBGMap + $A5
-	db $64
-
-	db $00
-
-TileData_16c63_RubyField: ; 0x16c63
-	dw LoadTileLists
-	db $07
-
-	db $01
-	dw vBGMap + $23
-	db $65
-
-	db $02
-	dw vBGMap + $43
-	db $66, $67
-
-	db $02
-	dw vBGMap + $64
-	db $61, $62
-
-	db $01
-	dw vBGMap + $85
-	db $63
-
-	db $01
-	dw vBGMap + $A5
-	db $64
-
-	db $00
-
-TileData_16c7d_RubyField: ; 0x16c7d
-	dw LoadTileLists
-	db $07
-
-	db $01
-	dw vBGMap + $23
-	db $65
-
-	db $02
-	dw vBGMap + $43
-	db $66, $67
-
-	db $02
-	dw vBGMap + $64
-	db $68, $69
-
-	db $01
-	dw vBGMap + $85
-	db $63
-
-	db $01
-	dw vBGMap + $A5
-	db $64
-
-	db $00
-
-TileData_16c97_RubyField: ; 0x16c97
-	dw LoadTileLists
-	db $07
-
-	db $01
-	dw vBGMap + $23
-	db $65
-
-	db $02
-	dw vBGMap + $43
-	db $66, $67
-
-	db $02
-	dw vBGMap + $64
-	db $68, $69
-
-	db $01
-	dw vBGMap + $85
-	db $6A
-
-	db $01
-	dw vBGMap + $A5
-	db $6B
-
-	db $00
-
-TileData_16cb1_RubyField: ; 0x16cb1
-	dw LoadTileLists
-	db $07
-
-	db $01
-	dw vBGMap + $23
-	db $5E
-
-	db $02
-	dw vBGMap + $43
-	db $5F, $60
-
-	db $02
-	dw vBGMap + $64
-	db $68, $69
-
-	db $01
-	dw vBGMap + $85
-	db $6A
-
-	db $01
-	dw vBGMap + $A5
-	db $6B
-
-	db $00
 
 TileData_16ccb_RubyField: ; 0x16ccb
 	dw LoadTileLists

@@ -191,5 +191,60 @@ position.x = 18
 position.y = 9
 
 [[source]]
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_0.png'
+check_mirror = false
+[source.tiledata]
+ignore_tiles_with_palette = 2
+label = 'TileData_ArrowIndicator_Evo_0_GameBoyColor_RubyField'
+header_label = 'TileDataPointer_ArrowIndicator_Evo_0_GameBoyColor_RubyField'
+function = 'LoadTileLists'
+position.x = 3
+position.y = 1
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_1.png'
+check_mirror = false
+[source.tiledata]
+ignore_tiles_with_palette = 2
+label = 'TileData_ArrowIndicator_Evo_1_GameBoyColor_RubyField'
+header_label = 'TileDataPointer_ArrowIndicator_Evo_1_GameBoyColor_RubyField'
+function = 'LoadTileLists'
+position.x = 3
+position.y = 1
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_2.png'
+check_mirror = false
+[source.tiledata]
+ignore_tiles_with_palette = 2
+label = 'TileData_ArrowIndicator_Evo_2_GameBoyColor_RubyField'
+header_label = 'TileDataPointer_ArrowIndicator_Evo_2_GameBoyColor_RubyField'
+function = 'LoadTileLists'
+position.x = 3
+position.y = 1
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_3.png'
+check_mirror = false
+[source.tiledata]
+ignore_tiles_with_palette = 2
+label = 'TileData_ArrowIndicator_Evo_3_GameBoyColor_RubyField'
+header_label = 'TileDataPointer_ArrowIndicator_Evo_3_GameBoyColor_RubyField'
+function = 'LoadTileLists'
+position.x = 3
+position.y = 1
+
+[[source]]
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_tail.png'
+check_mirror = false
+[source.tiledata]
+ignore_tiles_with_palette = 2
+label = 'TileData_ArrowIndicator_Evo_tail_GameBoyColor_RubyField'
+header_label = 'TileDataPointer_ArrowIndicator_Evo_tail_GameBoyColor_RubyField'
+function = 'LoadTileLists'
+position.x = 3
+position.y = 1
+
+[[source]]
 filename = 'gfx/stage/ruby_bottom/base_gameboycolor.png'
 generate_maps = true
