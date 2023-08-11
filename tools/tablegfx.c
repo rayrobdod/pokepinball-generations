@@ -1155,25 +1155,39 @@ int main(int argc, char *argv[]) {
 			current_tiledata->generate_header = tiledataset_value->generate_header;
 			current_tiledata->total_count = 0;
 			current_tiledata->parts_count = 0;
+			struct queued_tiledata_item *current_tiledata_item = current_tiledata->parts;
 
 			for (size_t y = 0; y < img.height; y++) {
-				// TODO: combine rows
+				current_tiledata_item->count = 0;
+				current_tiledata_item->y = tiledataset_value->position.y + y;
+
 				for (size_t x = 0; x < img.width; x++) {
 					size_t tileid = y * img.width + x;
 
 					if (frame_value->ignore_tiles_with_palette_set &&
 							img.attrs[tileid].palette == frame_value->ignore_tiles_with_palette) {
+						if (0 != current_tiledata_item->count) {
+							++current_tiledata_item;
+							++current_tiledata->parts_count;
+
+							current_tiledata_item->count = 0;
+							current_tiledata_item->y = tiledataset_value->position.y + y;
+						}
+
 						continue;
 					}
 
-					struct queued_tiledata_item *current_tiledata_item = &(current_tiledata->parts[current_tiledata->parts_count]);
 					++current_tiledata->total_count;
-					++current_tiledata->parts_count;
+					if (0 == current_tiledata_item->count) {
+						current_tiledata_item->x = tiledataset_value->position.x + x;
+					}
+					current_tiledata_item->tiles[current_tiledata_item->count] = img.tiles[tileid];
+					++current_tiledata_item->count;
+				}
 
-					current_tiledata_item->count = 1;
-					current_tiledata_item->x = tiledataset_value->position.x + x;
-					current_tiledata_item->y = tiledataset_value->position.y + y;
-					current_tiledata_item->tiles[0] = img.tiles[tileid];
+				if (0 != current_tiledata_item->count) {
+					++current_tiledata_item;
+					++current_tiledata->parts_count;
 				}
 			}
 
