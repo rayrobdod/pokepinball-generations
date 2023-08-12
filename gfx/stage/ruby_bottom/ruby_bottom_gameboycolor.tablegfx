@@ -348,3 +348,51 @@ horizontal_flip = true
 label = 'Hit'
 filename = 'gfx/stage/ruby_bottom/linoone_hit.png'
 horizontal_flip = true
+
+
+[[tiledataset]]
+label = 'Gulpin_Left'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 0
+position.y = 4
+
+[[tiledataset.frame]]
+label = '0'
+filename = 'gfx/stage/ruby_bottom/gulpin_left_0.png'
+
+[[tiledataset.frame]]
+label = '1'
+filename = 'gfx/stage/ruby_bottom/gulpin_left_1.png'
+
+[[tiledataset.frame]]
+label = '2'
+filename = 'gfx/stage/ruby_bottom/gulpin_left_2.png'
+
+[[tiledataset.frame]]
+label = '3'
+filename = 'gfx/stage/ruby_bottom/gulpin_left_3.png'
+
+
+[[tiledataset]]
+label = 'Gulpin_Right'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 17
+position.y = 4
+
+[[tiledataset.frame]]
+label = '0'
+filename = 'gfx/stage/ruby_bottom/gulpin_right_0.png'
+
+[[tiledataset.frame]]
+label = '1'
+filename = 'gfx/stage/ruby_bottom/gulpin_right_1.png'
+
+[[tiledataset.frame]]
+label = '2'
+filename = 'gfx/stage/ruby_bottom/gulpin_right_2.png'
+
+[[tiledataset.frame]]
+label = '3'
+filename = 'gfx/stage/ruby_bottom/gulpin_right_3.png'
