@@ -102,9 +102,9 @@ LoadDiglettGraphics_RubyField: ; 0x140f9
 
 ClearAllRubyIndicators: ; 0x14135
 	ld bc, $0000
-.Loop5Times
+.Loop6Times
 	push bc
-	ld hl, wIndicatorStates ;for each of 5 states
+	ld hl, wIndicatorStates ;for each of 6 states
 	add hl, bc
 	ld a, [hl]
 	res 7, a ;clear bit 7
@@ -112,8 +112,8 @@ ClearAllRubyIndicators: ; 0x14135
 	pop bc
 	inc c
 	ld a, c
-	cp $5
-	jr nz, .Loop5Times
+	cp $6
+	jr nz, .Loop6Times
 	ret
 
 Func_1414b_RubyField: ; 0x1414b

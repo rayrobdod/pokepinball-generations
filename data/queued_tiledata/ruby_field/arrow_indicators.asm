@@ -4,6 +4,7 @@ TileDataPointers_169ed_RubyField:
 	dw TileDataPointers_16a0b_RubyField
 	dw TileDataPointers_16a0f_RubyField
 	dw TileDataPointers_16a13_RubyField
+	dw TileDataPointers_16a13_RubyField
 
 TileDataPointers_169f7_RubyField: ; 0x169f7
 	dw TileData_16a17_RubyField
@@ -421,12 +422,13 @@ TileData_16be5_RubyField: ; 0x16be5
 	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
 	db $00
 
-TileDataPointers_16bef_RubyField:
+TileDataPointers_ArrowIndicators_GameBoyColor_RubyField:
 	dw TileDataPointers_ArrowIndicator_Evo_GameBoyColor_RubyField
-	dw TileDataPointers_16c03_RubyField
-	dw TileDataPointers_16c0d_RubyField
-	dw TileDataPointers_16c11_RubyField
-	dw TileDataPointers_16c15_RubyField
+	dw TileDataPointers_ArrowIndicator_Get_GameBoyColor_RubyField
+	dw TileDataPointers_ArrowIndicator_InnerLoop_GameBoyColor_RubyField
+	dw TileDataPointers_ArrowIndicator_EvoCave_GameBoyColor_RubyField
+	dw TileDataPointers_ArrowIndicator_Bumper_GameBoyColor_RubyField
+	dw TileDataPointers_ArrowIndicator_Sharpedo_GameBoyColor_RubyField
 
 TileDataPointers_ArrowIndicator_Evo_GameBoyColor_RubyField:
 	dw TileDataPointer_ArrowIndicator_Evo_0_GameBoyColor_RubyField
@@ -435,279 +437,25 @@ TileDataPointers_ArrowIndicator_Evo_GameBoyColor_RubyField:
 	dw TileDataPointer_ArrowIndicator_Evo_3_GameBoyColor_RubyField
 	dw TileDataPointer_ArrowIndicator_Evo_tail_GameBoyColor_RubyField
 
-TileDataPointers_16c03_RubyField: ; 0x16c03
-	dw TileData_16c28_RubyField
-	dw TileData_16c2b_RubyField
-	dw TileData_16c2e_RubyField
-	dw TileData_16c31_RubyField
-	dw TileData_16c34_RubyField
-
-TileDataPointers_16c0d_RubyField: ; 0x16c0d
-	dw TileData_16c37_RubyField
-	dw TileData_16c3a_RubyField
-
-TileDataPointers_16c11_RubyField: ; 0x16c11
-	dw TileData_16c3d_RubyField
-	dw TileData_16c40_RubyField
-
-TileDataPointers_16c15_RubyField: ; 0x16c15
-	dw TileData_16c43_RubyField
-	dw TileData_16c46_RubyField
-
-TileData_16c28_RubyField: ; 0x16c28
-	db $01
-	dw TileData_16ccb_RubyField
-
-TileData_16c2b_RubyField: ; 0x16c2b
-	db $01
-	dw TileData_16ce5_RubyField
-
-TileData_16c2e_RubyField: ; 0x16c2e
-	db $01
-	dw TileData_16cff_RubyField
-
-TileData_16c31_RubyField: ; 0x16c31
-	db $01
-	dw TileData_16d19_RubyField
-
-TileData_16c34_RubyField: ; 0x16c34
-	db $01
-	dw TileData_16d33_RubyField
-
-TileData_16c37_RubyField: ; 0x16c37
-	db $01
-	dw TileData_16d4d_RubyField
-
-TileData_16c3a_RubyField: ; 0x16c3a
-	db $01
-	dw TileData_16d5a_RubyField
-
-TileData_16c3d_RubyField: ; 0x16c3d
-	db $01
-	dw TileData_16d67_RubyField
-
-TileData_16c40_RubyField: ; 0x16c40
-	db $01
-	dw TileData_16d74_RubyField
-
-TileData_16c43_RubyField: ; 0x16c43
-	db $01
-	dw TileData_16d81_RubyField
-
-TileData_16c46_RubyField: ; 0x16c46
-	db $01
-	dw TileData_16d8f_RubyField
-
-TileData_16ccb_RubyField: ; 0x16ccb
-	dw LoadTileLists
-	db $07
-
-	db $01
-	dw vBGMap + $30
-	db $6C
-
-	db $02
-	dw vBGMap + $4F
-	db $6D, $6E
-
-	db $02
-	dw vBGMap + $6E
-	db $6F, $70
-
-	db $01
-	dw vBGMap + $8E
-	db $71
-
-	db $01
-	dw vBGMap + $AE
-	db $72
-
-	db $00
-
-TileData_16ce5_RubyField: ; 0x16ce5
-	dw LoadTileLists
-	db $07
-
-	db $01
-	dw vBGMap + $30
-	db $73
-
-	db $02
-	dw vBGMap + $4F
-	db $74, $75
-
-	db $02
-	dw vBGMap + $6E
-	db $6F, $70
-
-	db $01
-	dw vBGMap + $8E
-	db $71
-
-	db $01
-	dw vBGMap + $AE
-	db $72
-
-	db $00
-
-TileData_16cff_RubyField: ; 0x16cff
-	dw LoadTileLists
-	db $07
-
-	db $01
-	dw vBGMap + $30
-	db $73
-
-	db $02
-	dw vBGMap + $4F
-	db $74, $75
-
-	db $02
-	dw vBGMap + $6E
-	db $76, $77
-
-	db $01
-	dw vBGMap + $8E
-	db $71
-
-	db $01
-	dw vBGMap + $AE
-	db $72
-
-	db $00
-
-TileData_16d19_RubyField: ; 0x16d19
-	dw LoadTileLists
-	db $07
-
-	db $01
-	dw vBGMap + $30
-	db $73
-
-	db $02
-	dw vBGMap + $4F
-	db $74, $75
-
-	db $02
-	dw vBGMap + $6E
-	db $76, $77
-
-	db $01
-	dw vBGMap + $8E
-	db $78
-
-	db $01
-	dw vBGMap + $AE
-	db $79
-
-	db $00
-
-TileData_16d33_RubyField: ; 0x16d33
-	dw LoadTileLists
-	db $07
-
-	db $01
-	dw vBGMap + $30
-	db $6C
-
-	db $02
-	dw vBGMap + $4F
-	db $6D, $6E
-
-	db $02
-	dw vBGMap + $6E
-	db $76, $77
-
-	db $01
-	dw vBGMap + $8E
-	db $78
-
-	db $01
-	dw vBGMap + $AE
-	db $79
-
-	db $00
-
-TileData_16d4d_RubyField: ; 0x16d4d
-	dw LoadTileLists
-	db $03
-
-	db $01
-	dw vBGMap + $6
-	db $48
-
-	db $02
-	dw vBGMap + $26
-	db $49, $4A
-
-	db $00
-
-TileData_16d5a_RubyField: ; 0x16d5a
-	dw LoadTileLists
-	db $03
-
-	db $01
-	dw vBGMap + $6
-	db $4B
-
-	db $02
-	dw vBGMap + $26
-	db $4C, $4D
-
-	db $00
-
-TileData_16d67_RubyField: ; 0x16d67
-	dw LoadTileLists
-	db $03
-
-	db $01
-	dw vBGMap + $D
-	db $4E
-
-	db $02
-	dw vBGMap + $2C
-	db $4F, $50
-
-	db $00
-
-TileData_16d74_RubyField: ; 0x16d74
-	dw LoadTileLists
-	db $03
-
-	db $01
-	dw vBGMap + $D
-	db $51
-
-	db $02
-	dw vBGMap + $2C
-	db $52, $53
-
-	db $00
-
-TileData_16d81_RubyField: ; 0x16d81
-	dw LoadTileLists
-	db $04
-
-	db $02
-	dw vBGMap + $49
-	db $40, $41
-
-	db $02
-	dw vBGMap + $69
-	db $42, $43
-
-	db $00
-
-TileData_16d8f_RubyField: ; 0x16d8f
-	dw LoadTileLists
-	db $04
-
-	db $02
-	dw vBGMap + $49
-	db $44, $45
-
-	db $02
-	dw vBGMap + $69
-	db $46, $47
-
-	db $00
+TileDataPointers_ArrowIndicator_Get_GameBoyColor_RubyField:
+	dw TileDataPointer_ArrowIndicator_Get_0_GameBoyColor_RubyField
+	dw TileDataPointer_ArrowIndicator_Get_1_GameBoyColor_RubyField
+	dw TileDataPointer_ArrowIndicator_Get_2_GameBoyColor_RubyField
+	dw TileDataPointer_ArrowIndicator_Get_3_GameBoyColor_RubyField
+	dw TileDataPointer_ArrowIndicator_Get_tail_GameBoyColor_RubyField
+
+TileDataPointers_ArrowIndicator_InnerLoop_GameBoyColor_RubyField:
+	dw TileDataPointer_ArrowIndicator_InnerLoop_Off_GameBoyColor_RubyField
+	dw TileDataPointer_ArrowIndicator_InnerLoop_On_GameBoyColor_RubyField
+
+TileDataPointers_ArrowIndicator_EvoCave_GameBoyColor_RubyField:
+	dw TileDataPointer_ArrowIndicator_EvoCave_Off_GameBoyColor_RubyField
+	dw TileDataPointer_ArrowIndicator_EvoCave_On_GameBoyColor_RubyField
+
+TileDataPointers_ArrowIndicator_Bumper_GameBoyColor_RubyField:
+	dw TileDataPointer_ArrowIndicator_Bumper_Off_GameBoyColor_RubyField
+	dw TileDataPointer_ArrowIndicator_Bumper_On_GameBoyColor_RubyField
+
+TileDataPointers_ArrowIndicator_Sharpedo_GameBoyColor_RubyField:
+	dw TileDataPointer_ArrowIndicator_Sharpedo_Off_GameBoyColor_RubyField
+	dw TileDataPointer_ArrowIndicator_Sharpedo_On_GameBoyColor_RubyField

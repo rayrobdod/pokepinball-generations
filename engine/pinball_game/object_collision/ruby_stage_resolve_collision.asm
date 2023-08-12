@@ -1109,10 +1109,16 @@ HandleSecondaryLeftAlleyTrigger_RubyField: ; 0x1587c
 	ret z
 	inc a
 	ld [wLeftAlleyCount], a
+	cp $3
+	jr z, .alley_indicators_donot_blink
 	set 7, a
+.alley_indicators_donot_blink
 	ld [wIndicatorStates], a
-	cp $83
+	res 7, a
+	cp $3
 	ret nz
+	ld a, $80
+	ld [wIndicatorStates + 3], a
 	ld a, [wStageCollisionState]
 	and $1
 	or $6
@@ -1139,10 +1145,16 @@ HandleThirdLeftAlleyTrigger_RubyField: ; 0x158c0
 	ret z
 	inc a
 	ld [wLeftAlleyCount], a
+	cp $3
+	jr z, .alley_indicators_donot_blink
 	set 7, a
+.alley_indicators_donot_blink
 	ld [wIndicatorStates], a
-	cp $83
+	res 7, a
+	cp $3
 	ret nz
+	ld a, $80
+	ld [wIndicatorStates + 3], a
 	ld a, [wStageCollisionState]
 	and $1
 	or $6
@@ -1212,7 +1224,7 @@ HandleSecondaryRightAlleyTrigger_RubyField: ; 0x15944
 	cp $2
 	ret c
 	ld a, $80
-	ld [wIndicatorStates + 3], a
+	ld [wIndicatorStates + 5], a
 	ret
 
 HandleRightAlleyTrigger_RubyField: ; 0x1597d
@@ -1251,7 +1263,7 @@ HandleThirdRightAlleyTrigger_RubyField: ; 0x15990
 	cp $2
 	ret c
 	ld a, $80
-	ld [wIndicatorStates + 3], a
+	ld [wIndicatorStates + 5], a
 	ret
 
 UpdateFieldStructures_RubyField: ; 0x159c9
@@ -1838,8 +1850,6 @@ ResolveSlotCollision_RubyField: ; 0x16279
 DoSlotLogic_RubyField: ; 0x16352
 ; Performs the slot logic when pinball entered the slot cave.
 ; This could be the slot roulette, or evolving a pokemon, for example.
-	xor a
-	ld [wIndicatorStates + 4], a
 	ld a, $d
 	callba CheckSpecialModeColision
 	jr nc, .asm_1636d
@@ -1997,8 +2007,6 @@ OpenSlotCave_RubyField: ; 0x164e3
 	ret nz
 	ld a, $1
 	ld [wSlotIsOpen], a
-	ld a, $80
-	ld [wIndicatorStates + 4], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	call nz, LoadSlotCaveCoverGraphics_RubyField
@@ -2403,7 +2411,7 @@ LoadStaryuGraphics_Top_RubyField: ; 0x16859
 INCLUDE "data/queued_tiledata/ruby_field/staryu_bumper.asm"
 
 UpdateArrowIndicators_RubyField: ; 0x169a6
-; Updates the 5 blinking arrow indicators in the ruby field bottom.
+; Updates the 6 blinking arrow indicators in the ruby field bottom.
 	ld a, [hFrameCounter]
 	and $1f
 	ret nz
@@ -2426,18 +2434,20 @@ UpdateArrowIndicators_RubyField: ; 0x169a6
 	pop bc
 	inc c
 	ld a, c
-	cp $5
+	cp $6
 	jr nz, .loop
 	ret
 
 LoadArrowIndicatorGraphics_RubyField: ; 0x169cd
+	; input: c which arrow indicator to load
+	;        a the indicator's state
 	push af
 	sla c ;double offset
 	ld hl, TileDataPointers_169ed_RubyField
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_169db
-	ld hl, TileDataPointers_16bef_RubyField
+	ld hl, TileDataPointers_ArrowIndicators_GameBoyColor_RubyField
 .asm_169db
 	add hl, bc ;add offset, load pointer into HL
 	ld a, [hli]

@@ -1512,6 +1512,7 @@ UpdateMapMove_RubyField:
 	ld [wIndicatorStates + 2], a
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 4], a
+	ld [wIndicatorStates + 5], a
 	ld a, [wCurrentStage]
 	bit 0, a
 	jr z, .asm_31577 ;if on stage without flippers(the tops), jump

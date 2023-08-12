@@ -37,7 +37,7 @@ InitRubyField:
 	ld [wd7ad], a
 	ld a, $80
 	ld [wIndicatorStates], a
-	ld [wIndicatorStates + 3], a
+	ld [wIndicatorStates + 5], a
 	ld a, $82
 	ld [wIndicatorStates + 1], a
 	callba Start20SecondSaverTimer

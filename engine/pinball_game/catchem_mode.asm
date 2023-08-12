@@ -1215,7 +1215,6 @@ CloseSlotCave_GoldField: ; 0x107b0
 CloseSlotCave_RubyField: ; 0x107b0
 	xor a
 	ld [wSlotIsOpen], a
-	ld [wIndicatorStates + 4], a
 	callba LoadSlotCaveCoverGraphics_RubyField
 	ret
 
@@ -1271,11 +1270,20 @@ SetLeftAndRightAlleyArrowIndicatorStates_RubyField:
 	cp $2
 	jr c, .asm_107e0
 	ld a, $80
-	ld [wIndicatorStates + 3], a
+	ld [wIndicatorStates + 5], a
 .asm_107e0
 	ld a, [wLeftAlleyCount]
+	cp $3
+	jr z, .evo_count_doesnot_blink
 	set 7, a
+.evo_count_doesnot_blink
 	ld [wIndicatorStates], a
+	res 7, a
+	cp $3
+	jr c, .evo_cave_doesnot_blink
+	ld a, $80
+	ld [wIndicatorStates + 3], a
+.evo_cave_doesnot_blink
 	ret
 
 Func_107e9: ; 0x107e9

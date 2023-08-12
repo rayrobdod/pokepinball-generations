@@ -204,3 +204,104 @@ ignore_tiles_with_palette = 2
 label = 'tail'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_tail.png'
 ignore_tiles_with_palette = 2
+
+
+[[tiledataset]]
+label = 'ArrowIndicator_Get'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 14
+position.y = 1
+
+[[tiledataset.frame]]
+label = '0'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_get_0.png'
+ignore_tiles_with_palette = 2
+
+[[tiledataset.frame]]
+label = '1'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_get_1.png'
+ignore_tiles_with_palette = 2
+
+[[tiledataset.frame]]
+label = '2'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_get_2.png'
+ignore_tiles_with_palette = 2
+
+[[tiledataset.frame]]
+label = '3'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_get_3.png'
+ignore_tiles_with_palette = 2
+
+[[tiledataset.frame]]
+label = 'tail'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_get_tail.png'
+ignore_tiles_with_palette = 2
+
+
+[[tiledataset]]
+label = 'ArrowIndicator_InnerLoop'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 6
+position.y = 0
+
+[[tiledataset.frame]]
+label = 'Off'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_middle_off.png'
+
+[[tiledataset.frame]]
+label = 'On'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_middle_on.png'
+
+
+[[tiledataset]]
+label = 'ArrowIndicator_EvoCave'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 7
+position.y = 0
+
+[[tiledataset.frame]]
+label = 'Off'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_inner_off.png'
+
+[[tiledataset.frame]]
+label = 'On'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_inner_on.png'
+
+
+[[tiledataset]]
+label = 'ArrowIndicator_Bumper'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 11
+position.y = 0
+
+[[tiledataset.frame]]
+label = 'Off'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_inner_off.png'
+horizontal_flip = true
+
+[[tiledataset.frame]]
+label = 'On'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_inner_on.png'
+horizontal_flip = true
+
+
+[[tiledataset]]
+label = 'ArrowIndicator_Sharpedo'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 13
+position.y = 0
+
+[[tiledataset.frame]]
+label = 'Off'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_middle_off.png'
+horizontal_flip = true
+
+[[tiledataset.frame]]
+label = 'On'
+filename = 'gfx/stage/ruby_bottom/arrow_indicators_middle_on.png'
+horizontal_flip = true
