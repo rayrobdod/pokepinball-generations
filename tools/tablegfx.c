@@ -875,7 +875,13 @@ struct tile_image extract_tiles(
 	}
 	png_init_io(png_ptr, file);
 
-	png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_STRIP_ALPHA | PNG_TRANSFORM_PACKING, NULL);
+	png_read_png(png_ptr, info_ptr,
+			PNG_TRANSFORM_STRIP_16 |
+			PNG_TRANSFORM_STRIP_ALPHA |
+			PNG_TRANSFORM_PACKING |
+			PNG_TRANSFORM_EXPAND |
+			PNG_TRANSFORM_GRAY_TO_RGB,
+			NULL);
 
 	png_uint_32 image_width = png_get_image_width(png_ptr, info_ptr);
 	if (image_width < slice_of_input.x) {

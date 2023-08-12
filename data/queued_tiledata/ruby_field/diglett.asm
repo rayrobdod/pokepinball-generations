@@ -114,121 +114,13 @@ TileListData_14a75_RubyField: ; 0x14a75
 
 	db $00  ; terminator
 
-TileListDataPointers_14a83_RubyField:
-	dw TileListData_14a8f_RubyField
-	dw TileListData_14a92_RubyField
-	dw TileListData_14a95_RubyField
-	dw TileListData_14a98_RubyField
-	dw TileListData_14a9b_RubyField
-	dw TileListData_14a9e_RubyField
-
-TileListData_14a8f_RubyField: ; 0x14a8f
-	db $01
-	dw TileListData_14aa1_RubyField
-
-TileListData_14a92_RubyField: ; 0x14a92
-	db $01
-	dw TileListData_14aaf_RubyField
-
-TileListData_14a95_RubyField: ; 0x14a95
-	db $01
-	dw TileListData_14abd_RubyField
-
-TileListData_14a98_RubyField: ; 0x14a98
-	db $01
-	dw TileListData_14acb_RubyField
-
-TileListData_14a9b_RubyField: ; 0x14a9b
-	db $01
-	dw TileListData_14ad9_RubyField
-
-TileListData_14a9e_RubyField: ; 0x14a9e
-	db $01
-	dw TileListData_14ae7_RubyField
-
-TileListData_14aa1_RubyField: ; 0x14aa1
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $a3
-	db $54, $55
-
-	db $02 ; number of tiles
-	dw vBGMap + $c3
-	db $56, $57
-
-	db $00
-
-TileListData_14aaf_RubyField: ; 0x14aaf
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $a3
-	db $58, $59
-
-	db $02 ; number of tiles
-	dw vBGMap + $c3
-	db $5A, $5B
-
-	db $00 ; terminator
-
-TileListData_14abd_RubyField: ; 0x14abd
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $a3
-	db $5C, $80
-
-	db $02 ; number of tiles
-	dw vBGMap + $c3
-	db $5D, $80
-
-	db $00 ; terminator
-
-TileListData_14acb_RubyField: ; 0x14acb
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $af
-	db $55, $54
-
-	db $02 ; number of tiles
-	dw vBGMap + $cf
-	db $57, $56
-
-	db $00 ; terminator
-
-TileListData_14ad9_RubyField: ; 0x14ad9
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $af
-	db $59, $58
-
-	db $02 ; number of tiles
-	dw vBGMap + $cf
-	db $5B, $5A
-
-	db $00 ; terminator
-
-TileListData_14ae7_RubyField: ; 0x14ae7
-	dw LoadTileLists
-	db $04 ; total number of tiles
-
-	db $02 ; number of tiles
-	dw vBGMap + $af
-	db $80, $5C
-
-	db $02 ; number of tiles
-	dw vBGMap + $cf
-	db $80, $5D
-
-	db $00 ; terminator
+TileDataPointers_Linoone_GameBoyColor_RubyField:
+	dw TileDataPointer_Linoone_Left_0_GameBoyColor_RubyField
+	dw TileDataPointer_Linoone_Left_1_GameBoyColor_RubyField
+	dw TileDataPointer_Linoone_Left_Hit_GameBoyColor_RubyField
+	dw TileDataPointer_Linoone_Right_0_GameBoyColor_RubyField
+	dw TileDataPointer_Linoone_Right_1_GameBoyColor_RubyField
+	dw TileDataPointer_Linoone_Right_Hit_GameBoyColor_RubyField
 
 Data_14af5_RubyField: ; 0x14af5
 	dw Data_14b05_RubyField

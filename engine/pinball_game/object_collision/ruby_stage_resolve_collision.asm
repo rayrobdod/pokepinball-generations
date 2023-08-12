@@ -374,7 +374,7 @@ _LoadDiglettGraphics_RubyField: ; 0x149d9
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_149e9
-	ld hl, TileListDataPointers_14a83_RubyField
+	ld hl, TileDataPointers_Linoone_GameBoyColor_RubyField
 .asm_149e9
 	add hl, bc
 	ld a, [hli]

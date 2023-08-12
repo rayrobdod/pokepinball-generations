@@ -183,27 +183,27 @@ position.y = 1
 [[tiledataset.frame]]
 label = '0'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_0.png'
-ignore_tiles_with_palette = 2
+ignore_tiles_with_palette = 0
 
 [[tiledataset.frame]]
 label = '1'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_1.png'
-ignore_tiles_with_palette = 2
+ignore_tiles_with_palette = 0
 
 [[tiledataset.frame]]
 label = '2'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_2.png'
-ignore_tiles_with_palette = 2
+ignore_tiles_with_palette = 0
 
 [[tiledataset.frame]]
 label = '3'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_3.png'
-ignore_tiles_with_palette = 2
+ignore_tiles_with_palette = 0
 
 [[tiledataset.frame]]
 label = 'tail'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_evo_tail.png'
-ignore_tiles_with_palette = 2
+ignore_tiles_with_palette = 0
 
 
 [[tiledataset]]
@@ -216,27 +216,27 @@ position.y = 1
 [[tiledataset.frame]]
 label = '0'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_get_0.png'
-ignore_tiles_with_palette = 2
+ignore_tiles_with_palette = 6
 
 [[tiledataset.frame]]
 label = '1'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_get_1.png'
-ignore_tiles_with_palette = 2
+ignore_tiles_with_palette = 6
 
 [[tiledataset.frame]]
 label = '2'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_get_2.png'
-ignore_tiles_with_palette = 2
+ignore_tiles_with_palette = 6
 
 [[tiledataset.frame]]
 label = '3'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_get_3.png'
-ignore_tiles_with_palette = 2
+ignore_tiles_with_palette = 6
 
 [[tiledataset.frame]]
 label = 'tail'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_get_tail.png'
-ignore_tiles_with_palette = 2
+ignore_tiles_with_palette = 6
 
 
 [[tiledataset]]
@@ -304,4 +304,47 @@ horizontal_flip = true
 [[tiledataset.frame]]
 label = 'On'
 filename = 'gfx/stage/ruby_bottom/arrow_indicators_middle_on.png'
+horizontal_flip = true
+
+
+[[tiledataset]]
+label = 'Linoone_Left'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 3
+position.y = 5
+
+[[tiledataset.frame]]
+label = '0'
+filename = 'gfx/stage/ruby_bottom/linoone_0.png'
+
+[[tiledataset.frame]]
+label = '1'
+filename = 'gfx/stage/ruby_bottom/linoone_1.png'
+
+[[tiledataset.frame]]
+label = 'Hit'
+filename = 'gfx/stage/ruby_bottom/linoone_hit.png'
+
+
+[[tiledataset]]
+label = 'Linoone_Right'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 15
+position.y = 5
+
+[[tiledataset.frame]]
+label = '0'
+filename = 'gfx/stage/ruby_bottom/linoone_0.png'
+horizontal_flip = true
+
+[[tiledataset.frame]]
+label = '1'
+filename = 'gfx/stage/ruby_bottom/linoone_1.png'
+horizontal_flip = true
+
+[[tiledataset.frame]]
+label = 'Hit'
+filename = 'gfx/stage/ruby_bottom/linoone_hit.png'
 horizontal_flip = true
