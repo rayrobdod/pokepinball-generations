@@ -1282,7 +1282,7 @@ UpdateFieldStructures_RubyField: ; 0x159c9
 	call LoadFieldStructureGraphics_RubyField
 	ld a, $1
 	ld [wd580], a
-	call LoadTimerGraphics
+	callba LoadTimerGraphics
 	ret
 
 LoadFieldStructureGraphics_RubyField: ; 0x159f4

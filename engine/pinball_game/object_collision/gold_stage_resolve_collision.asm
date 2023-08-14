@@ -1252,7 +1252,7 @@ UpdateFieldStructures_GoldField: ; 0x159c9
 	call LoadFieldStructureGraphics_GoldField
 	ld a, $1
 	ld [wd580], a
-	call LoadTimerGraphics
+	callba LoadTimerGraphics
 	ret
 
 LoadFieldStructureGraphics_GoldField: ; 0x159f4
