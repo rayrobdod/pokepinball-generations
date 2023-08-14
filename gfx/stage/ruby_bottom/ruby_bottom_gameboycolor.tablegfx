@@ -6,10 +6,16 @@ palette = 'gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.pal'
 [base]
 filename = 'gfx/stage/ruby_bottom/base_gameboycolor.png'
 
-[reserved]
+[[reserved]]
 filename = 'gfx/stage/ruby_bottom/reserved.png'
 base_id = 128
 length = 52
+bank = 0
+
+[[reserved]]
+base_id = 128
+length = 48
+bank = 1
 
 [[tiledataset]]
 label = 'SlotCave'
@@ -396,3 +402,339 @@ filename = 'gfx/stage/ruby_bottom/gulpin_right_2.png'
 [[tiledataset.frame]]
 label = '3'
 filename = 'gfx/stage/ruby_bottom/gulpin_right_3.png'
+
+
+[[tiledataset]]
+label = 'BonusMultiplierRailing_Left'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 4
+position.y = 0
+
+[[tiledataset.frame]]
+label = '0_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 0
+slice.y = 16
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '1_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 8
+slice.y = 16
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '2_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 16
+slice.y = 16
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '3_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 24
+slice.y = 16
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '4_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 32
+slice.y = 16
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '5_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 40
+slice.y = 16
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '6_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 48
+slice.y = 16
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '7_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 56
+slice.y = 16
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '8_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 64
+slice.y = 16
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '9_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 72
+slice.y = 16
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '0_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 0
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '1_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 8
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '2_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 16
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '3_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 24
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '4_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 32
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '5_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 40
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '6_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 48
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '7_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 56
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '8_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 64
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '9_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 72
+slice.y = 0
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+
+[[tiledataset]]
+label = 'BonusMultiplierRailing_Right'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 15
+position.y = 0
+
+[[tiledataset.frame]]
+label = '0_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 0
+slice.y = 48
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '1_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 8
+slice.y = 48
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '2_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 16
+slice.y = 48
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '3_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 24
+slice.y = 48
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '4_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 32
+slice.y = 48
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '5_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 40
+slice.y = 48
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '6_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 48
+slice.y = 48
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '7_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 56
+slice.y = 48
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '8_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 64
+slice.y = 48
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '9_Off'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 72
+slice.y = 48
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '0_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 0
+slice.y = 32
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '1_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 8
+slice.y = 32
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '2_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 16
+slice.y = 32
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '3_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 24
+slice.y = 32
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '4_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 32
+slice.y = 32
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '5_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 40
+slice.y = 32
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '6_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 48
+slice.y = 32
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '7_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 56
+slice.y = 32
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '8_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 64
+slice.y = 32
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2
+
+[[tiledataset.frame]]
+label = '9_On'
+filename = 'gfx/stage/ruby_bottom/bonus_multiplier_railing.png'
+slice.x = 72
+slice.y = 32
+slice.width_in_tiles = 1
+slice.height_in_tiles = 2

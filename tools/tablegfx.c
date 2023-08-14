@@ -30,7 +30,8 @@ static void usage(void) {
 		"[--tilemap file] "
 		"[--queued-tiledata file] "
 		"[--palette file] "
-		"[--output file] "
+		"[--output0 file] "
+		"[--output1 file] "
 		"[-h] "
 		"infile\n"
 	);
@@ -72,7 +73,8 @@ struct Options {
 	char *output_attrmap_filename;
 	char *output_tilemap_filename;
 	char *output_palette_filename;
-	char *output_pixeldata_filename;
+	char *output_pixeldata0_filename;
+	char *output_pixeldata1_filename;
 	char *output_queuedtiledata_filename;
 };
 
@@ -84,7 +86,8 @@ void get_args(int argc, char *argv[]) {
 		{"attr-map", required_argument, 0, 'a'},
 		{"tilemap", required_argument, 0, 't'},
 		{"palette", required_argument, 0, 'p'},
-		{"output", required_argument, 0, 'o'},
+		{"output0", required_argument, 0, 'o'},
+		{"output1", required_argument, 0, 'O'},
 		{"queued-tiledata", required_argument, 0, 'q'},
 		{"list-dependencies", no_argument, &Options.list_dependencies, 1},
 		{"help", no_argument, 0, 'h'},
@@ -102,7 +105,10 @@ void get_args(int argc, char *argv[]) {
 			Options.output_tilemap_filename = optarg;
 			break;
 		case 'o':
-			Options.output_pixeldata_filename = optarg;
+			Options.output_pixeldata0_filename = optarg;
+			break;
+		case 'O':
+			Options.output_pixeldata1_filename = optarg;
 			break;
 		case 'p':
 			Options.output_palette_filename = optarg;
@@ -123,25 +129,11 @@ void get_args(int argc, char *argv[]) {
 
 /****** Inputfile ******/
 
-struct Inputfile {
-	char* field_label;
-	char* platform_label;
-	char* palette_filename;
-
-	/** the primary board graphics */
-	struct {
-		char* filename;
-	} base;
-
-	/** The reserved tiles  */
-	struct {
-		char* filename;
-		unsigned int base_id;
-		unsigned int length;
-	} reserved;
-
-	size_t tiledataset_count;
-	struct InputfileTiledataset *tiledataset_values;
+struct InputfileReserved {
+	char* filename;
+	unsigned int bank;
+	unsigned int base_id;
+	unsigned int length;
 };
 
 struct InputfileTiledataset {
@@ -162,6 +154,24 @@ struct InputfileTiledatasetFrame {
 	bool ignore_tiles_with_palette_set;
 	unsigned int ignore_tiles_with_palette;
 	struct slice slice;
+};
+
+struct Inputfile {
+	char* field_label;
+	char* platform_label;
+	char* palette_filename;
+
+	/** the primary board graphics */
+	struct {
+		char* filename;
+	} base;
+
+	/** The reserved tiles  */
+	size_t reserved_count;
+	struct InputfileReserved *reserved_values;
+
+	size_t tiledataset_count;
+	struct InputfileTiledataset *tiledataset_values;
 };
 
 enum InputfileCurrentTable {
@@ -255,6 +265,20 @@ void close_tiledataset_if_open(
 	}
 }
 
+void close_reserved_if_open(
+		struct Inputfile *inputfile,
+		bool *dataset_is_open,
+		struct InputfileReserved *dataset) {
+	if (*dataset_is_open) {
+		inputfile->reserved_values = reallocarray(inputfile->reserved_values, inputfile->reserved_count + 1, sizeof(struct InputfileReserved));
+		memcpy(inputfile->reserved_values + inputfile->reserved_count, dataset, sizeof(struct InputfileReserved));
+		inputfile->reserved_count = inputfile->reserved_count + 1;
+
+		*dataset_is_open = false;
+		memset(dataset, 0, sizeof(struct InputfileReserved));
+	}
+}
+
 struct Inputfile parse_inputfile(char* filename) {
 	FILE *file = fopen_verbose(filename, "r");
 	if (!file) {
@@ -269,6 +293,8 @@ struct Inputfile parse_inputfile(char* filename) {
 
 	struct Inputfile retval = {0};
 
+	bool reserved_open = false;
+	struct InputfileReserved retval_reserved = {0};
 	bool tiledataset_open = false;
 	bool tiledataset_frame_open = false;
 	struct InputfileTiledataset retval_tiledataset = {0};
@@ -295,7 +321,7 @@ struct Inputfile parse_inputfile(char* filename) {
 			enum InputfileCurrentTable transition_to;
 			if (0 == strcmp("[base]\n", bufferv)) {
 				transition_to = INPUTFILE_TABLE_BASE;
-			} else if (0 == strcmp("[reserved]\n", bufferv)) {
+			} else if (0 == strcmp("[[reserved]]\n", bufferv)) {
 				transition_to = INPUTFILE_TABLE_RESERVED;
 			} else if (0 == strcmp("[[tiledataset]]\n", bufferv)) {
 				transition_to = INPUTFILE_TABLE_TILEDATASET;
@@ -305,6 +331,12 @@ struct Inputfile parse_inputfile(char* filename) {
 				fprintf(stderr, "%s:%zd:0: unknown table: %s\n", filename, line, bufferv);
 				exit(1);
 			}
+
+			close_reserved_if_open(
+				&retval,
+				&reserved_open,
+				&retval_reserved
+			);
 
 			close_tiledataset_frame_if_open(
 				&tiledataset_open,
@@ -327,6 +359,7 @@ struct Inputfile parse_inputfile(char* filename) {
 			case INPUTFILE_TABLE_BASE:
 				break;
 			case INPUTFILE_TABLE_RESERVED:
+				reserved_open = true;
 				break;
 			case INPUTFILE_TABLE_TILEDATASET:
 				tiledataset_open = true;
@@ -380,11 +413,13 @@ struct Inputfile parse_inputfile(char* filename) {
 
 			case INPUTFILE_TABLE_RESERVED:
 				if (0 == strcmp("filename", key)) {
-					retval.reserved.filename = extract_toml_string_value(value, filename, line);
+					retval_reserved.filename = extract_toml_string_value(value, filename, line);
+				} else if (0 == strcmp("bank", key)) {
+					retval_reserved.bank = extract_toml_uint_value(value, filename, line);
 				} else if (0 == strcmp("base_id", key)) {
-					retval.reserved.base_id = extract_toml_uint_value(value, filename, line);
+					retval_reserved.base_id = extract_toml_uint_value(value, filename, line);
 				} else if (0 == strcmp("length", key)) {
-					retval.reserved.length = extract_toml_uint_value(value, filename, line);
+					retval_reserved.length = extract_toml_uint_value(value, filename, line);
 				} else {
 					fprintf(stderr, "%s:%zd:0: unknown key in root table: %s\n", filename, line, key);
 					exit(1);
@@ -445,6 +480,12 @@ struct Inputfile parse_inputfile(char* filename) {
 		fprintf(stderr, "%s:%zd:0: unknown line, %s", filename, line, bufferv);
 		exit(1);
 	}
+
+	close_reserved_if_open(
+		&retval,
+		&reserved_open,
+		&retval_reserved
+	);
 
 	close_tiledataset_frame_if_open(
 		&tiledataset_open,
@@ -583,6 +624,11 @@ struct tile_image {
 	// the image data itself is stored in tile banks, separately from this struct
 };
 
+struct optional_attrmap {
+	bool is_set;
+	struct attrmap value;
+};
+
 /**
  * Returns the index of needle in haystack, or `-1` if needle is not in haystack
  */
@@ -609,6 +655,14 @@ uint8_t bitreverse(const uint8_t in) {
 		((in & 0x20) >> 3) |
 		((in & 0x40) >> 5) |
 		((in & 0x80) >> 7);
+}
+
+void flip_inplace(tiledata_t *tiledata, const bool horizontal_flip) {
+	if (horizontal_flip) {
+		for (int j = 0; j < 16; j++) {
+			(*tiledata)[j] = bitreverse((*tiledata)[j]);
+		}
+	}
 }
 
 /**
@@ -690,7 +744,8 @@ int8_t palette_of_tile(
 }
 
 typedef void tile_bank_insert_fn(
-		tile_bank_t *out_tiles,
+		tile_bank_t *out_bank0,
+		tile_bank_t *out_bank1,
 		struct attrmap *out_attrs,
 		tilemap_t *out_index,
 		const unsigned tilex,
@@ -700,8 +755,15 @@ typedef void tile_bank_insert_fn(
 		const char* filename,
 		void *arg);
 
+/**
+ * Insert a tile into the pixel data position indicated by the `InputfileReserved` arg.
+ *
+ * Some tiles have a hard-coded meaning; such as the digits and other statusbar elements
+ * at tiles $80 through $8F of the main boards; use this to place those tiles at the required position
+ */
 void tile_bank_insert_reserved(
-		tile_bank_t *out_tiles,
+		tile_bank_t *out_bank0,
+		tile_bank_t *out_bank1,
 		__attribute__((unused)) struct attrmap *out_attrs,
 		tilemap_t *out_index,
 		__attribute__((unused)) const unsigned tilex,
@@ -710,25 +772,128 @@ void tile_bank_insert_reserved(
 		__attribute__((unused)) const tiledata_t *tiledata,
 		const char* filename,
 		void *arg) {
-	unsigned int *arg2 = (unsigned int*) arg;
+	struct InputfileReserved *arg2 = (struct InputfileReserved*) arg;
 
-	unsigned int base_id = arg2[0];
-	unsigned int count = arg2[1];
+	if (arg2->length != 0 && tileid > arg2->length) return;
 
-	if (count != 0 && tileid > count) return;
-
-	size_t i = (base_id + tileid) & 0xFF;
-	if ((*out_tiles)[i].used) {
+	tile_bank_t *bank = (arg2->bank ? out_bank1 : out_bank0);
+	size_t i = (arg2->base_id + tileid) & 0xFF;
+	if ((*bank)[i].used) {
 		fprintf(stderr, "%s: reserved tile %zd was already used\n", filename, i);
 		return;
 	}
-	(*out_tiles)[i].used = true;
-	memcpy((*out_tiles)[i].data, tiledata, 16);
+	(*bank)[i].used = true;
+	memcpy((*bank)[i].data, tiledata, 16);
 	*out_index = i;
 }
 
+void tile_bank_insert_search_exact(
+		tile_bank_t *out_bank0,
+		tile_bank_t *out_bank1,
+		struct attrmap *out_attrs,
+		tilemap_t *out_index,
+		__attribute__((unused)) const unsigned tilex,
+		__attribute__((unused)) const unsigned tiley,
+		__attribute__((unused)) const unsigned tileid,
+		const tiledata_t *tiledata,
+		__attribute__((unused)) const char* filename,
+		void *arg) {
+	bool *found = (bool *) arg;
+
+	tile_bank_t *out_banks[] = {out_bank0, out_bank1};
+
+	out_attrs->vertical_flip = 0;
+	out_attrs->horizontal_flip = 0;
+
+	for (size_t bank_i = 0; bank_i < 2; bank_i++) {
+		tile_bank_t *out_bank = out_banks[bank_i];
+
+		for (size_t tile_i = 0; tile_i < 256; tile_i++) {
+			struct tile_bank_entry *out_tile = &((*out_bank)[tile_i]);
+
+			if (! out_tile->used) {
+				continue;
+			}
+
+			if (0 == memcmp(out_tile->data, *tiledata, 16)) {
+				out_attrs->bank = bank_i;
+				*out_index = tile_i;
+				*found = true;
+				return;
+			}
+		}
+	}
+
+	out_attrs->bank = 0;
+	*out_index = 0;
+	*found = false;
+}
+
+/**
+ * Search for a tile, possibly finding mirrored tiles
+ * `arg` is a `bool *`; will out whether a tile was found.
+ */
+void tile_bank_insert_search_mirrors(
+		tile_bank_t *out_bank0,
+		tile_bank_t *out_bank1,
+		struct attrmap *out_attrs,
+		tilemap_t *out_index,
+		__attribute__((unused)) const unsigned tilex,
+		__attribute__((unused)) const unsigned tiley,
+		__attribute__((unused)) const unsigned tileid,
+		const tiledata_t *tiledata,
+		__attribute__((unused)) const char* filename,
+		void *arg) {
+	bool *found = (bool *) arg;
+
+	tile_bank_t *out_banks[] = {out_bank0, out_bank1};
+
+	for (size_t bank_i = 0; bank_i < 2; bank_i++) {
+		tile_bank_t *out_bank = out_banks[bank_i];
+
+		for (size_t tile_i = 0; tile_i < 256; tile_i++) {
+			struct tile_bank_entry *out_tile = &((*out_bank)[tile_i]);
+
+			if (! out_tile->used) {
+				continue;
+			}
+
+			if (0 == memcmp(out_tile->data, *tiledata, 16)) {
+				out_attrs->vertical_flip = 0;
+				out_attrs->horizontal_flip = 0;
+				out_attrs->bank = bank_i;
+				*out_index = tile_i;
+				*found = true;
+				return;
+			}
+
+			bool horizontal_mirror_matches = true;
+			for (int j = 0; j < 16; j++) {
+				horizontal_mirror_matches &= (out_tile->data[j] == bitreverse((*tiledata)[j]));
+			}
+			if (horizontal_mirror_matches) {
+				out_attrs->vertical_flip = 0;
+				out_attrs->horizontal_flip = 1;
+				out_attrs->bank = bank_i;
+				*out_index = tile_i;
+				*found = true;
+				return;
+			}
+
+			// TODO: vertical mirror duplicates
+		}
+	}
+
+	out_attrs->vertical_flip = 0;
+	out_attrs->horizontal_flip = 0;
+	out_attrs->bank = 0;
+	*out_index = 0;
+	*found = false;
+}
+
 void tile_bank_insert_base(
-		tile_bank_t *out_tiles,
+		tile_bank_t *out_bank0,
+		tile_bank_t *out_bank1,
 		struct attrmap *out_attrs,
 		tilemap_t *out_index,
 		__attribute__((unused)) const unsigned tilex,
@@ -736,35 +901,59 @@ void tile_bank_insert_base(
 		__attribute__((unused)) const unsigned tileid,
 		const tiledata_t *tiledata,
 		const char* filename,
-		__attribute__((unused)) void *arg) {
+		void *arg) {
+	struct optional_attrmap *decided_base_attrs = ((struct optional_attrmap *) arg);
+	struct optional_attrmap *decided_attrs = &(decided_base_attrs[tileid]);
 
-	for (size_t i = 0; i < 256; i++) {
-		if (! (*out_tiles)[i].used) {
-			continue;
-		}
+	tiledata_t tiledata2;
+	memcpy(&tiledata2, tiledata, 16);
 
-		if (0 == memcmp((*out_tiles)[i].data, tiledata, 16)) {
-			// the stage bg tiles are placed at tile indexes 0x80 through 0x17F
-			// the generated 2bpp is ignorant of this, but the tilemap has to care
-			*out_index = i & 0xFF;
-			return;
-		}
+	tile_bank_t *bank = out_bank0;
 
-		bool horizontal_mirror_matches = true;
-		for (int j = 0; j < 16; j++) {
-			horizontal_mirror_matches &= (*out_tiles)[i].data[j] == bitreverse((*tiledata)[j]);
-		}
-		if (horizontal_mirror_matches) {
-			out_attrs->horizontal_flip = 1;
-			*out_index = i & 0xFF;
-			return;
-		}
+	if (decided_attrs->is_set) {
+		out_attrs->bank = decided_attrs->value.bank;
+		out_attrs->horizontal_flip = decided_attrs->value.horizontal_flip;
+		out_attrs->vertical_flip = decided_attrs->value.vertical_flip;
 
-		// TODO: vertical mirror duplicates
+		bank = (decided_attrs->value.bank ? out_bank1 : out_bank0);
+
+		flip_inplace(&tiledata2, decided_attrs->value.horizontal_flip);
+
+		bool found;
+		struct attrmap fake_attrs;
+		tile_bank_insert_search_exact(
+			bank,
+			bank,
+			&fake_attrs,
+			out_index,
+			tilex,
+			tiley,
+			tileid,
+			&tiledata2,
+			filename,
+			&found);
+
+		if (found) {return;}
+
+	} else {
+		bool found;
+		tile_bank_insert_search_mirrors(
+			out_bank0,
+			out_bank1,
+			out_attrs,
+			out_index,
+			tilex,
+			tiley,
+			tileid,
+			&tiledata2,
+			filename,
+			&found);
+		if (found) {return;}
 	}
 
+	// Assumes that neither bank will run out of space, and so there is no need to check the other
 	size_t i = 128;
-	while ((*out_tiles)[i & 0xFF].used) {
+	while ((*bank)[i & 0xFF].used) {
 		i++;
 
 		if (i >= 128 + 256) {
@@ -773,62 +962,77 @@ void tile_bank_insert_base(
 		}
 
 	}
-	(*out_tiles)[i & 0xFF].used = true;
-	memcpy((*out_tiles)[i & 0xFF].data, tiledata, 16);
+	(*bank)[i & 0xFF].used = true;
+	memcpy((*bank)[i & 0xFF].data, tiledata2, 16);
 
 	*out_index = i & 0xFF;
 }
 
 void tile_bank_insert_tiledataset(
-		tile_bank_t *out_tiles,
+		tile_bank_t *out_bank0,
+		tile_bank_t *out_bank1,
 		struct attrmap *out_attrs,
 		tilemap_t *out_index,
-		__attribute__((unused)) const unsigned tilex,
-		__attribute__((unused)) const unsigned tiley,
+		const unsigned tilex,
+		const unsigned tiley,
 		__attribute__((unused)) const unsigned tileid,
 		const tiledata_t *tiledata,
 		const char* filename,
-		__attribute__((unused)) void *arg) {
-	struct tile_image *base_img = ((struct tile_image **) arg)[0];
-	struct position *tiledataset_position = ((struct position **) arg)[1];
+		void *arg) {
+	struct optional_attrmap* base_attrmap = ((struct optional_attrmap**) arg)[0];
+	struct position* position = ((struct position**) arg)[1];
+	struct InputfileTiledatasetFrame *frame_instructions = ((struct InputfileTiledatasetFrame**) arg)[2];
 
-	unsigned base_tileid = (tiledataset_position->y + tiley) * 0x20 + (tiledataset_position->x + tilex);
-	struct attrmap base_attrs = base_img->attrs[base_tileid];
+	unsigned base_tileid = (tiley + position->y) * 0x20 + (tilex + position->x);
 
-	tiledata_t tiledata2 = {0};
-	memcpy(&tiledata2, tiledata, 16);
-
-	if (base_attrs.horizontal_flip) {
-		out_attrs->horizontal_flip = 1;
-		for (int j = 0; j < 16; j++) {
-			tiledata2[j] = bitreverse(tiledata2[j]);
-		}
+	if (frame_instructions->ignore_tiles_with_palette_set &&
+			out_attrs->palette == frame_instructions->ignore_tiles_with_palette) {
+		return;
 	}
 
-	for (size_t i = 0; i < 256; i++) {
-		if (! (*out_tiles)[i].used) {
-			continue;
-		}
+	if (! base_attrmap[base_tileid].is_set) {
+		fprintf(stderr, "requires base_attrmap[%02X].is_set\n", base_tileid);
+		return;
+	}
+	struct attrmap* base_attrs = &(base_attrmap[base_tileid].value);
 
-		if (0 == memcmp((*out_tiles)[i].data, &tiledata2, 16)) {
-			*out_index = i;
-			return;
-		}
+	tiledata_t tiledata2;
+	memcpy(&tiledata2, tiledata, 16);
+
+	flip_inplace(&tiledata2, base_attrs->horizontal_flip);
+
+	tile_bank_t *bank = (base_attrs->bank ? out_bank1 : out_bank0);
+
+	bool found = false;
+	tile_bank_insert_search_exact(
+		bank,
+		bank,
+		out_attrs,
+		out_index,
+		tilex,
+		tiley,
+		tileid,
+		&tiledata2,
+		filename,
+		&found);
+
+	if (found) {
+		*out_attrs = *base_attrs;
+		return;
 	}
 
 	size_t i = 128;
-	while ((*out_tiles)[i & 0xFF].used) {
+	while ((*bank)[i & 0xFF].used) {
 		i++;
-
 		if (i >= 128 + 256) {
 			fprintf(stderr, "%s: too many unique tiles in images\n", filename);
 			return;
 		}
-
 	}
-	(*out_tiles)[i & 0xFF].used = true;
-	memcpy((*out_tiles)[i & 0xFF].data, tiledata, 16);
+	(*bank)[i & 0xFF].used = true;
+	memcpy((*bank)[i & 0xFF].data, tiledata, 16);
 
+	*out_attrs = *base_attrs;
 	*out_index = i & 0xFF;
 }
 
@@ -840,7 +1044,8 @@ void tile_bank_insert_tiledataset(
  * @param filename the name of the png-encoded image to convert
  */
 struct tile_image extract_tiles(
-		tile_bank_t *out_tiles,
+		tile_bank_t *out_bank0,
+		tile_bank_t *out_bank1,
 		const palettes_t palette,
 		const struct slice slice_of_input,
 		const bool horizontal_flip,
@@ -848,8 +1053,8 @@ struct tile_image extract_tiles(
 		tile_bank_insert_fn *tile_bank_insert_fn,
 		void *tile_bank_insert_arg) {
 
-	if (! out_tiles) {
-		fputs("assumption violated: out_tiles required", stderr);
+	if (! out_bank0 || ! out_bank1) {
+		fputs("assumption violated: out_bank0 and out_bank1 required", stderr);
 		exit(1);
 	}
 
@@ -964,7 +1169,8 @@ struct tile_image extract_tiles(
 		}
 
 		tile_bank_insert_fn(
-			out_tiles,
+			out_bank0,
+			out_bank1,
 			&(retval.attrs[tileid]),
 			&(retval.tiles[tileid]),
 			tilex,
@@ -1001,9 +1207,11 @@ void list_dependencies(struct Inputfile instructions) {
 		fputs(instructions.base.filename, stdout);
 		fputs(" ", stdout);
 	}
-	if (instructions.reserved.filename) {
-		fputs(instructions.reserved.filename, stdout);
-		fputs(" ", stdout);
+	for (size_t i = 0; i < instructions.reserved_count; i++) {
+		if (instructions.reserved_values[i].filename) {
+			fputs(instructions.reserved_values[i].filename, stdout);
+			fputs(" ", stdout);
+		}
 	}
 	for (size_t i = 0; i < instructions.tiledataset_count; i++) {
 		struct InputfileTiledataset *i_set = &(instructions.tiledataset_values[i]);
@@ -1065,25 +1273,40 @@ int main(int argc, char *argv[]) {
 	}
 
 	tile_bank_t bank0 = {0};
+	tile_bank_t bank1 = {0};
 	struct queued_tiledata_list_list queued_tiledata = {0};
+	struct optional_attrmap decided_base_attrs[32 * 32] = {0};
 
-	{
-		struct slice slice = {0};
-		unsigned int tile_bank_insert_arg[2] = {
-			instructions.reserved.base_id,
-			instructions.reserved.length
-		};
-		struct tile_image img = extract_tiles(
-			&bank0,
-			palette,
-			slice,
-			/* horizontal_flip */ false,
-			instructions.reserved.filename,
-			&tile_bank_insert_reserved,
-			tile_bank_insert_arg);
+	/*
+	 * Place reserved tiles first so that reserved tiles are
+	 * guarenteed to be placed in their desired spots
+	 */
+	for (size_t i; i < instructions.reserved_count; i++) {
+		struct InputfileReserved *instructions_reserved = &(instructions.reserved_values[i]);
 
-		free(img.attrs);
-		free(img.tiles);
+		if (instructions_reserved->filename) {
+			struct slice slice = {0};
+			struct tile_image img = extract_tiles(
+				&bank0,
+				&bank1,
+				palette,
+				slice,
+				/* horizontal_flip */ false,
+				instructions_reserved->filename,
+				&tile_bank_insert_reserved,
+				instructions_reserved);
+
+			free(img.attrs);
+			free(img.tiles);
+		} else {
+			// no image, so skip writing image data, but still reserve the tiles
+			tile_bank_t *bank = (instructions_reserved->bank ? &bank1 : &bank0);
+			unsigned tileid_start = instructions_reserved->base_id;
+			unsigned tileid_end = tileid_start + instructions_reserved->length;
+			for (unsigned j = tileid_start; j < tileid_end; j++) {
+				(*bank)[j].used = true;
+			}
+		}
 	}
 
 	/*
@@ -1103,46 +1326,86 @@ int main(int argc, char *argv[]) {
 		};
 		struct tile_image img = extract_tiles(
 			&bank0,
+			&bank1,
 			palette,
 			slice,
 			/* horizontal_flip */ false,
 			instructions.base.filename,
 			tile_bank_insert_base,
-			NULL);
+			&decided_base_attrs);
 
 		free(img.attrs);
 		free(img.tiles);
 	}
 
-	struct tile_image base_img;
-	{
-		struct slice slice = {0};
-		base_img = extract_tiles(
-			&bank0,
-			palette,
-			slice,
-			/* horizontal_flip */ false,
-			instructions.base.filename,
-			tile_bank_insert_base,
-			NULL);
-	}
-
 	for (size_t tiledataset_i = 0; tiledataset_i < instructions.tiledataset_count; tiledataset_i++) {
 		struct InputfileTiledataset *tiledataset_value = &(instructions.tiledataset_values[tiledataset_i]);
+
+		// Determine best attributes for tiledataset as a whole, since we don't write attributes during animation
+		struct tile_image frame_images[tiledataset_value->frame_count];
+		bool found;
 
 		for (size_t frame_i = 0; frame_i < tiledataset_value->frame_count; frame_i++) {
 			struct InputfileTiledatasetFrame *frame_value = &(tiledataset_value->frame_values[frame_i]);
 
-			void* tile_bank_insert_arg[2] = {&base_img, &(tiledataset_value->position)};
+			frame_images[frame_i] = extract_tiles(
+				&bank0,
+				&bank1,
+				palette,
+				frame_value->slice,
+				frame_value->horizontal_flip,
+				frame_value->filename,
+				tile_bank_insert_search_mirrors,
+				&found);
+		}
 
+		// assumes every frame has the same palette, width, height and ignored tiles
+		if (tiledataset_value->frame_count > 0) {
+			for (size_t y = 0; y < frame_images[0].height; ++y) {
+			for (size_t x = 0; x < frame_images[0].width; ++x) {
+				size_t frame_tileid = y * frame_images[0].width + x;
+				size_t base_tileid = ((y + tiledataset_value->position.y) * 0x20) +
+						(x + tiledataset_value->position.x);
+
+				if (tiledataset_value->frame_values[0].ignore_tiles_with_palette_set &&
+						frame_images[0].attrs[frame_tileid].palette == tiledataset_value->frame_values[0].ignore_tiles_with_palette) {
+					continue;
+				}
+
+				unsigned vertical_flip_count = 0;
+				unsigned horizontal_flip_count = 0;
+
+				for (size_t frame_i = 0; frame_i < tiledataset_value->frame_count; frame_i++) {
+					vertical_flip_count += (frame_images[frame_i].attrs[frame_tileid].vertical_flip ? 1 : 0);
+					horizontal_flip_count += (frame_images[frame_i].attrs[frame_tileid].horizontal_flip ? 1 : 0);
+				}
+
+				decided_base_attrs[base_tileid].is_set = true;
+				decided_base_attrs[base_tileid].value.vertical_flip = (vertical_flip_count * 2 > tiledataset_value->frame_count);
+				decided_base_attrs[base_tileid].value.horizontal_flip = (horizontal_flip_count * 2 > tiledataset_value->frame_count);
+				decided_base_attrs[base_tileid].value.bank = 1;
+				decided_base_attrs[base_tileid].value.palette = frame_images[0].attrs[frame_tileid].palette;
+			}
+			}
+		}
+
+		for (size_t frame_i = 0; frame_i < tiledataset_value->frame_count; frame_i++) {
+			struct InputfileTiledatasetFrame *frame_value = &(tiledataset_value->frame_values[frame_i]);
+
+			void *tile_bank_insert_arg[] = {
+				&decided_base_attrs,
+				&(tiledataset_value->position),
+				frame_value
+			};
 			struct tile_image img = extract_tiles(
 				&bank0,
+				&bank1,
 				palette,
 				frame_value->slice,
 				frame_value->horizontal_flip,
 				frame_value->filename,
 				tile_bank_insert_tiledataset,
-				tile_bank_insert_arg);
+				&tile_bank_insert_arg);
 
 			queued_tiledata.data = reallocarray(queued_tiledata.data, queued_tiledata.count + 1, sizeof(struct queued_tiledata_list));
 			struct queued_tiledata_list *current_tiledata = &(queued_tiledata.data[queued_tiledata.count]);
@@ -1201,6 +1464,20 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
+	struct tile_image base_img;
+	{
+		struct slice slice = {0};
+		base_img = extract_tiles(
+			&bank0,
+			&bank1,
+			palette,
+			slice,
+			/* horizontal_flip */ false,
+			instructions.base.filename,
+			tile_bank_insert_base,
+			&decided_base_attrs);
+	}
+
 	/* Not only does the row below the billboard have reserved tileids,
 	 * the graphics at those ids must be the same checkerboard pattern for all six.
 	 * Can't build the graphics to have these tileids, so hard-code it.
@@ -1210,8 +1487,8 @@ int main(int argc, char *argv[]) {
 	}
 
 
-	if (Options.output_pixeldata_filename) {
-		FILE *file = fopen_verbose(Options.output_pixeldata_filename, "wb");
+	if (Options.output_pixeldata0_filename) {
+		FILE *file = fopen_verbose(Options.output_pixeldata0_filename, "wb");
 		if (!file) {
 			exit(1);
 		}
@@ -1222,6 +1499,23 @@ int main(int argc, char *argv[]) {
 		}
 		for (int i = 0; i < 128; i++) {
 			fwrite(bank0[i].data, 1, 16, file);
+		}
+
+		fclose(file);
+	}
+
+	if (Options.output_pixeldata1_filename) {
+		FILE *file = fopen_verbose(Options.output_pixeldata1_filename, "wb");
+		if (!file) {
+			exit(1);
+		}
+
+		// writing for use in gfx 8800 bank mode,
+		for (int i = 128; i < 256; i++) {
+			fwrite(bank1[i].data, 1, 16, file);
+		}
+		for (int i = 0; i < 128; i++) {
+			fwrite(bank1[i].data, 1, 16, file);
 		}
 
 		fclose(file);

@@ -47,18 +47,22 @@ clean: tidy
 	tools/gfx --interleave --png $< -o $@ $@
 
 
-%.table.2bpp: dep = $(shell tools/tablegfx --list-dependencies $*.tablegfx)
-%.table.2bpp %.table.gbpal %.table.tilemap %.table.attrmap %.table.queued-tiledata: %.tablegfx tools/tablegfx $$(dep)
+%.table.bank0.2bpp %.table.bank1.2bpp %.table.gbpal %.table.tilemap %.table.attrmap %.table.queued-tiledata: dep = $(shell tools/tablegfx --list-dependencies $*.tablegfx)
+%.table.bank0.2bpp %.table.bank1.2bpp %.table.gbpal %.table.tilemap %.table.attrmap %.table.queued-tiledata: %.tablegfx tools/tablegfx $$(dep)
 	tools/tablegfx \
 		--attr-map $*.table.attrmap \
 		--tilemap $*.table.tilemap \
 		--queued-tiledata $*.table.queued-tiledata \
 		--palette $*.table.gbpal \
-		--output $*.table.2bpp \
+		--output0 $*.table.bank0.2bpp \
+		--output1 $*.table.bank1.2bpp \
 		$*.tablegfx
 	rgbgfx -r16 \
-		--output $*.table.2bpp \
-		$*.table.2bpp.png
+		--output $*.table.bank0.2bpp \
+		$*.table.bank0.2bpp.png
+	rgbgfx -r16 \
+		--output $*.table.bank1.2bpp \
+		$*.table.bank1.2bpp.png
 
 %.2bpp: %.png
 	rgbgfx -o $@ $<

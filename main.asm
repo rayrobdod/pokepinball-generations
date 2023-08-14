@@ -1371,9 +1371,9 @@ StageRubyFieldTopTilemap2_GameBoyColor:
 	INCBIN "gfx/tilemaps/stage_ruby_field_top_gameboycolor_2.map"
 
 StageRubyFieldBottomBaseGameBoyColorGfx:
-	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.table.2bpp"
+	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.table.bank0.2bpp"
 StageRubyFieldBottomGfx5:
-	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_5.2bpp"
+	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.table.bank1.2bpp"
 StageRubyFieldTopStatusBarSymbolsGfx_GameBoyColor:
 	INCBIN "gfx/stage/ruby_top/status_bar_symbols_gameboycolor.2bpp"
 
