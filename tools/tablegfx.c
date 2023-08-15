@@ -1030,7 +1030,7 @@ void tile_bank_insert_tiledataset(
 		}
 	}
 	(*bank)[i & 0xFF].used = true;
-	memcpy((*bank)[i & 0xFF].data, tiledata, 16);
+	memcpy((*bank)[i & 0xFF].data, tiledata2, 16);
 
 	*out_attrs = *base_attrs;
 	*out_index = i & 0xFF;
