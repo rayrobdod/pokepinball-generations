@@ -1598,23 +1598,25 @@ Func_311b4_RubyField: ; 0x311b4
 	ld [wIndicatorStates + 1], a
 	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 4], a
+	ld [wIndicatorStates + 5], a
 	jr .asm_311e2
 
 .asm_311ce
 	ld a, $80
 	ld [wIndicatorStates + 1], a
-	ld [wIndicatorStates + 3], a
+	ld [wIndicatorStates + 5], a
 	xor a
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 2], a
+	ld [wIndicatorStates + 3], a
 	ld [wIndicatorStates + 4], a
 	jr .asm_311e2
 
 .asm_311e2
 	ld a, $2
-	callba _LoadDiglettGraphics
+	callba _LoadDiglettGraphics_RubyField
 	ld a, $5
-	callba _LoadDiglettGraphics
+	callba _LoadDiglettGraphics_RubyField
 	ld a, $6a
 	ld [wStageCollisionMap + $f0], a
 	ld a, $6b
@@ -1623,7 +1625,7 @@ Func_311b4_RubyField: ; 0x311b4
 	ld [wStageCollisionMap + $e3], a
 	ld a, $67
 	ld [wStageCollisionMap + $103], a
-	callba CloseSlotCave_
+	callba CloseSlotCave_RubyField
 	ld a, $4
 	ld [wd7ad], a
 	ld de, MUSIC_HURRY_UP_BLUE ; Either MUSIC_HURRY_UP_BLUE or MUSIC_HURRY_UP_RED. They have the same id in their respective audio Banks.
