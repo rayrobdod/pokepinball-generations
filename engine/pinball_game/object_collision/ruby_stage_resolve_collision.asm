@@ -44,7 +44,7 @@ ResolveRubyFieldBottomGameObjectCollisions: ; 0x14652
 	ret
 
 UpdateBallSaver_RubyField:
-	call UpdateBallSaverState
+	callba UpdateBallSaverState
 	call nz, DrawBallSaverIcon_RubyField ;redraw icon if its state changed
 	ret
 
