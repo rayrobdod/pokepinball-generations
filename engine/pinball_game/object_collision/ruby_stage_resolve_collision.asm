@@ -6,7 +6,6 @@ ResolveRubyFieldTopGameObjectCollisions: ; 0x1460e
 	call UpdateCAVELightsBlinking_RubyField
 	call ResolveRubyStageBoardTriggerCollision
 	call ResolveRubyStagePikachuCollision
-	call ResolveStaryuCollision_Top_RubyField
 	call ResolveBellsproutCollision_RubyField
 	call ResolveDittoSlotCollision_RubyField
 	call ApplySlotForceField_RubyFieldTop
@@ -30,7 +29,6 @@ ResolveRubyFieldBottomGameObjectCollisions: ; 0x14652
 	call ResolveCAVELightCollision_RubyField
 	call ResolveRubyStagePinballLaunchCollision
 	call ResolveRubyStagePikachuCollision
-	call ResolveStaryuCollision_Bottom_RubyField
 	call UpdateArrowIndicators_RubyField
 	call ResolveRubyStageBonusMultiplierCollision
 	call ResolveSlotCollision_RubyField
@@ -2301,114 +2299,6 @@ SetPikachuSaverSide_RubyField: ; 0x16766
 	ld hl, wWhichPikachuSaverSide
 	ld [hl], $1
 	ret
-
-ResolveStaryuCollision_Top_RubyField: ; 0x16781
-	ld a, [wStaryuCollision]
-	and a
-	jr z, .asm_167bd
-	xor a
-	ld [wStaryuCollision], a
-	ld a, [wd503]
-	and a
-	jr nz, .asm_167c2
-	ld bc, FiveThousandPoints
-	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld a, [wd502]
-	xor $1
-	set 1, a ;inverts the current number, then setas bit 1
-	ld [wd502], a
-	ld a, $14
-	ld [wd503], a
-	call LoadStaryuGraphics_Top_RubyField
-	ld a, $6
-	callba CheckSpecialModeColision
-	ret
-
-.asm_167bd
-	ld a, [wd503]
-	and a
-	ret z
-.asm_167c2
-	dec a
-	ld [wd503], a
-	ret nz
-	ld a, [wd502] ;reset 1
-	res 1, a
-	ld [wd502], a
-	call LoadStaryuGraphics_Top_RubyField
-	ld a, [wd502]
-	and $1
-	ld c, a
-	ld a, [wStageCollisionState]
-	and $fe
-	or c
-	ld [wStageCollisionState], a
-	callba LoadStageCollisionAttributes
-	call LoadFieldStructureGraphics_RubyField
-	lb de, $00, $07
-	call PlaySoundEffect
-	ld a, [wStageCollisionState]
-	bit 0, a
-	jp nz, LoadPinballUpgradeTriggersGraphics_RubyField
-	jp LoadDisabledPinballUpgradeTriggerGraphics_RubyField
-
-ResolveStaryuCollision_Bottom_RubyField: ; 0x167ff
-	ld a, [wStaryuCollision]
-	and a
-	jr z, .noCollision
-	xor a
-	ld [wStaryuCollision], a
-	ld a, [wd503]
-	and a
-	jr nz, .asm_1683e
-	ld bc, FiveThousandPoints
-	callba AddBigBCD6FromQueueWithBallMultiplier
-	ld a, [wd502]
-	xor $1
-	ld [wd502], a ;flip bit 0
-	ld a, $14
-	ld [wd503], a
-	ld a, $6
-	callba CheckSpecialModeColision
-	ret
-
-.noCollision
-	ld a, [wd503]
-	and a
-	ret z
-.asm_1683e
-	dec a
-	ld [wd503], a
-	ret nz
-	ld a, [wd502] 
-	and $1
-	ld c, a
-	ld a, [wStageCollisionState]
-	and $fe
-	or c
-	ld [wStageCollisionState], a
-	lb de, $00, $07
-	call PlaySoundEffect
-	ret
-
-LoadStaryuGraphics_Top_RubyField: ; 0x16859
-	ld a, [wd502]
-	sla a
-	ld c, a
-	ld b, $0
-	ld hl, LoadChinchouStateTable_RubyField
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	or h
-	ret z
-	ld a, Bank(LoadChinchouStateTable_RubyField)
-	call QueueGraphicsToLoad
-	ret
-
-
-INCLUDE "data/queued_tiledata/ruby_field/staryu_bumper.asm"
 
 UpdateArrowIndicators_RubyField: ; 0x169a6
 ; Updates the 6 blinking arrow indicators in the ruby field bottom.

@@ -69,26 +69,6 @@ RubyStageBoardTriggersCollisionData:
 	db $18, $7F, $39  ; id, x, y
 	db $FF ; terminator
 
-RubyStageTopStaryuCollisionAttributes:
-	db $00  ; flat list
-	db $10, $11, $12
-	db $FF ; terminator
-
-RubyStageTopStaryuCollisionData:
-	db $08, $06  ; x, y bounding box
-	db $19, $40, $90  ; id, x, y
-	db $FF ; terminator
-
-RubyStageBottomStaryuCollisionAttributes:
-	db $00  ; flat list
-	db $56, $5B, $5C
-	db $FF ; terminator
-
-RubyStageBottomStaryuCollisionData:
-	db $08, $06  ; x, y bounding box
-	db $1A, $40, $08  ; id, x, y
-	db $FF ; terminator
-
 RubyStageBellsproutCollisionData:
 	db $06, $05  ; x, y bounding box
 	db $1B, $7B, $76  ; id, x, y

@@ -5,7 +5,6 @@ DrawSpritesRubyFieldTop:
 	call DrawDitto_RubyField
 	call DrawBellsproutHead_RubyField
 	call DrawBellsproutBody_RubyField
-	call DrawStaryu_RubyField
 	call DrawSpinner_RubyField
 	callba DrawPinball
 	call DrawEvolutionIndicatorArrows_RubyFieldTop
@@ -191,55 +190,6 @@ DrawBellsproutBody_RubyField: ; 0x17d7a
 	ld a, $FA
 	call LoadOAMData
 	ret
-
-DrawStaryu_RubyField: ; 0x17d92
-	ld a, [hGameBoyColorFlag]
-	and a
-	ret z
-	ld hl, AnimationData_17dd0_RubyField
-	ld de, wStaryuAnimation
-	call UpdateAnimation
-	ld a, [wStaryuAnimationFrameCounter]
-	and a
-	jr nz, .drawStaryu
-	ld a, $13
-	ld [wStaryuAnimationFrameCounter], a
-	xor a
-	ld [wStaryuAnimationFrame], a
-	ld [wStaryuAnimationIndex], a
-.drawStaryu
-	ld a, $2b
-	ld hl, hSCX
-	sub [hl]
-	ld b, a
-	ld a, $69
-	ld hl, hSCY
-	sub [hl]
-	ld c, a
-	ld a, [wStaryuAnimationFrame]
-	ld e, a
-	ld d, $0
-	ld hl, OAMIds_17dce_RubyField
-	add hl, de
-	ld a, [hl]
-	call LoadOAMData2
-	ret
-
-OAMIds_17dce_RubyField: ; 0x17dce
-	db $8F
-	db $90
-
-AnimationData_17dd0_RubyField:
-; Each entry is [duration][OAM id]
-	db $14, $00
-	db $13, $01
-	db $15, $00
-	db $12, $01
-	db $14, $00
-	db $13, $01
-	db $16, $00
-	db $13, $01
-	db $0 ; terminator
 
 DrawSpinner_RubyField: ; 0x17de1
 	ld a, $88

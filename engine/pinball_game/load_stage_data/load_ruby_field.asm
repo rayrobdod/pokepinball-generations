@@ -2,7 +2,6 @@ _LoadStageDataRubyFieldTop: ; 0x14000
 	call Func_14091_RubyField
 	call LoadFieldStructureGraphics_RubyField
 	call LoadPinballUpgradeTriggersGraphics_RubyField
-	call LoadStaryuGraphics_Top_RubyField
 	call UpdateSpinnerChargeGraphics_RubyField
 	call LoadEvolutionTrinketGraphics_RubyField
 	call LoadSlotCaveCoverGraphics_RubyField

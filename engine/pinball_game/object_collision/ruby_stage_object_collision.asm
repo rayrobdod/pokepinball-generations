@@ -2,7 +2,6 @@ CheckRubyStageTopGameObjectCollisions: ; 0x143e1
 	call CheckRubyStageVoltorbCollision
 	call CheckRubyStageSpinnerCollision
 	call CheckRubyStageBoardTriggersCollision
-	call CheckRubyStageTopStaryuCollision
 	call CheckRubyStageBellsproutCollision
 	call CheckRubyStageDittoSlotCollision
 	call CheckRubyStagePinballUpgradeTriggersCollision
@@ -13,7 +12,6 @@ CheckRubyStageBottomGameObjectCollisions: ; 0x143f9
 	cp $56
 	jr nc, .lowerHalfOfScreen
 	call CheckRubyStageWildPokemonCollision
-	call CheckRubyStageBottomStaryuCollision
 	call CheckRubyStageDiglettCollision
 	call CheckRubyStageBonusMultiplierCollision
 	call CheckRubyStageSlotCollision
@@ -120,22 +118,6 @@ CheckRubyStageBoardTriggersCollision: ; 0x144b6
 	ld de, RubyStageBoardTriggersCollisionData
 	ld bc, wWhichBoardTrigger
 	scf
-	jp HandleGameObjectCollision
-
-CheckRubyStageTopStaryuCollision: ; 0x144c0
-	ld de, RubyStageTopStaryuCollisionData
-	ld hl, RubyStageTopStaryuCollisionAttributes
-	ld bc, wStaryuCollision
-	and a
-	jp HandleGameObjectCollision
-
-CheckRubyStageBottomStaryuCollision: ; 0x144cd
-; Staryu collision can actually be hit via the bottom screen, despite the fact
-; that the Staryu is located on the (bottom of the) top screen.
-	ld de, RubyStageBottomStaryuCollisionData
-	ld hl, RubyStageBottomStaryuCollisionAttributes
-	ld bc, wStaryuCollision
-	and a
 	jp HandleGameObjectCollision
 
 CheckRubyStageBellsproutCollision: ; 0x144da
