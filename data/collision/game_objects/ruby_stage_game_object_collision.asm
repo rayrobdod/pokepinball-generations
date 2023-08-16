@@ -52,9 +52,9 @@ RubyStageCAVELightsCollisionData:
 
 RubyStagePinballUpgradeTriggerCollisionData:
 	db $06, $05  ; x, y bounding box
-	db $0E, $3A, $53  ; id, x, y
-	db $0F, $50, $48  ; id, x, y
-	db $10, $66, $49  ; id, x, y
+	db $0E, $4E, $2F  ; id, x, y
+	db $0F, $60, $32  ; id, x, y
+	db $10, $72, $3B  ; id, x, y
 	db $FF ; terminator
 
 RubyStageBoardTriggersCollisionData:

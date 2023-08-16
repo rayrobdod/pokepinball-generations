@@ -778,9 +778,6 @@ ResolveBallUpgradeTriggersCollision_RubyField: ; 0x1535d
 	jp z, .updatePinballUpgradeTriggersAnimation
 	xor a
 	ld [wWhichPinballUpgradeTrigger], a
-	ld a, [wStageCollisionState]
-	bit 0, a
-	jp z, .updatePinballUpgradeTriggersAnimation
 	ld a, [wBallUpgradeTriggersBlinking]
 	and a
 	jp nz, .updatePinballUpgradeTriggersAnimation
@@ -867,9 +864,6 @@ ResolveBallUpgradeTriggersCollision_RubyField: ; 0x1535d
 
 LoadPinballUpgradeTriggersGraphics_RubyField:
 ; Loads the on or off graphics for each of the 3 pinball upgrade trigger dots, depending on their current toggle state.
-	ld a, [wStageCollisionState]
-	bit 0, a
-	ret z
 	ld hl, wBallUpgradeTriggerStates + 2
 	ld b, $3
 .loop
@@ -893,7 +887,7 @@ LoadPinballUpgradeTriggerGraphics_RubyField: ; 0x15465
 	jr .load
 
 .toggledOnGameboy
-	ld hl, TileDataPointers_15543_RubyField
+	ld hl, TileDataPointers_BallUpgrade_On_GameBoyColor_RubyField
 	jr .load
 
 .toggledOff
@@ -904,7 +898,7 @@ LoadPinballUpgradeTriggerGraphics_RubyField: ; 0x15465
 	jr .load
 
 .toggledOffGameboy
-	ld hl, TileDataPointers_15549_RubyField
+	ld hl, TileDataPointers_BallUpgrade_Off_GameBoyColor_RubyField
 .load
 	push bc
 	dec b
@@ -2674,5 +2668,7 @@ UpdateBlinkingPokeballs_RubyField: ; 0x174ea
 	ret
 
 INCLUDE "data/queued_tiledata/ruby_field/pokeballs.asm"
+
+INCLUDE "gfx/stage/ruby_top/ruby_top_gameboycolor.table.queued-tiledata"
 
 INCLUDE "gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.table.queued-tiledata"

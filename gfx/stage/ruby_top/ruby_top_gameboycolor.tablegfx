@@ -20,5 +20,50 @@ bank = 0
 
 [[reserved]]
 base_id = 128
-length = 24
+length = 48
 bank = 1
+
+
+[[tiledataset]]
+label = 'BallUpgrade_Left'
+generate_header = false
+position.x = 9
+position.y = 2
+
+[[tiledataset.frame]]
+label = 'On'
+filename = 'gfx/stage/ruby_top/ball_upgrade_left_on.png'
+
+[[tiledataset.frame]]
+label = 'Off'
+filename = 'gfx/stage/ruby_top/ball_upgrade_left_off.png'
+
+
+[[tiledataset]]
+label = 'BallUpgrade_Center'
+generate_header = false
+position.x = 11
+position.y = 3
+
+[[tiledataset.frame]]
+label = 'On'
+filename = 'gfx/stage/ruby_top/ball_upgrade_center_on.png'
+
+[[tiledataset.frame]]
+label = 'Off'
+filename = 'gfx/stage/ruby_top/ball_upgrade_center_off.png'
+
+
+[[tiledataset]]
+label = 'BallUpgrade_Right'
+generate_header = false
+position.x = 14
+position.y = 4
+
+[[tiledataset.frame]]
+label = 'On'
+filename = 'gfx/stage/ruby_top/ball_upgrade_right_on.png'
+
+[[tiledataset.frame]]
+label = 'Off'
+filename = 'gfx/stage/ruby_top/ball_upgrade_right_off.png'

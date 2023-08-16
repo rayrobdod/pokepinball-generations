@@ -1381,14 +1381,14 @@ SECTION "bank5D", ROMX
 
 StageRubyFieldTopBaseGameBoyColorGfx:
 	INCBIN "gfx/stage/ruby_top/ruby_top_gameboycolor.table.bank0.2bpp"
+StageRubyFieldTopBank1GameBoyColorGfx:
+	INCBIN "gfx/stage/ruby_top/ruby_top_gameboycolor.table.bank1.2bpp"
 StageRubyFieldTopGfx3:
 	INCBIN "gfx/stage/ruby_top/ruby_top_3.2bpp"
 StageRubyFieldTopGfx1:
 	INCBIN "gfx/stage/ruby_top/ruby_top_1.2bpp"
 StageRubyFieldTopGfx2:
 	INCBIN "gfx/stage/ruby_top/ruby_top_2.2bpp"
-StageRubyFieldTopGfx4:
-	INCBIN "gfx/stage/ruby_top/ruby_top_4.2bpp"
 StageRubyFieldTopGfx5:
 	INCBIN "gfx/stage/ruby_top/ruby_top_5.2bpp"
 
