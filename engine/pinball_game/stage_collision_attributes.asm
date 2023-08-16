@@ -129,22 +129,22 @@ StageSilverFieldBottomCollisionAttributesPointers: ; 0xe60e
 
 StageRubyFieldTopCollisionAttributesPointers: ; 0xe5c7
 	db $01  ; multiple pair entries
-	dwb StageRubyFieldTopCollisionAttributes0, Bank(StageRubyFieldTopCollisionAttributes0)
-	dwb StageRubyFieldTopCollisionMasks0, Bank(StageRubyFieldTopCollisionMasks0)
-	dwb StageRubyFieldTopCollisionAttributes1, Bank(StageRubyFieldTopCollisionAttributes1)
-	dwb StageRubyFieldTopCollisionMasks0, Bank(StageRubyFieldTopCollisionMasks0)
-	dwb StageRubyFieldTopCollisionAttributes2, Bank(StageRubyFieldTopCollisionAttributes2)
-	dwb StageRubyFieldTopCollisionMasks1, Bank(StageRubyFieldTopCollisionMasks1)
-	dwb StageRubyFieldTopCollisionAttributes3, Bank(StageRubyFieldTopCollisionAttributes3)
-	dwb StageRubyFieldTopCollisionMasks1, Bank(StageRubyFieldTopCollisionMasks1)
-	dwb StageRubyFieldTopCollisionAttributes4, Bank(StageRubyFieldTopCollisionAttributes4)
-	dwb StageRubyFieldTopCollisionMasks2, Bank(StageRubyFieldTopCollisionMasks2)
-	dwb StageRubyFieldTopCollisionAttributes5, Bank(StageRubyFieldTopCollisionAttributes5)
-	dwb StageRubyFieldTopCollisionMasks2, Bank(StageRubyFieldTopCollisionMasks2)
-	dwb StageRubyFieldTopCollisionAttributes6, Bank(StageRubyFieldTopCollisionAttributes6)
-	dwb StageRubyFieldTopCollisionMasks3, Bank(StageRubyFieldTopCollisionMasks3)
-	dwb StageRubyFieldTopCollisionAttributes7, Bank(StageRubyFieldTopCollisionAttributes7)
-	dwb StageRubyFieldTopCollisionMasks3, Bank(StageRubyFieldTopCollisionMasks3)
+	dwb StageRubyFieldTopCollisionAttributesBallEntrance, Bank(StageRubyFieldTopCollisionAttributesBallEntrance)
+	dwb StageRubyFieldTopCollisionMasksBallEntrance, Bank(StageRubyFieldTopCollisionMasksBallEntrance)
+	dwb StageRubyFieldTopCollisionAttributesBallEntrance, Bank(StageRubyFieldTopCollisionAttributesBallEntrance)
+	dwb StageRubyFieldTopCollisionMasksBallEntrance, Bank(StageRubyFieldTopCollisionMasksBallEntrance)
+	dwb StageRubyFieldTopCollisionAttributes, Bank(StageRubyFieldTopCollisionAttributes)
+	dwb StageRubyFieldTopCollisionMasks, Bank(StageRubyFieldTopCollisionMasks)
+	dwb StageRubyFieldTopCollisionAttributes, Bank(StageRubyFieldTopCollisionAttributes)
+	dwb StageRubyFieldTopCollisionMasks, Bank(StageRubyFieldTopCollisionMasks)
+	dwb StageRubyFieldTopCollisionAttributes, Bank(StageRubyFieldTopCollisionAttributes)
+	dwb StageRubyFieldTopCollisionMasks, Bank(StageRubyFieldTopCollisionMasks)
+	dwb StageRubyFieldTopCollisionAttributes, Bank(StageRubyFieldTopCollisionAttributes)
+	dwb StageRubyFieldTopCollisionMasks, Bank(StageRubyFieldTopCollisionMasks)
+	dwb StageRubyFieldTopCollisionAttributes, Bank(StageRubyFieldTopCollisionAttributes)
+	dwb StageRubyFieldTopCollisionMasks, Bank(StageRubyFieldTopCollisionMasks)
+	dwb StageRubyFieldTopCollisionAttributes, Bank(StageRubyFieldTopCollisionAttributes)
+	dwb StageRubyFieldTopCollisionMasks, Bank(StageRubyFieldTopCollisionMasks)
 
 StageRubyFieldBottomCollisionAttributesPointers: ; 0xe5f8
 	db $00  ; single pair entry

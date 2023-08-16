@@ -165,9 +165,7 @@ StageRubyFieldTopGfx_GameBoyColor: ; 0xe771
 	VIDEO_DATA_TILES         StageRubyFieldTopGfx1, vTilesOB + $1a0, $260
 	VIDEO_DATA_TILES         PinballPokeballGfx, vTilesOB + $400, $200
 	VIDEO_DATA_TILES         StageRubyFieldTopGfx2, vTilesOB + $600, $200
-	VIDEO_DATA_TILES         StageRubyFieldTopStatusBarSymbolsGfx_GameBoyColor, vTilesSH, $100
-	VIDEO_DATA_TILES         StageRubyFieldTopGfx3, vTilesSH + $100, $1a0
-	VIDEO_DATA_TILES         StageRubyFieldTopBaseGameBoyColorGfx, vTilesSH + $2a0, $d60
+	VIDEO_DATA_TILES         StageRubyFieldTopBaseGameBoyColorGfx, vTilesSH, $1000
 	VIDEO_DATA_TILES_BANK2   StageRubyFieldTopGfx4, vTilesSH, $1000
 	VIDEO_DATA_TILES_BANK2   StageRubyFieldTopGfx5, vTilesOB, $200
 	VIDEO_DATA_TILES_BANK2   TimerDigitsGfx, vTilesOB + $600, $160

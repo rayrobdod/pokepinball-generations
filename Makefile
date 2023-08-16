@@ -46,6 +46,11 @@ clean: tidy
 	rgbgfx -o $@ $<
 	tools/gfx --interleave --png $< -o $@ $@
 
+%.collision.1bpp %.collision.tilemap: %.collision.png
+	rgbgfx -u -d1 \
+		--tilemap $*.collision.tilemap \
+		--output $*.collision.1bpp \
+		$*.collision.png
 
 %.table.bank0.2bpp %.table.bank1.2bpp %.table.gbpal %.table.tilemap %.table.attrmap %.table.queued-tiledata: dep = $(shell tools/tablegfx --list-dependencies $*.tablegfx)
 %.table.bank0.2bpp %.table.bank1.2bpp %.table.gbpal %.table.tilemap %.table.attrmap %.table.queued-tiledata: %.tablegfx tools/tablegfx $$(dep)

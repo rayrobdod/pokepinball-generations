@@ -1366,9 +1366,9 @@ StageSapphireFieldTopTilemap2_GameBoyColor:
 SECTION "bank5C", ROMX
 
 StageRubyFieldTopTilemap_GameBoyColor:
-	INCBIN "gfx/tilemaps/stage_ruby_field_top_gameboycolor.map"
+	INCBIN "gfx/stage/ruby_top/ruby_top_gameboycolor.table.tilemap"
 StageRubyFieldTopTilemap2_GameBoyColor:
-	INCBIN "gfx/tilemaps/stage_ruby_field_top_gameboycolor_2.map"
+	INCBIN "gfx/stage/ruby_top/ruby_top_gameboycolor.table.attrmap"
 
 StageRubyFieldBottomBaseGameBoyColorGfx:
 	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.table.bank0.2bpp"
@@ -1380,7 +1380,7 @@ StageRubyFieldTopStatusBarSymbolsGfx_GameBoyColor:
 SECTION "bank5D", ROMX
 
 StageRubyFieldTopBaseGameBoyColorGfx:
-	INCBIN "gfx/stage/ruby_top/ruby_top_base_gameboycolor.2bpp"
+	INCBIN "gfx/stage/ruby_top/ruby_top_gameboycolor.table.bank0.2bpp"
 StageRubyFieldTopGfx3:
 	INCBIN "gfx/stage/ruby_top/ruby_top_3.2bpp"
 StageRubyFieldTopGfx1:
@@ -1434,33 +1434,17 @@ StageRubyFieldBottomCollisionMasks:
 	INCBIN "data/collision/masks/ruby_stage_bottom.masks"
 StageRubyFieldBottomCollisionAttributes:
 	INCBIN "data/collision/maps/ruby_stage_bottom.collision"
-StageRubyFieldTopCollisionMasks0:
-	INCBIN "data/collision/masks/ruby_stage_top_0.masks"
-StageRubyFieldTopCollisionMasks1:
-	INCBIN "data/collision/masks/ruby_stage_top_1.masks"
-StageRubyFieldTopCollisionMasks2:
-	INCBIN "data/collision/masks/ruby_stage_top_2.masks"
-StageRubyFieldTopCollisionMasks3:
-	INCBIN "data/collision/masks/ruby_stage_top_3.masks"
+StageRubyFieldTopCollisionMasksBallEntrance:
+	INCBIN "data/collision/maps/ruby_stage_top_ball_entrance.collision.1bpp"
+StageRubyFieldTopCollisionMasks:
+	INCBIN "data/collision/maps/ruby_stage_top.collision.1bpp"
 
 SECTION "bank63", ROMX
 
-StageRubyFieldTopCollisionAttributes0:
-	INCBIN "data/collision/maps/ruby_stage_top_0.collision"
-StageRubyFieldTopCollisionAttributes1:
-	INCBIN "data/collision/maps/ruby_stage_top_1.collision"
-StageRubyFieldTopCollisionAttributes2:
-	INCBIN "data/collision/maps/ruby_stage_top_2.collision"
-StageRubyFieldTopCollisionAttributes3:
-	INCBIN "data/collision/maps/ruby_stage_top_3.collision"
-StageRubyFieldTopCollisionAttributes4:
-	INCBIN "data/collision/maps/ruby_stage_top_4.collision"
-StageRubyFieldTopCollisionAttributes5:
-	INCBIN "data/collision/maps/ruby_stage_top_5.collision"
-StageRubyFieldTopCollisionAttributes6:
-	INCBIN "data/collision/maps/ruby_stage_top_6.collision"
-StageRubyFieldTopCollisionAttributes7:
-	INCBIN "data/collision/maps/ruby_stage_top_7.collision"
+StageRubyFieldTopCollisionAttributesBallEntrance:
+	INCBIN "data/collision/maps/ruby_stage_top_ball_entrance.collision.tilemap"
+StageRubyFieldTopCollisionAttributes:
+	INCBIN "data/collision/maps/ruby_stage_top.collision.tilemap"
 
 StageRubyFieldBottomBaseGameBoyGfx:
 	INCBIN  "gfx/stage/ruby_bottom/ruby_bottom_base_gameboy.2bpp"

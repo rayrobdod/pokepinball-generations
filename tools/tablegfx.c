@@ -737,7 +737,11 @@ int8_t palette_of_tile(
 	}
 
 	if (palette_index >= 8) {
-		fprintf(stderr, "%s: tile (%u:%u) colors does not fit in provided palettes\n", filename, tilex, tiley);
+		fprintf(stderr, "%s: tile (%u:%u) colors do not fit in provided palettes:\n", filename, tilex, tiley);
+		for (size_t i = 0; i < current_tile_color_c; i++) {
+			color555_t c = current_tile_color_v[i];
+			fprintf(stderr, "        %d %d %d\n", c << 3 & 0xF8, c >> 2 & 0xF8, c >> 7 & 0xF8);
+		}
 		return -1;
 	}
 	return palette_index;
@@ -902,8 +906,9 @@ void tile_bank_insert_base(
 		const tiledata_t *tiledata,
 		const char* filename,
 		void *arg) {
+	unsigned base_tileid = tiley * 0x20 + tilex;
 	struct optional_attrmap *decided_base_attrs = ((struct optional_attrmap *) arg);
-	struct optional_attrmap *decided_attrs = &(decided_base_attrs[tileid]);
+	struct optional_attrmap *decided_attrs = &(decided_base_attrs[base_tileid]);
 
 	tiledata_t tiledata2;
 	memcpy(&tiledata2, tiledata, 16);

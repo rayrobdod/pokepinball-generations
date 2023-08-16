@@ -2226,47 +2226,13 @@ StageRubyFieldTopBGPalette3Lit:
 	RGB 31, 24, 0
 	RGB 0, 0, 0
 
-StageRubyFieldTopPalettes: ; 0xdc980
-StageRubyFieldTopBGPalette0: ; 0xdc980
-	RGB 31, 31, 31
-	RGB 13, 20, 31
-	RGB 31, 4, 4
-	RGB 0, 0, 0
-StageRubyFieldTopBGPalette1: ; 0xdc988
-	RGB 31, 31, 31
-	RGB 24, 16, 0
-	RGB 14, 7, 0
-	RGB 3, 0, 0
-StageRubyFieldTopBGPalette2: ; 0xdc990
-	RGB 31, 31, 31
-	RGB 31, 24, 0
-	RGB 21, 10, 0
-	RGB 0, 0, 0
 StageRubyFieldTopBGPalette3Unlit: ; 0xdc998
 	RGB 31, 31, 31
 	RGB 29, 24, 7
 	RGB 31, 24, 0
 	RGB 0, 0, 0
-StageRubyFieldTopBGPalette4: ; 0xdc9a0
-	RGB 31, 31, 31
-	RGB 26, 3, 5
-	RGB 14, 7, 0
-	RGB 0, 0, 0
-StageRubyFieldTopBGPalette5: ; 0xdc9a8
-	RGB 14, 7, 0
-	RGB 26, 3, 5
-	RGB 24, 16, 0
-	RGB 0, 0, 0
-StageRubyFieldTopBGPalette6: ; 0xdc9b0
-	RGB 31, 31, 31
-	RGB 13, 13, 31
-	RGB 31, 0, 0
-	RGB 0, 0, 0
-StageRubyFieldTopBGPalette7: ; 0xdc9b8
-	RGB 31, 31, 31
-	RGB 31, 13, 13
-	RGB 31, 0, 0
-	RGB 0, 0, 0
+StageRubyFieldTopPalettes: ; 0xdc980
+	INCBIN "gfx/stage/ruby_top/ruby_top_gameboycolor.table.gbpal"
 
 StageRubyFieldTopOBJPalette0: ; 0xdc9c0
 	RGB 21, 21, 21

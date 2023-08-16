@@ -1,0 +1,24 @@
+field = 'RubyField'
+platform = 'GameBoyColor'
+palette = 'gfx/stage/ruby_top/ruby_top_gameboycolor.pal'
+
+
+[base]
+filename = 'gfx/stage/ruby_top/base_gameboycolor.png'
+
+[[reserved]]
+filename = 'gfx/stage/ruby_top/status_bar_symbols_gameboycolor.png'
+base_id = 128
+length = 16
+bank = 0
+
+[[reserved]]
+# formerly the ditto/slugma graphics
+base_id = 144
+length = 26
+bank = 0
+
+[[reserved]]
+base_id = 128
+length = 24
+bank = 1
