@@ -25,6 +25,30 @@ bank = 1
 
 
 [[tiledataset]]
+label = 'SlotCave_Top'
+generate_header = true
+function = 'LoadTileLists'
+position.x = 9
+position.y = 17
+
+[[tiledataset.frame]]
+label = 'Open'
+filename = 'gfx/stage/ruby_bottom/cave_open.png'
+slice.x = 0
+slice.y = 0
+slice.width_in_tiles = 2
+slice.height_in_tiles = 1
+
+[[tiledataset.frame]]
+label = 'Closed'
+filename = 'gfx/stage/ruby_bottom/cave_closed.png'
+slice.x = 0
+slice.y = 0
+slice.width_in_tiles = 2
+slice.height_in_tiles = 1
+
+
+[[tiledataset]]
 label = 'BallUpgrade_Left'
 generate_header = false
 position.x = 9

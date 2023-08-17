@@ -1954,7 +1954,7 @@ LoadSlotCaveCoverGraphics_RubyField: ; 0x16425
 	ld a, [hGameBoyColorFlag]
 	and a
 	jr z, .asm_16441
-	ld hl, TileDataPointers_164a1_RubyField
+	ld hl, TileDataPointers_SlotCave_GameBoyColor_RubyField
 .asm_16441
 	add hl, bc
 	ld a, [hli]

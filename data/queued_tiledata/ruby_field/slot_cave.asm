@@ -70,37 +70,8 @@ TileData_16497_RubyField: ; 0x16497
 	db Bank(StageRedFieldBottomIndicatorsGfx_Gameboy)
 	db $00
 
-TileDataPointers_164a1_RubyField:
-	dw TileData_164a9_RubyField
-	dw TileData_164ac_RubyField
+TileDataPointers_SlotCave_GameBoyColor_RubyField:
+	dw TileDataPointer_SlotCave_Top_Closed_GameBoyColor_RubyField
+	dw TileDataPointer_SlotCave_Top_Open_GameBoyColor_RubyField
 	dw TileDataPointer_SlotCave_Closed_GameBoyColor_RubyField
 	dw TileDataPointer_SlotCave_Open_GameBoyColor_RubyField
-
-TileData_164a9_RubyField: ; 0x164a9
-	db $01
-	dw TileData_SlotCave_Closed_Top_RubyField
-
-TileData_164ac_RubyField: ; 0x164ac
-	db $01
-	dw TileData_SlotCave_Open_Top_RubyField
-
-TileData_SlotCave_Closed_Top_RubyField:
-	dw LoadTileLists
-	db $02
-
-	db $02
-	dw vBGMap + $229
-	db $d4, $d5
-
-	db $00
-
-TileData_SlotCave_Open_Top_RubyField:
-	dw LoadTileLists
-	db $02
-
-	db $02
-
-	dw vBGMap + $229
-	db $d6, $d7
-
-	db $00
