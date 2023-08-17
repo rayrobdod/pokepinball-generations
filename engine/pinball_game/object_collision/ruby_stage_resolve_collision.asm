@@ -1050,44 +1050,18 @@ ResolveRubyStageBoardTriggerCollision: ; 0x1581f
 	ld bc, FivePoints
 	callba AddBigBCD6FromQueueWithBallMultiplier
 	ld a, [wWhichBoardTriggerId]
-	sub $11
-	ld c, a
-	ld b, $0
-	ld hl, wCollidedAlleyTriggers
-	add hl, bc
-	ld [hl], $1
-	ld a, [wCollidedAlleyTriggers + 0]
-	and a
-	call nz, HandleSecondaryLeftAlleyTrigger_RubyField
-	ld a, [wCollidedAlleyTriggers + 1]
-	and a
-	call nz, HandleThirdLeftAlleyTrigger_RubyField
-	ld a, [wCollidedAlleyTriggers + 2]
-	and a
-	call nz, HandleSecondaryStaryuAlleyTrigger_RubyField
-	ld a, [wCollidedAlleyTriggers + 3]
-	and a
-	call nz, HandleLeftAlleyTrigger_RubyField
-	ld a, [wCollidedAlleyTriggers + 4]
-	and a
-	call nz, HandleStaryuAlleyTrigger_RubyField
-	; Ball passed over the second Staryu alley trigger point in the Ruby Field.
-	ld a, [wCollidedAlleyTriggers + 5]
-	and a
-	call nz, HandleSecondaryRightAlleyTrigger_RubyField
-	ld a, [wCollidedAlleyTriggers + 6]
-	and a
-	call nz, HandleRightAlleyTrigger_RubyField
-	ld a, [wCollidedAlleyTriggers + 7]
-	and a
-	call nz, HandleThirdRightAlleyTrigger_RubyField
-	ret
+	sub OBJ_ALLEYTRIGGER_FIRST_RUBYFIELD
+	call CallInFollowingTable
+.trigger_handlers
+	padded_dab HandleLeftAlleyTrigger_RubyField
+	padded_dab HandleSecondaryLeftAlleyTrigger_RubyField
+	padded_dab HandleRightAlleyTrigger_RubyField
+	padded_dab HandleSecondaryRightAlleyTrigger_RubyField
+	padded_dab HandleInnerleftAlleyTrigger_RubyField
+	padded_dab HandleSecondaryInnerleftAlleyTrigger_RubyField
 
 HandleSecondaryLeftAlleyTrigger_RubyField: ; 0x1587c
-; Ball passed over the secondary left alley trigger point in the Ruby Field.
-; This is the trigger that is covered up by Ditto when evolution mode isn't available.
-	xor a
-	ld [wCollidedAlleyTriggers + 0], a
+; Ball passed over the upper left alley trigger point in the Ruby Field.
 	ld a, [wLeftAlleyTrigger]
 	and a
 	ret z
@@ -1114,41 +1088,8 @@ HandleSecondaryLeftAlleyTrigger_RubyField: ; 0x1587c
 	call ChangeCollisionStateOutOfBallEntrance_RubyField
 	ret
 
-HandleThirdLeftAlleyTrigger_RubyField: ; 0x158c0
-; Ball passed over the third left alley trigger point in the Ruby Field.
-; This is the trigger that is NOT covered up by Ditto when evolution mode isn't available. It's located just to to the left of the top of the Voltorg area.
-	xor a
-	ld [wCollidedAlleyTriggers + 1], a
-	ld a, [wLeftAlleyTrigger]
-	and a
-	ret z
-	xor a
-	ld [wLeftAlleyTrigger], a
-	ld a, $1
-	callba CheckSpecialModeColision
-	ret c
-	ld a, [wLeftAlleyCount]
-	cp $3
-	ret z
-	inc a
-	ld [wLeftAlleyCount], a
-	cp $3
-	jr z, .alley_indicators_donot_blink
-	set 7, a
-.alley_indicators_donot_blink
-	ld [wIndicatorStates], a
-	res 7, a
-	cp $3
-	ret nz
-	ld a, $80
-	ld [wIndicatorStates + 3], a
-	call ChangeCollisionStateOutOfBallEntrance_RubyField
-	ret
-
-HandleSecondaryStaryuAlleyTrigger_RubyField: ; 0x15904
-; Ball passed over the second Staryu alley trigger point in the Ruby Field.
-	xor a
-	ld [wCollidedAlleyTriggers + 2], a
+HandleSecondaryInnerleftAlleyTrigger_RubyField: ; 0x15904
+; Ball passed over the upper inner alley trigger point in the Ruby Field.
 	ld a, [wSecondaryLeftAlleyTrigger]
 	and a
 	ret z
@@ -1159,9 +1100,8 @@ HandleSecondaryStaryuAlleyTrigger_RubyField: ; 0x15904
 	ret
 
 HandleLeftAlleyTrigger_RubyField: ; 0x1591e
-; Ball passed over the left alley trigger point in the Ruby Field.
+; Ball passed over the lower left alley trigger point in the Ruby Field.
 	xor a
-	ld [wCollidedAlleyTriggers + 3], a
 	ld [wRightAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $1
@@ -1169,10 +1109,9 @@ HandleLeftAlleyTrigger_RubyField: ; 0x1591e
 	call ChangeCollisionStateOutOfBallEntrance_RubyField
 	ret
 
-HandleStaryuAlleyTrigger_RubyField: ; 0x15931
-; Ball passed over the first Staryu alley trigger point in the Ruby Field.
+HandleInnerleftAlleyTrigger_RubyField:
+; Ball passed over the lower inner left alley trigger point in the Ruby Field.
 	xor a
-	ld [wCollidedAlleyTriggers + 4], a
 	ld [wRightAlleyTrigger], a
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
@@ -1183,7 +1122,6 @@ HandleStaryuAlleyTrigger_RubyField: ; 0x15931
 HandleSecondaryRightAlleyTrigger_RubyField: ; 0x15944
 ; Ball passed over the secondary right alley trigger point in the Ruby Field.
 	xor a
-	ld [wCollidedAlleyTriggers + 5], a
 	ld a, [wRightAlleyTrigger]
 	and a
 	ret z
@@ -1212,40 +1150,11 @@ HandleSecondaryRightAlleyTrigger_RubyField: ; 0x15944
 HandleRightAlleyTrigger_RubyField: ; 0x1597d
 ; Ball passed over the right alley trigger point in the Ruby Field.
 	xor a
-	ld [wCollidedAlleyTriggers + 6], a
 	ld [wLeftAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $1
 	ld [wRightAlleyTrigger], a
 	call ChangeCollisionStateOutOfBallEntrance_RubyField
-	ret
-
-HandleThirdRightAlleyTrigger_RubyField: ; 0x15990
-	xor a
-	ld [wCollidedAlleyTriggers + 7], a
-	ld a, [wRightAlleyTrigger]
-	and a
-	ret z
-	xor a
-	ld [wRightAlleyTrigger], a
-	ld a, $2
-	callba CheckSpecialModeColision
-	ret c
-	ld a, [wRightAlleyCount]
-	cp $3
-	ret z
-	inc a
-	ld [wRightAlleyCount], a
-	cp $3
-	jr z, .asm_159ba
-	set 7, a
-.asm_159ba
-	ld [wIndicatorStates + 1], a
-	ld a, [wRightAlleyCount]
-	cp $2
-	ret c
-	ld a, $80
-	ld [wIndicatorStates + 5], a
 	ret
 
 ChangeCollisionStateOutOfBallEntrance_RubyField:

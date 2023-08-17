@@ -59,14 +59,13 @@ RubyStagePinballUpgradeTriggerCollisionData:
 
 RubyStageBoardTriggersCollisionData:
 	db $09, $09  ; x, y bounding box
-	db $11, $1C, $3C  ; id, x, y
-	db $12, $2A, $44  ; id, x, y
-	db $13, $25, $63  ; id, x, y
-	db $14, $12, $7A  ; id, x, y
-	db $15, $26, $84  ; id, x, y
-	db $16, $7C, $44  ; id, x, y
-	db $17, $8E, $7A  ; id, x, y
-	db $18, $7F, $39  ; id, x, y
+	; id, x, y
+	db OBJ_ALLEYTRIGGER_LEFT_PRIMARY_RUBYFIELD,	18, 106 + 16
+	db OBJ_ALLEYTRIGGER_LEFT_SECONDARY_RUBYFIELD,	25, 45 + 16
+	db OBJ_ALLEYTRIGGER_RIGHT_PRIMARY_RUBYFIELD,	142, 106 + 16
+	db OBJ_ALLEYTRIGGER_RIGHT_SECONDARY_RUBYFIELD,	133, 48 + 16
+	db OBJ_ALLEYTRIGGER_INNERLEFT_PRIMARY_RUBYFIELD,	36, 92 + 16
+	db OBJ_ALLEYTRIGGER_INNERLEFT_SECONDARY_RUBYFIELD,	38, 52 + 16
 	db $FF ; terminator
 
 RubyStageBellsproutCollisionData:
