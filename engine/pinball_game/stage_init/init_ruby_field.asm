@@ -32,9 +32,6 @@ InitRubyField:
 	ld [wd610], a
 	ld [wNextBonusStage], a
 	ld [wInitialNextBonusStage], a
-	ld a, $4
-	ld [wStageCollisionState], a
-	ld [wd7ad], a
 	ld a, $80
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 5], a

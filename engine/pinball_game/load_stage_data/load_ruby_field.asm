@@ -1,6 +1,5 @@
 _LoadStageDataRubyFieldTop: ; 0x14000
 	call Func_14091_RubyField
-	call LoadFieldStructureGraphics_RubyField
 	call LoadPinballUpgradeTriggersGraphics_RubyField
 	call UpdateSpinnerChargeGraphics_RubyField
 	call LoadEvolutionTrinketGraphics_RubyField
@@ -55,7 +54,6 @@ Func_14091_RubyField: ; 0x14091
 	bit 0, a
 	ret nz
 	callba LoadStageCollisionAttributes
-	call LoadFieldStructureGraphics_RubyField
 	ret
 
 LoadBonusMultiplierRailingGraphics_RubyField: ; 0x140e2

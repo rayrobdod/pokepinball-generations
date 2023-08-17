@@ -1502,7 +1502,6 @@ Func_10871_RubyField:
 	bit 0, a
 	jr nz, .asm_108d3
 	callba LoadStageCollisionAttributes
-	callba LoadFieldStructureGraphics_RubyField
 	ret
 
 .asm_108d3

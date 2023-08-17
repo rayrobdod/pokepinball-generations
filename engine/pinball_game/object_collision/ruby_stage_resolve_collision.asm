@@ -778,6 +778,7 @@ ResolveBallUpgradeTriggersCollision_RubyField: ; 0x1535d
 	jp z, .updatePinballUpgradeTriggersAnimation
 	xor a
 	ld [wWhichPinballUpgradeTrigger], a
+	call ChangeCollisionStateOutOfBallEntrance_RubyField
 	ld a, [wBallUpgradeTriggersBlinking]
 	and a
 	jp nz, .updatePinballUpgradeTriggersAnimation
@@ -785,7 +786,6 @@ ResolveBallUpgradeTriggersCollision_RubyField: ; 0x1535d
 	ld [wRightAlleyTrigger], a
 	ld [wLeftAlleyTrigger], a
 	ld [wSecondaryLeftAlleyTrigger], a
-	call UpdateFieldStructures_RubyField
 	ld a, $b
 	callba CheckSpecialModeColision
 	ld a, [wWhichPinballUpgradeTriggerId]
@@ -1111,12 +1111,7 @@ HandleSecondaryLeftAlleyTrigger_RubyField: ; 0x1587c
 	ret nz
 	ld a, $80
 	ld [wIndicatorStates + 3], a
-	ld a, [wStageCollisionState]
-	and $1
-	or $6
-	ld [wStageCollisionState], a
-	callba LoadStageCollisionAttributes
-	call LoadFieldStructureGraphics_RubyField
+	call ChangeCollisionStateOutOfBallEntrance_RubyField
 	ret
 
 HandleThirdLeftAlleyTrigger_RubyField: ; 0x158c0
@@ -1147,12 +1142,7 @@ HandleThirdLeftAlleyTrigger_RubyField: ; 0x158c0
 	ret nz
 	ld a, $80
 	ld [wIndicatorStates + 3], a
-	ld a, [wStageCollisionState]
-	and $1
-	or $6
-	ld [wStageCollisionState], a
-	callba LoadStageCollisionAttributes
-	call LoadFieldStructureGraphics_RubyField
+	call ChangeCollisionStateOutOfBallEntrance_RubyField
 	ret
 
 HandleSecondaryStaryuAlleyTrigger_RubyField: ; 0x15904
@@ -1176,7 +1166,7 @@ HandleLeftAlleyTrigger_RubyField: ; 0x1591e
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $1
 	ld [wLeftAlleyTrigger], a
-	call UpdateFieldStructures_RubyField
+	call ChangeCollisionStateOutOfBallEntrance_RubyField
 	ret
 
 HandleStaryuAlleyTrigger_RubyField: ; 0x15931
@@ -1187,7 +1177,7 @@ HandleStaryuAlleyTrigger_RubyField: ; 0x15931
 	ld [wLeftAlleyTrigger], a
 	ld a, $1
 	ld [wSecondaryLeftAlleyTrigger], a
-	call UpdateFieldStructures_RubyField
+	call ChangeCollisionStateOutOfBallEntrance_RubyField
 	ret
 
 HandleSecondaryRightAlleyTrigger_RubyField: ; 0x15944
@@ -1227,7 +1217,7 @@ HandleRightAlleyTrigger_RubyField: ; 0x1597d
 	ld [wSecondaryLeftAlleyTrigger], a
 	ld a, $1
 	ld [wRightAlleyTrigger], a
-	call UpdateFieldStructures_RubyField
+	call ChangeCollisionStateOutOfBallEntrance_RubyField
 	ret
 
 HandleThirdRightAlleyTrigger_RubyField: ; 0x15990
@@ -1258,71 +1248,17 @@ HandleThirdRightAlleyTrigger_RubyField: ; 0x15990
 	ld [wIndicatorStates + 5], a
 	ret
 
-UpdateFieldStructures_RubyField: ; 0x159c9
-; The Ruby field's top half has some dynamic strucutres, such as Ditto, the lightning bolt guard rail, and the roof over the 3 Voltorbs.
-	ld a, [wd7ad]
-	bit 7, a
+ChangeCollisionStateOutOfBallEntrance_RubyField:
+	; If the stage collision state is in a ball entrance state,
+	; switch to a state with the same bumpers/structures
+	; but without the ball return open
+	ld a, [wStageCollisionState]
+	cp $0
 	ret nz
-	ld c, a
-	ld a, [wStageCollisionState]
-	and $1
-	or c
-	ld [wStageCollisionState], a
-	ld a, $ff
-	ld [wd7ad], a
-	callba LoadStageCollisionAttributes
-	call LoadFieldStructureGraphics_RubyField
 	ld a, $1
-	ld [wd580], a
-	callba LoadTimerGraphics
+	ld [wStageCollisionState], a
+	callba LoadStageCollisionAttributes
 	ret
-
-LoadFieldStructureGraphics_RubyField: ; 0x159f4
-; Based on the current stage collision state, load the proper graphics.
-; Things that change on the Ruby field are Ditto, the lightning bolt guard rail, and the roof over the 3 Voltorbs.
-	ld a, [hLCDC]
-	bit 7, a
-	jr z, .asm_15a13
-	ld a, [wd7f2]
-	and $fe
-	ld c, a
-	ld a, [wStageCollisionState]
-	and $fe
-	cp c
-	jr z, .asm_15a13
-	add c
-	cp $2
-	jr z, .asm_15a13
-	lb de, $00, $00
-	call PlaySoundEffect
-.asm_15a13
-	ld a, [wd7f2]
-	swap a
-	ld c, a
-	ld a, [wStageCollisionState]
-	sla a
-	or c
-	ld c, a
-	ld b, $0
-	ld hl, TileDataPointers_15a3f_RubyField
-	ld a, [hGameBoyColorFlag]
-	and a
-	jr z, .asm_15a2d
-	ld hl, TileDataPointers_15d05_RubyField
-.asm_15a2d
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	or h
-	ret z
-	ld a, Bank(TileDataPointers_15a3f_RubyField)
-	call QueueGraphicsToLoad
-	ld a, [wStageCollisionState]
-	ld [wd7f2], a
-	ret
-
-INCLUDE "data/queued_tiledata/ruby_field/structures.asm"
 
 ResolveBellsproutCollision_RubyField: ; 0x15e93
 	ld a, [wBellsproutCollision]
@@ -1900,12 +1836,6 @@ DoSlotLogic_RubyField: ; 0x16352
 	cp EVOLUTION_MODE_SLOT_REWARD
 	ret nz
 	callba StartEvolutionMode
-	ld a, [wd7ad]
-	ld c, a
-	ld a, [wStageCollisionState]
-	and $1
-	or c
-	ld [wStageCollisionState], a
 	xor a
 	ld [wCatchEmOrEvolutionSlotRewardActive], a
 	ret

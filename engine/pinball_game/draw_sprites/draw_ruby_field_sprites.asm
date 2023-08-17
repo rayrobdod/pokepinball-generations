@@ -2,7 +2,6 @@ DrawSpritesRubyFieldTop:
 	ld bc, $7f00
 	callba DrawTimer
 	callba DrawVoltorbSprites_RubyField
-	call DrawDitto_RubyField
 	call DrawBellsproutHead_RubyField
 	call DrawBellsproutBody_RubyField
 	call DrawSpinner_RubyField
@@ -122,34 +121,6 @@ AnimationData_17d27_RubyField:
 	db $1E, $01
 	db $1E, $02
 	db $00 ; terminator
-
-DrawDitto_RubyField: ; 0x17d34
-	ld a, $0
-	ld hl, hSCX
-	sub [hl]
-	ld b, a
-	ld a, $10
-	ld hl, hSCY
-	sub [hl]
-	ld c, a
-	ld a, [wStageCollisionState]
-	ld e, a
-	ld d, $0
-	ld hl, OAMIds_17d51_RubyField
-	add hl, de
-	ld a, [hl]
-	call LoadOAMData
-	ret
-
-OAMIds_17d51_RubyField:
-	db $C9
-	db $C9
-	db $C9
-	db $C9
-	db $C8
-	db $C8
-	db $CA
-	db $CA
 
 DrawBellsproutHead_RubyField: ; 0x17d59
 	ld a, $74

@@ -13,15 +13,6 @@ InitBallRubyField:
 	xor a
 	ld [wEnableBallGravityAndTilt], a
 	ld [wd580], a
-	ld a, [wd7ad]
-	bit 7, a
-	jr z, .asm_300ae
-	ld a, [wStageCollisionState]
-	res 0, a
-	ld [wd7ad], a
-.asm_300ae
-	ld a, [wStageCollisionState]
-	and $1
 	ld [wStageCollisionState], a
 	ld a, [wLostBall]
 	and a
