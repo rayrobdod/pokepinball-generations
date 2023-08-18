@@ -11,14 +11,16 @@ RubyStageDiglettCollisionData:
 
 RubyStageVoltorbCollisionAttributes:
 	db $00  ; flat list
-	db $E0, $E1, $E2, $E3, $E4, $E5, $E6, $E7, $E8, $E9, $EA, $EB, $EC, $ED, $EE, $EF, $F0, $F1, $F2, $F3, $F4, $F5
+	db $11, $27, $32, $33, $3E, $3F
+	db $34, $35, $40, $41, $4A, $4B, $31
+	db $55, $56, $5E, $5F
 	db $FF ; terminator
 
 RubyStageVoltorbCollisionData:
 	db $0E, $0E  ; x, y bounding box
-	db $03, $42, $66  ; id, x, y
-	db $04, $5A, $5C  ; id, x, y
-	db $05, $55, $78  ; id, x, y
+	db $03, $52, $43  ; id, x, y
+	db $04, $6B, $4C  ; id, x, y
+	db $05, $59, $5F  ; id, x, y
 	db $FF ; terminator
 
 RubyStageBumpersCollisionAttributes:

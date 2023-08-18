@@ -2239,10 +2239,10 @@ StageRubyFieldTopOBJPalette0: ; 0xdc9c0
 	RGB 31, 31, 31
 	RGB 31, 5, 4
 	RGB 0, 0, 0
-StageRubyFieldTopOBJPalette1: ; 0xdc9c8
+StageRubyFieldTopOBJPalette1: ; bumpers
 	RGB 31, 31, 31
-	RGB 15,14,24
-	RGB 29, 23, 03
+	RGB 10, 26, 15
+	RGB 8, 16, 19
 	RGB 0, 0, 0
 StageRubyFieldTopOBJPalette2: ; 0xdc9d0
 	RGB 20, 20, 20

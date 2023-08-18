@@ -102,17 +102,17 @@ DrawVoltorbSprite_RubyField: ; 0x17cdc
 	ret
 
 OAMData_17d15_RubyField:
-	db $3A, $4E ; x, y offsets
+	db $4D, $2D ; x, y offsets
 	db $00 ; attached voltorb
 	db $BD, $BC, $F9 ; oam ids
 
 OAMData_17d1b_RubyField:
-	db $53, $44 ; x, y offsets
+	db $64, $36 ; x, y offsets
 	db $01 ; attached voltorb
 	db $BD, $BC, $F9 ; oam ids
 
 OAMData_17d21_RubyField:
-	db $4D, $60 ; x, y offsets
+	db $51, $49 ; x, y offsets
 	db $02 ; attached voltorb
 	db $BD, $BC, $F9 ; oam ids
 
