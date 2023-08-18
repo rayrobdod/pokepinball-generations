@@ -11,9 +11,9 @@ RubyStageDiglettCollisionData:
 
 RubyStageVoltorbCollisionAttributes:
 	db $00  ; flat list
-	db $11, $27, $32, $33, $3E, $3F
-	db $34, $35, $40, $41, $4A, $4B, $31
-	db $55, $56, $5E, $5F
+	db $11, $27, $34, $35, $40, $41
+	db $36, $37, $42, $43, $4C, $4D, $33
+	db $57, $58, $60, $61
 	db $FF ; terminator
 
 RubyStageVoltorbCollisionData:
@@ -93,7 +93,7 @@ RubyStageWildPokemonCollisionData:
 
 RubyStageDittoSlotCollisionData:
 	db $03, $03  ; x, y bounding box
-	db $1F, $12, $24  ; id, x, y
+	db $1F, 54, 71  ; id, x, y
 	db $FF ; terminator
 
 RubyStageSlotCollisionData:

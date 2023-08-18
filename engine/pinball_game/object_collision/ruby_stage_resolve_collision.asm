@@ -1380,9 +1380,9 @@ ResolveDittoSlotCollision_RubyField: ; 0x160f0
 	ld [wEnableBallGravityAndTilt], a
 	ld [wBallXPos], a
 	ld [wBallYPos], a
-	ld a, $11
+	ld a, 54
 	ld [wBallXPos + 1], a
-	ld a, $23
+	ld a, 71
 	ld [wBallYPos + 1], a
 	ld a, $10
 	ld [wDittoEnterOrExitCounter], a
@@ -1419,7 +1419,11 @@ ResolveDittoSlotCollision_RubyField: ; 0x160f0
 .asm_1616d
 	cp $6
 	jr nz, .asm_1618e
+	ld a, [wLeftAlleyCount]
+	cp $3
+	jr c, .noEvolutionMode
 	callba StartEvolutionMode
+.noEvolutionMode
 	ld a, $1
 	ld [wPinballIsVisible], a
 	ld [wEnableBallGravityAndTilt], a
