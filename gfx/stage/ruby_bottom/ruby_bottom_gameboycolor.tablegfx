@@ -2,6 +2,8 @@ field = 'RubyField'
 platform = 'GameBoyColor'
 palette = 'gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.pal'
 
+billboard_footer.x = 7
+billboard_footer.y = 8
 
 [base]
 filename = 'gfx/stage/ruby_bottom/base_gameboycolor.png'

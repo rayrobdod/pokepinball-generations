@@ -161,6 +161,13 @@ struct Inputfile {
 	char* platform_label;
 	char* palette_filename;
 
+	/** Whether to and where to place billboard tileids */
+	struct {
+		bool set;
+		unsigned int x;
+		unsigned int y;
+	} billboard_footer;
+
 	/** the primary board graphics */
 	struct {
 		char* filename;
@@ -396,6 +403,12 @@ struct Inputfile parse_inputfile(char* filename) {
 					retval.field_label = extract_toml_string_value(value, filename, line);
 				} else if (0 == strcmp("platform", key)) {
 					retval.platform_label = extract_toml_string_value(value, filename, line);
+				} else if (0 == strcmp("billboard_footer.x", key)) {
+					retval.billboard_footer.set = true;
+					retval.billboard_footer.x = extract_toml_uint_value(value, filename, line);
+				} else if (0 == strcmp("billboard_footer.y", key)) {
+					retval.billboard_footer.set = true;
+					retval.billboard_footer.y = extract_toml_uint_value(value, filename, line);
 				} else {
 					fprintf(stderr, "%s:%zd:0: unknown key in root table: %s\n", filename, line, key);
 					exit(1);
@@ -1487,8 +1500,16 @@ int main(int argc, char *argv[]) {
 	 * the graphics at those ids must be the same checkerboard pattern for all six.
 	 * Can't build the graphics to have these tileids, so hard-code it.
 	 */
-	for (int i = 0; i < 6; i++) {
-		base_img.tiles[8 * 0x20 + 7 + i] = 0xAE + i;
+	if (instructions.billboard_footer.set) {
+		unsigned int base_tile = instructions.billboard_footer.y * 0x20 + instructions.billboard_footer.x;
+		for (int i = 0; i < 6; i++) {
+			base_img.tiles[base_tile + i] = 0xAE + i;
+			base_img.attrs[base_tile + i].priority = 0;
+			base_img.attrs[base_tile + i].vertical_flip = 0;
+			base_img.attrs[base_tile + i].horizontal_flip = 0;
+			base_img.attrs[base_tile + i].bank = 0;
+			// leave palette untouched
+		}
 	}
 
 
