@@ -91,10 +91,4 @@ ConcludeSpecialMode_RubyField: ; 0xddfd
 	ld [wFramesUntilSlotCaveOpens], a
 	callba ConcludeMapMoveMode
 .setCollisionState
-	ld a, [wd7ad]
-	ld c, a
-	ld a, [wStageCollisionState]
-	and $1
-	or c
-	ld [wStageCollisionState], a
 	ret

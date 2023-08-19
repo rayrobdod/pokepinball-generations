@@ -248,6 +248,30 @@ PikachuSaverOAMOffsets_RubyStage:
 	dw $7E0F
 	dw $7E92
 
+; indicator arrows:
+;	ground lower:
+;		$00 - EVO
+;		$01 - GET
+;		$02 - Inner-left alley
+;		$03 - Evolution Cave
+;		$04 - Bumpers
+;		$05 - Sharpedo (Bellsprout)
+;	sprite upper
+;		$06 - Ball Multiplier Lights
+;		$07 - Spinner
+;		$08 - Bumper Formation Switch (Formerly Staryu)
+;		$09 - Bumpers
+;		$0A - Sharpedo (Bellsprout)
+;	sprite lower
+;		$0B - Left multiplier bonus railing
+;		$0C - Right multiplier bonus railing
+;		$0D - Left Linoone
+;		$0E - Right Linoone
+;		$0F - CAVE light C
+;		$10 - CAVE light A
+;		$11 - CAVE light V
+;		$12 - CAVE light E
+
 DrawEvolutionIndicatorArrows_RubyFieldTop: ; 0x17efb
 	ld a, [wEvolutionObjectsDisabled]
 	and a
@@ -255,9 +279,9 @@ DrawEvolutionIndicatorArrows_RubyFieldTop: ; 0x17efb
 	ld a, [hFrameCounter]
 	bit 4, a
 	ret z
-	ld de, wIndicatorStates + 5
+	ld de, wIndicatorStates + 6
 	ld hl, EvolutionIndicatorArrowsOAM_RubyFieldTop
-	ld b, $6
+	ld b, $5
 	jr DrawEvolutionIndicatorArrows_RubyField
 
 DrawEvolutionIndicatorArrows_RubyFieldBottom: ; 0x17f0f
@@ -293,22 +317,19 @@ DrawEvolutionIndicatorArrows_RubyField: ; 0x17f21
 	ret
 
 EvolutionIndicatorArrowsOAM_RubyFieldTop:
-	db $0D, $37 ; x, y offsets
-	db $D1 ; oam id
-
-	db $46, $22 ; x, y offsets
+	db 96, 16 ; x, y offsets
 	db $D6 ; oam id
 
 	db $8A, $4A ; x, y offsets
 	db $D2 ; oam id
 
-	db $41, $81 ; x, y offsets
-	db $D3 ; oam id
+	db 59, 96 ; x, y offsets
+	db $D1 ; oam id
 
-	db $3D, $65 ; x, y offsets
+	db 73, 90 ; x, y offsets
 	db $D5 ; oam id
 
-	db $73, $74 ; x, y offsets
+	db $74, $74 ; x, y offsets
 	db $D4 ; oam id
 
 EvolutionIndicatorArrowsOAM_RubyFieldBottom:
@@ -385,18 +406,18 @@ DrawEvolutionTrinket_RubyField: ; 0x17f84
 
 EvolutionTrinketOAMOffsets_RubyFieldTop:
 ; x, y offsets
-	db $4C, $0C
-	db $32, $12
-	db $66, $12
-	db $19, $25
-	db $7F, $25
-	db $1E, $36
-	db $7F, $36
-	db $0E, $65
-	db $8B, $65
-	db $49, $7A
-	db $59, $7A
-	db $71, $7A
+	db 61, 14	; top of loop
+	db 14, 83	; left alley
+	db 31, 79	; inner-left alley
+	db 139, 71 ; right alley
+	db 47, 83	; in front of evolution cave
+	db 114, 122 ; in front of sharpedo
+	db 91, 41 ; just below center ball multiplier trigger
+	db 60, 95 ; in front of bumper stance switch
+	db 91, 106 ; below bumpers
+	db 64, 122 ; in middle of open area
+	db 64, 63 ; to left of bumpers
+	db 116, 57 ; to right of bumpers
 
 EvolutionTrinketOAMOffsets_RubyFieldBottom:
 ; x, y offsets

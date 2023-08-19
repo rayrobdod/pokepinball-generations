@@ -264,6 +264,7 @@ HandleVoltorbCollision_CatchemMode_RubyField: ; 0x20230
 	cp $18
 	jr nz, .asm_20264
 	xor a
+	ld [wIndicatorStates + 4], a
 	ld [wIndicatorStates + 9], a
 .asm_20264
 	callba Func_10184

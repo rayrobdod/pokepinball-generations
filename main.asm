@@ -1383,10 +1383,6 @@ StageRubyFieldTopBaseGameBoyColorGfx:
 	INCBIN "gfx/stage/ruby_top/ruby_top_gameboycolor.table.bank0.2bpp"
 StageRubyFieldTopBank1GameBoyColorGfx:
 	INCBIN "gfx/stage/ruby_top/ruby_top_gameboycolor.table.bank1.2bpp"
-StageRubyFieldTopGfx3:
-	INCBIN "gfx/stage/ruby_top/ruby_top_3.2bpp"
-StageRubyFieldTopGfx1:
-	INCBIN "gfx/stage/ruby_top/ruby_top_1.2bpp"
 StageRubyFieldTopGfx2:
 	INCBIN "gfx/stage/ruby_top/ruby_top_2.2bpp"
 StageRubyFieldTopGfx5:
@@ -1397,6 +1393,8 @@ StageRubyFieldSpinnerCharge0:
 	INCBIN "gfx/stage/ruby_top/spinner_charge_0.interleave.2bpp"
 StageRubyFieldSpinnerChargeRest:
 	INCBIN "gfx/stage/ruby_top/spinner_charge_rest.2bpp"
+StageRubyFieldTopIndicatorArrows:
+	INCBIN "gfx/stage/ruby_top/indicator_arrows.interleave.2bpp"
 
 SECTION "bank5E", ROMX
 

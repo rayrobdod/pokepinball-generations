@@ -65,7 +65,7 @@ HandleEvolutionMode_RubyField: ; 0x205e0
 	ld a, [wd558]
 	ld [wIndicatorStates + 2], a
 	ld a, [wd559]
-	ld [wIndicatorStates + 3], a
+	ld [wIndicatorStates + 5], a
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -139,20 +139,20 @@ Func_20651_RubyField: ; 0x20651
 	call PlaySoundEffect
 	ld a, $1
 	ld [wSlotIsOpen], a
-	ld a, $80
-	ld [wIndicatorStates + 4], a
 	xor a
-	ld [wIndicatorStates + 9], a
 	ld [wIndicatorStates + 2], a
 	ld [wIndicatorStates + 3], a
-	ld [wIndicatorStates + 10], a
-	ld [wIndicatorStates + 8], a
-	ld [wIndicatorStates + 13], a
-	ld [wIndicatorStates + 14], a
-	ld [wIndicatorStates + 11], a
-	ld [wIndicatorStates + 12], a
+	ld [wIndicatorStates + 4], a
+	ld [wIndicatorStates + 5], a
 	ld [wIndicatorStates + 6], a
 	ld [wIndicatorStates + 7], a
+	ld [wIndicatorStates + 8], a
+	ld [wIndicatorStates + 9], a
+	ld [wIndicatorStates + 10], a
+	ld [wIndicatorStates + 11], a
+	ld [wIndicatorStates + 12], a
+	ld [wIndicatorStates + 13], a
+	ld [wIndicatorStates + 14], a
 	ld [wd558], a
 	ld [wd559], a
 	ld a, [wCurrentStage]
@@ -236,18 +236,19 @@ CheckIfEvolutionModeTimerExpired_RubyField: ; 0x2077b
 	xor a
 	ld [wSlotIsOpen], a
 	ld hl, wIndicatorStates
-	ld [wIndicatorStates + 4], a
-	ld [wIndicatorStates + 9], a
 	ld [wIndicatorStates + 2], a
 	ld [wIndicatorStates + 3], a
-	ld [wIndicatorStates + 10], a
-	ld [wIndicatorStates + 8], a
-	ld [wIndicatorStates + 13], a
-	ld [wIndicatorStates + 14], a
-	ld [wIndicatorStates + 11], a
-	ld [wIndicatorStates + 12], a
+	ld [wIndicatorStates + 4], a
+	ld [wIndicatorStates + 5], a
 	ld [wIndicatorStates + 6], a
 	ld [wIndicatorStates + 7], a
+	ld [wIndicatorStates + 8], a
+	ld [wIndicatorStates + 9], a
+	ld [wIndicatorStates + 10], a
+	ld [wIndicatorStates + 11], a
+	ld [wIndicatorStates + 12], a
+	ld [wIndicatorStates + 13], a
+	ld [wIndicatorStates + 14], a
 	ld [wd558], a
 	ld [wd559], a
 	ld [wEvolutionObjectsDisabled], a
@@ -281,6 +282,7 @@ HandleVoltorbCollision_EvolutionMode_RubyField: ; 0x2080f
 	and a
 	jr z, .disabled
 	xor a
+	ld [wIndicatorStates + 4], a
 	ld [wIndicatorStates + 9], a
 	ld a, [wEvolutionObjectStates + 0]
 	and a
@@ -320,11 +322,11 @@ HandleBellsproutCollision_EvolutionMode_RubyField: ; 0x2085a
 	ld a, [wEvolutionObjectsDisabled]
 	and a
 	jr nz, .disabled
-	ld a, [wIndicatorStates + 3]
+	ld a, [wIndicatorStates + 5]
 	and a
 	jr z, .disabled
 	xor a
-	ld [wIndicatorStates + 3], a
+	ld [wIndicatorStates + 5], a
 	ld [wIndicatorStates + 10], a
 	ld a, [wEvolutionObjectStates + 6]
 	and a
@@ -508,11 +510,12 @@ CreateEvolutionTrinket_RubyField: ; 0x20977
 	ld [wEvolutionObjectsDisabled], a
 	ld a, [wIndicatorStates + 2]
 	ld [wd558], a
-	ld a, [wIndicatorStates + 3]
+	ld a, [wIndicatorStates + 5]
 	ld [wd559], a
 	xor a
 	ld [wIndicatorStates + 2], a
-	ld [wIndicatorStates + 3], a
+	ld [wIndicatorStates + 4], a
+	ld [wIndicatorStates + 5], a
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -556,11 +559,12 @@ EvolutionTrinketNotFound_RubyField: ; 0x209eb
 	ld [wIndicatorStates + 1], a
 	ld a, [wIndicatorStates + 2]
 	ld [wd558], a
-	ld a, [wIndicatorStates + 3]
+	ld a, [wIndicatorStates + 5]
 	ld [wd559], a
 	xor a
 	ld [wIndicatorStates + 2], a
-	ld [wIndicatorStates + 3], a
+	ld [wIndicatorStates + 4], a
+	ld [wIndicatorStates + 5], a
 	ld [wIndicatorStates + 10], a
 	ld a, [wCurrentStage]
 	bit 0, a
@@ -638,8 +642,14 @@ RecoverPokemon_RubyField:
 	ld a, [wd558]
 	ld [wIndicatorStates + 2], a
 	ld a, [wd559]
-	ld [wIndicatorStates + 3], a
+	ld [wIndicatorStates + 5], a
 	ld [wIndicatorStates + 10], a
+	ld a, [wIndicatorStates + 9]
+	and a
+	jr z, .dont_set_second_bumper_indicator
+	ld a, $80
+	ld [wIndicatorStates + 4], a
+.dont_set_second_bumper_indicator
 	ld a, [wCurrentStage]
 	bit 0, a
 	callba nz, ClearAllRubyIndicators

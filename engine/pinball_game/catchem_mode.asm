@@ -1482,7 +1482,7 @@ Func_108f5_GoldField: ; 0x108f5
 	ret
 
 Func_10871_RubyField:
-	ld hl, CatchEmModeInitialIndicatorStates
+	ld hl, CatchEmModeInitialIndicatorStates_RubyField
 	ld de, wIndicatorStates
 	ld b, $13  ; number of indicators
 .loop
@@ -1494,8 +1494,6 @@ Func_10871_RubyField:
 	xor a
 	ld [wRightAlleyCount], a
 	call CloseSlotCave_RubyField
-	ld a, $4
-	ld [wd7ad], a
 	ld de, $0002
 	call PlaySong
 	ld a, [wCurrentStage]

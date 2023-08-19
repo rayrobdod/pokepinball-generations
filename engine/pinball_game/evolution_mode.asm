@@ -1203,8 +1203,6 @@ StartEvolutionMode_RubyField:
 	xor a
 	ld [wLeftAlleyCount], a
 	call CloseSlotCave_RubyField
-	ld a, $2
-	ld [wd7ad], a
 	ld de, $0002
 	call PlaySong
 	call SetPokemonSeenFlag
@@ -1235,28 +1233,28 @@ IndicatorStatesPointerTable_10f3b_RubyField:
 	dw IndicatorStates_10fd0_RubyField
 
 IndicatorStates_10f4b_RubyField:  ; 0x10f4b
-	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $00, $00, $01, $01, $00, $00, $00, $00
+	db $00, $00, $00, $00, $80, $00, $00, $00, $00, $01, $00, $00, $00, $01, $01, $00, $00, $00, $00
 
 IndicatorStates_10f5e_RubyField:  ; 0x10f5e
-	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $01, $00, $01, $01, $00, $00, $00, $00
+	db $00, $00, $00, $00, $80, $00, $00, $00, $00, $01, $00, $01, $00, $01, $01, $00, $00, $00, $00
 
 IndicatorStates_10f71_RubyField:  ; 0x10f71
-	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $01, $00, $01, $01, $01, $01, $00, $00, $00, $00
+	db $00, $00, $00, $00, $80, $00, $00, $00, $00, $01, $00, $01, $01, $01, $01, $00, $00, $00, $00
 
 IndicatorStates_10f84_RubyField:  ; 0x10f84
-	db $00, $00, $00, $00, $00, $00, $00, $00, $01, $01, $00, $01, $01, $01, $01, $00, $00, $00, $00
+	db $00, $00, $00, $00, $80, $00, $00, $00, $01, $01, $00, $01, $01, $01, $01, $00, $00, $00, $00
 
 IndicatorStates_10f97_RubyField:  ; 0x10f97
-	db $00, $00, $00, $80, $00, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
+	db $00, $00, $00, $00, $80, $80, $00, $00, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
 IndicatorStates_10faa_RubyField:  ; 0x10faa
-	db $00, $00, $80, $80, $00, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
+	db $00, $00, $80, $00, $80, $80, $00, $00, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
 IndicatorStates_10fbd_RubyField:  ; 0x10fbd
-	db $00, $00, $80, $80, $00, $00, $00, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
+	db $00, $00, $80, $00, $80, $80, $00, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
 IndicatorStates_10fd0_RubyField:  ; 0x10fd0
-	db $00, $00, $80, $80, $00, $00, $01, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
+	db $00, $00, $80, $00, $80, $80, $01, $01, $01, $01, $01, $01, $01, $01, $01, $00, $00, $00, $00
 
 ConcludeEvolutionMode_RubyField:
 	call ResetIndicatorStates
@@ -1494,31 +1492,7 @@ VRAMData_1123b_SilverField:
 	dw $8600, $E0
 
 LoadRubyFieldTopGraphics:
-	ld hl, VideoData_10b2a_RubyField
-	ld a, [hli]
-	ld c, a
-	ld a, [hli]
-	ld b, a
-	ld a, [hli]
-	push af
-	push bc ;load 3 byte pointer onto the stack
-	ld a, [hli]
-	ld e, a
-	ld a, [hli]
-	ld d, a
-	ld a, [hli]
-	ld c, a
-	ld a, [hli]
-	ld b, a
-	pop hl
-	pop af
-	call LoadVRAMData
 	ret
-
-VideoData_10b2a_RubyField:
-	dab StageRubyFieldTopGfx3 ;dab = 3 byte pointer
-	dw $8900 ;location
-	dw $E0 ;amount of bytes
 
 LoadSapphireFieldTopGraphics:
 	ld hl, VRAMData_1123b_SapphireField

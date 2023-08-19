@@ -162,8 +162,8 @@ StageSilverFieldBottomGfx_GameBoyColor: ; 0xe9bc
 
 StageRubyFieldTopGfx_GameBoyColor: ; 0xe771
 	VIDEO_DATA_TILES         Alphabet2Gfx, vTilesOB, $1a0
-	VIDEO_DATA_TILES         StageRubyFieldTopGfx1, vTilesOB + $1a0, $260
-	VIDEO_DATA_TILES         StageRubyFieldLotadBumper, vTilesOB + $1a0 + $140, $80
+	VIDEO_DATA_TILES         StageRubyFieldLotadBumper, vTilesOB + $2E0, $80
+	VIDEO_DATA_TILES         StageRubyFieldTopIndicatorArrows, vTilesOB + $360, $a0
 	VIDEO_DATA_TILES         PinballPokeballGfx, vTilesOB + $400, $200
 	VIDEO_DATA_TILES         StageRubyFieldTopGfx2, vTilesOB + $600, $200
 	VIDEO_DATA_TILES         StageRubyFieldTopBaseGameBoyColorGfx, vTilesSH, $1000

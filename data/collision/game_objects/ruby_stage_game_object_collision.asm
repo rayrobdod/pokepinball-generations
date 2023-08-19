@@ -120,18 +120,18 @@ RubyStageTopEvolutionTrinketCoords: ; 0x156d6
 ; First byte is just non-zero to signify that the array hasn't ended.
 ; Second byte is x coordinate.
 ; Third byte is y coordinate.
-	db $01, $44, $14
-	db $01, $2A, $1A
-	db $01, $5E, $1A
-	db $01, $11, $2D
-	db $01, $77, $2D
-	db $01, $16, $3E
-	db $01, $77, $3E
-	db $01, $06, $6D
-	db $01, $83, $6D
-	db $01, $41, $82
-	db $01, $51, $82
-	db $01, $69, $82
+	db $01, 61 - 8, 14 + 8	; top of loop
+	db $01, 14 - 8, 83 + 8	; left alley
+	db $01, 31 - 8, 79 + 8	; inner-left alley
+	db $01, 139 - 8, 71 + 8	; right alley
+	db $01, 47 - 8, 83 + 8	; in front of evolution cave
+	db $01, 114 - 8, 122 + 8	; in front of sharpedo
+	db $01, 91 - 8, 41 + 8	; just below center ball multiplier trigger
+	db $01, 60 - 8, 95 + 8	; in front of bumper stance switch
+	db $01, 91 - 8, 106 + 8	; below bumpers
+	db $01, 64 - 8, 122 + 8	; in middle of open area
+	db $01, 64 - 8, 63 + 8	; to left of bumpers
+	db $01, 116 - 8, 57 + 8	; to right of bumpers
 	db $00  ; terminator
 
 RubyStageBottomEvolutionTrinketCoords: ; 0x145fb

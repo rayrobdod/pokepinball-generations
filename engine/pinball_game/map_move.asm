@@ -1626,8 +1626,6 @@ Func_311b4_RubyField: ; 0x311b4
 	ld a, $67
 	ld [wStageCollisionMap + $103], a
 	callba CloseSlotCave_RubyField
-	ld a, $4
-	ld [wd7ad], a
 	ld de, MUSIC_HURRY_UP_BLUE ; Either MUSIC_HURRY_UP_BLUE or MUSIC_HURRY_UP_RED. They have the same id in their respective audio Banks.
 	call PlaySong
 	ld a, [wCurrentStage]
