@@ -47,5 +47,17 @@ RestoreBallSaverAfterCatchEmMode: ; 0xdc00
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z
-	callba DrawBallSaverIcon
-	ret
+	call CallInFollowingTable
+.drawBallSaverCallTable
+	padded_dab DrawBallSaverIcon ; STAGE_RED_FIELD_TOP
+	padded_dab DrawBallSaverIcon ; STAGE_RED_FIELD_BOTTOM
+	padded_dab DrawBallSaverIcon ; STAGE_BLUE_FIELD_TOP
+	padded_dab DrawBallSaverIcon ; STAGE_BLUE_FIELD_BOTTOM
+	padded_dab DrawBallSaverIcon ; STAGE_GOLD_FIELD_TOP
+	padded_dab DrawBallSaverIcon ; STAGE_GOLD_FIELD_BOTTOM
+	padded_dab DrawBallSaverIcon ; STAGE_SILVER_FIELD_TOP
+	padded_dab DrawBallSaverIcon ; STAGE_SILVER_FIELD_BOTTOM
+	padded_dab DrawBallSaverIcon_RubyField ; STAGE_RUBY_FIELD_TOP
+	padded_dab DrawBallSaverIcon_RubyField ; STAGE_RUBY_FIELD_BOTTOM
+	padded_dab DrawBallSaverIcon ; STAGE_SAPPHIRE_FIELD_TOP
+	padded_dab DrawBallSaverIcon ; STAGE_SAPPHIRE_FIELD_BOTTOM
