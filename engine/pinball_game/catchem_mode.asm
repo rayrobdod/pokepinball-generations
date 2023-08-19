@@ -1443,7 +1443,7 @@ Func_10871_GoldField:
 	ret
 
 .asm_108d3
-	callba ClearAllRedIndicators
+	callba ClearAllGoldIndicators
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
@@ -1505,7 +1505,7 @@ Func_10871_RubyField:
 	ret
 
 .asm_108d3
-	callba ClearAllRedIndicators
+	callba ClearAllRubyIndicators
 	callba Func_10184
 	ld a, [hGameBoyColorFlag]
 	and a
