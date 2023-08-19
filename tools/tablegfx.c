@@ -817,7 +817,7 @@ void tile_bank_insert_reserved(
 		void *arg) {
 	struct InputfileReserved *arg2 = (struct InputfileReserved*) arg;
 
-	if (arg2->length != 0 && tileid > arg2->length) return;
+	if (arg2->length != 0 && tileid >= arg2->length) return;
 
 	tile_bank_t *bank = (arg2->bank ? out_bank1 : out_bank0);
 	size_t i = (arg2->base_id + tileid) & 0xFF;
@@ -1325,7 +1325,7 @@ int main(int argc, char *argv[]) {
 	 * Place reserved tiles first so that reserved tiles are
 	 * guarenteed to be placed in their desired spots
 	 */
-	for (size_t i; i < instructions.reserved_count; i++) {
+	for (size_t i = 0; i < instructions.reserved_count; i++) {
 		struct InputfileReserved *instructions_reserved = &(instructions.reserved_values[i]);
 
 		if (instructions_reserved->filename) {
