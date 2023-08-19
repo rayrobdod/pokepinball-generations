@@ -207,21 +207,47 @@ char *extract_toml_string_value(const char* input, const char* filename, size_t 
 
 unsigned int extract_toml_uint_value(const char* input, const char* filename, size_t line) {
 	unsigned int retval = 0;
+	// strtol does not fail if the input contains data other than the number
 
-	if ('+' == input[0]) {
-		++input;
-	}
+	if ('0' == input[0] && 'x' == input[1]) {
+		input += 2;
+		while ('\0' != input[0]) {
+			if ('0' <= input[0] && input[0] <= '9') {
+				retval *= 16;
+				retval += input[0] - '0';
+			} else if ('a' <= input[0] && input[0] <= 'f') {
+				retval *= 16;
+				retval += input[0] - 'a' + 10;
+			} else if ('A' <= input[0] && input[0] <= 'F') {
+				retval *= 16;
+				retval += input[0] - 'A' + 10;
+			} else if ('_' == input[0] && '_' != input[1]) {
+				// do nothing
+			} else {
+				fprintf(stderr, "%s:%zd:0: could not parse integer value: %s\n", filename, line, input);
+				exit(1);
+			}
 
-	while ('\0' != input[0]) {
-		if ('0' <= input[0] && input[0] <= '9') {
-			retval *= 10;
-			retval += input[0] - '0';
-		} else {
-			fprintf(stderr, "%s:%zd:0: could not parse integer value: %s\n", filename, line, input);
-			exit(1);
+			++input;
 		}
 
-		++input;
+	} else {
+		if ('+' == input[0]) {
+			++input;
+		}
+		while ('\0' != input[0]) {
+			if ('0' <= input[0] && input[0] <= '9') {
+				retval *= 10;
+				retval += input[0] - '0';
+			} else if ('_' == input[0] && '_' != input[1]) {
+				// do nothing
+			} else {
+				fprintf(stderr, "%s:%zd:0: could not parse integer value: %s\n", filename, line, input);
+				exit(1);
+			}
+
+			++input;
+		}
 	}
 
 	return retval;

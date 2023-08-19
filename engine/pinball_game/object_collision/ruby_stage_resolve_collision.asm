@@ -548,9 +548,8 @@ UpdateRubyStageSpinner: ; 0x14e10
 	ld a, $64
 	ld [wd51e], a
 .asm_14e9d
-	ld a, [wCurrentStage]
-	bit 0, a
-	ret nz
+	ld a, 60
+	ld [wSpinnerChargeFramesUntilHide], a
 	call UpdateSpinnerChargeGraphics_RubyField
 	ret
 
@@ -578,17 +577,12 @@ UpdateSpinnerChargeGraphics_RubyField: ; 0x14ece
 	ld c, a
 	sla c
 	ld b, $0
-	ld hl, TileDataPointers_14eeb_RubyField
-	ld a, [hGameBoyColorFlag]
-	and a
-	jr z, .asm_14ee1
-	ld hl, TileDataPointers_1509b_RubyField
-.asm_14ee1
+	ld hl, TileDataPointers_SpinnerCharge_RubyField
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, BANK(TileDataPointers_14eeb_RubyField)
+	ld a, BANK(TileDataPointers_SpinnerCharge_RubyField)
 	call QueueGraphicsToLoad
 	ret
 

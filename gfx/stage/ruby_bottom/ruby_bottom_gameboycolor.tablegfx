@@ -15,9 +15,22 @@ length = 52
 bank = 0
 
 [[reserved]]
+filename = 'gfx/stage/ruby_bottom/reserved.png'
 base_id = 128
-length = 48
+length = 16
 bank = 1
+
+[[reserved]]
+# JapaneseCharactersGfx2
+base_id = 0x90
+length = 0x20
+bank = 1
+
+[[reserved]]
+# Spinner Charge
+base_id = 0xF8
+length = 8
+bank = 0
 
 [[tiledataset]]
 label = 'SlotCave'

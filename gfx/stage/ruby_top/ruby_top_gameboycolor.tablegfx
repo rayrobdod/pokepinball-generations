@@ -19,10 +19,22 @@ length = 26
 bank = 0
 
 [[reserved]]
-base_id = 128
-length = 48
+# TopStatusBarSymbols
+base_id = 0x80
+length = 16
 bank = 1
 
+[[reserved]]
+# StageRedJapaneseCharactersGfx2
+base_id = 0x90
+length = 32
+bank = 1
+
+[[reserved]]
+# Spinner Charge
+base_id = 0xF8
+length = 8
+bank = 0
 
 [[tiledataset]]
 label = 'SlotCave_Top'

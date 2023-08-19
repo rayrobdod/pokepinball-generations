@@ -1,6 +1,7 @@
 DrawSpritesRubyFieldTop:
 	ld bc, $7f00
 	callba DrawTimer
+	call DrawSpinnerCharge_RubyField
 	callba DrawVoltorbSprites_RubyField
 	call DrawBellsproutHead_RubyField
 	call DrawBellsproutBody_RubyField
@@ -13,6 +14,7 @@ DrawSpritesRubyFieldTop:
 DrawSpritesRubyFieldBottom: ; 0x1757e
 	ld bc, $7f00
 	callba DrawTimer
+	call DrawSpinnerCharge_RubyField
 	callba DrawMonCaptureAnimation
 	call DrawAnimatedMon_RubyField
 	call DrawPikachuSavers_RubyField
@@ -184,6 +186,21 @@ DrawSpinner_RubyField: ; 0x17de1
 
 SpinnerOAMIds_RubyField: ; 0x17e02
 	db $89, $8A, $8B, $8C, $8D, $8E
+
+DrawSpinnerCharge_RubyField:
+	; draw only for a short time after spinner charge last increased
+	ld a, [wSpinnerChargeFramesUntilHide]
+	cp 0
+	ret z
+	dec a
+	ld [wSpinnerChargeFramesUntilHide], a
+	; this is supposed to be an overlay, not be part of the board,
+	; so the X/Y is intentionally not adjusted by SCX and SCY
+	ld b, (160 - 24) / 2
+	ld c, $2A
+	ld a, $97 ; Id for OAMData_SpinnerCharge
+	call LoadOAMData2
+	ret
 
 DrawPikachuSavers_RubyField: ; 0x17e08
 	ld a, [hSCX]

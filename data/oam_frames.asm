@@ -2401,13 +2401,14 @@ OAMDataPointers2: ; 0x55d7
 	dw GoldSpinner5
 	dw GoldSpinner6
 	dw Chinchou1
-	dw Chinchou2
+	dw Chinchou2  ; $90
 	dw Delibird_1_OAMData
 	dw Delibird_2_OAMData
 	dw Delibird_3_OAMData
 	dw OAMData_Politoad1
 	dw OAMData_Politoad2
 	dw OAMData_Politoad3
+	dw OAMData_SpinnerCharge  ; $97
 
 OAMData2_0: ; 0x56e1
 	db $20, $20, $9E, $04
@@ -3631,4 +3632,13 @@ OAMData_Politoad3 : ;96
 	db $22, $18, $1e, $11
 	db $22, $10, $1c, $11
 	db $22, $08, $1a, $11
+	db $80 ; terminator
+
+OAMData_SpinnerCharge: ;$97
+	db $10, $18, $F8, $23
+	db $10, $10, $FA, $03
+	db $10, $08, $F8, $03
+	db $20, $18, $FC, $23
+	db $20, $10, $FE, $03
+	db $20, $08, $FC, $03
 	db $80 ; terminator

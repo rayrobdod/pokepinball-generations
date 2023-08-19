@@ -1393,6 +1393,10 @@ StageRubyFieldTopGfx5:
 	INCBIN "gfx/stage/ruby_top/ruby_top_5.2bpp"
 StageRubyFieldLotadBumper:
 	INCBIN "gfx/stage/ruby_top/bumper_lotad.interleave.2bpp"
+StageRubyFieldSpinnerCharge0:
+	INCBIN "gfx/stage/ruby_top/spinner_charge_0.interleave.2bpp"
+StageRubyFieldSpinnerChargeRest:
+	INCBIN "gfx/stage/ruby_top/spinner_charge_rest.2bpp"
 
 SECTION "bank5E", ROMX
 

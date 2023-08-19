@@ -2220,21 +2220,10 @@ StageGoldFieldTopBGPalette3Lit: ; 0xdc998
 	RGB 31, 24, 0
 	RGB 0, 0, 0
 
-StageRubyFieldTopBGPalette3Lit:
-	RGB 31, 31, 31
-	RGB 31, 30, 28
-	RGB 31, 24, 0
-	RGB 0, 0, 0
-
-StageRubyFieldTopBGPalette3Unlit: ; 0xdc998
-	RGB 31, 31, 31
-	RGB 29, 24, 7
-	RGB 31, 24, 0
-	RGB 0, 0, 0
 StageRubyFieldTopPalettes: ; 0xdc980
 	INCBIN "gfx/stage/ruby_top/ruby_top_gameboycolor.table.gbpal"
 
-StageRubyFieldTopOBJPalette0: ; 0xdc9c0
+StageRubyFieldTopOBJPalette0: ; pinball and timer
 	RGB 21, 21, 21
 	RGB 31, 31, 31
 	RGB 31, 5, 4
@@ -2244,32 +2233,32 @@ StageRubyFieldTopOBJPalette1: ; bumpers
 	RGB 10, 26, 15
 	RGB 8, 16, 19
 	RGB 0, 0, 0
-StageRubyFieldTopOBJPalette2: ; 0xdc9d0
+StageRubyFieldTopOBJPalette2: ; spinner; formerly ditto
 	RGB 20, 20, 20
 	RGB 31, 31, 31
 	RGB 26, 3, 5
 	RGB 0, 0, 0
-StageRubyFieldTopOBJPalette3: ; 0xdc9d8
-	RGB 31, 31, 31
-	RGB 31, 28, 17
-	RGB 11, 20, 28
-	RGB 2, 7, 15
-StageRubyFieldTopOBJPalette4: ; 0xdc9e0
+StageRubyFieldTopOBJPalette3: ; spinner charge display
+	RGB 20, 20, 20
+	RGB 31, 31, 0
+	RGB 11, 25, 31
+	RGB 0, 5, 15
+StageRubyFieldTopOBJPalette4: ; formerly bellspout body
 	RGB 20, 20, 20
 	RGB 18, 31, 18
 	RGB 5, 19, 0
 	RGB 0, 7, 0
-StageRubyFieldTopOBJPalette5: ; 0xdc9e8
+StageRubyFieldTopOBJPalette5: ; fomerly bellsprout head
 	RGB 31, 31, 31
 	RGB 31, 29, 0
 	RGB 27, 7, 7
 	RGB 0, 0, 0
-StageRubyFieldTopOBJPalette6: ; 0xdc9f0
+StageRubyFieldTopOBJPalette6: ; indicators
 	RGB 20, 20, 20
 	RGB 0, 31, 25
 	RGB 0, 18, 14
 	RGB 0, 0, 0
-StageRubyFieldTopOBJPalette7: ; 0xdc9f8
+StageRubyFieldTopOBJPalette7: ; ???
 	RGB 31, 31, 31
 	RGB 31, 15, 13
 	RGB 21, 0, 0
@@ -2278,42 +2267,42 @@ StageRubyFieldTopOBJPalette7: ; 0xdc9f8
 StageRubyFieldBottomPalettes: ; 0xdca80
 	INCBIN "gfx/stage/ruby_bottom/ruby_bottom_gameboycolor.table.gbpal"
 
-StageRubyFieldBottomOBJPalette0: ; 0xdcac0
+StageRubyFieldBottomOBJPalette0: ; pinball and timer
 	RGB 21, 21, 21
 	RGB 31, 31, 31
 	RGB 31, 5, 4
 	RGB 0, 0, 0
-StageRubyFieldBottomOBJPalette1: ; 0xdcac8
+StageRubyFieldBottomOBJPalette1: ; ???
 	RGB 31, 31, 31
 	RGB 21, 21, 21
 	RGB 27, 21, 0
 	RGB 0, 0, 0
-StageRubyFieldBottomOBJPalette2: ; 0xdcad0
+StageRubyFieldBottomOBJPalette2: ; flippers
 	RGB 21, 21, 21
 	RGB 31, 31, 31
 	RGB 21, 21, 27
 	RGB 0, 0, 0
-StageRubyFieldBottomOBJPalette3: ; 0xdcad8
-	RGB 31, 31, 31
-	RGB 31, 31, 31
-	RGB 8, 8, 8
-	RGB 0, 0, 0
-StageRubyFieldBottomOBJPalette4: ; 0xdcae0
+StageRubyFieldBottomOBJPalette3: ; spinner charge display
+	RGB 20, 20, 20
+	RGB 31, 31, 0
+	RGB 11, 25, 31
+	RGB 0, 5, 15
+StageRubyFieldBottomOBJPalette4: ; Pikachu Saver
 	RGB 21, 21, 21
 	RGB 31, 28, 0
 	RGB 29, 0, 0
 	RGB 0, 0, 0
-StageRubyFieldBottomOBJPalette5: ; 0xdcae8
+StageRubyFieldBottomOBJPalette5: ; ???
 	RGB 31, 31, 31
 	RGB 31, 31, 31
 	RGB 8, 8, 8
 	RGB 0, 0, 0
-StageRubyFieldBottomOBJPalette6: ; 0xdcaf0
+StageRubyFieldBottomOBJPalette6: ; indicators
 	RGB 20, 20, 20
 	RGB 0, 31, 25
 	RGB 0, 18, 14
 	RGB 0, 0, 0
-StageRubyFieldBottomOBJPalette7: ; 0xdcaf8
+StageRubyFieldBottomOBJPalette7: ; ???
 	RGB 31, 31, 31
 	RGB 31, 30, 16
 	RGB 27, 24, 8

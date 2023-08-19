@@ -12,6 +12,7 @@ _LoadStageDataRubyFieldBottom: ; 0x1401c
 	call Func_14091_RubyField
 	call LoadBillboardGraphics_RubyField
 	call ClearAllRubyIndicators
+	call UpdateSpinnerChargeGraphics_RubyField
 	call LoadCAVELightsGraphics_RubyField
 	call LoadBillboardStatusBarGraphics_RubyField
 	call Func_1414b_RubyField

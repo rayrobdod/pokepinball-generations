@@ -474,7 +474,8 @@ wd502:: ; 0xd502
 wd503:: ; 0xd503
 	ds $1
 
-wStaryuAnimation:: ; 0xd504
+wSpinnerChargeFramesUntilHide:: ; 0xd504 / RubyBoard
+wStaryuAnimation:: ; 0xd504 / Red and Gold boards
 	animation wStaryuAnimation
 
 wSpinnerCollision:: ; 0xd507
