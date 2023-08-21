@@ -1,0 +1,21 @@
+# In this image:
+#   black is always solid
+#   white is always passable
+#   grey is the launch lane, and is only passible while launching
+#   the single-light-component colors are the bumpers in different configurations
+#     with mixed colors meaning places where different configurations overlap
+
+[[variant]]
+solid = [0x000000, 0xF0A050]
+
+[[variant]]
+solid = [0x000000, 0xF0A050, 0x808080, 0xFF0000, 0xFFFF00, 0xFF00FF]
+
+
+[[object]]
+label = 'RubyStageVoltorbCollisionAttributes'
+color = [0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00, 0xFF00FF, 0x00FFFF]
+
+[[object]]
+label = 'RubyStageBumperStanceChangeCollisionAttributes'
+color = [0xF0A050]

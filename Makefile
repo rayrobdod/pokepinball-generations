@@ -40,17 +40,19 @@ tidy:
 	$(MAKE) -C tools clean
 
 clean: tidy
-	find . \( -iname '*.1bpp' -o -iname '*.2bpp' -o -iname '*.pcm' -o -iname '*.tilemap' -o -iname '*.attrmap' -o -iname '*.gbpal' \) -exec rm {} +
+	find . \( -iname '*.1bpp' -o -iname '*.2bpp' -o -iname '*.pcm' -o -iname '*.tilemap' -o -iname '*.attrmap' -o -iname '*.gbpal' -o -iname '*.queued-tiledata' -o -iname '*.object-data' \) -exec rm {} +
 
 %.interleave.2bpp: %.interleave.png
 	rgbgfx -o $@ $<
 	tools/gfx --interleave --png $< -o $@ $@
 
-%.collision.1bpp %.collision.tilemap: %.collision.png
-	rgbgfx -u -d1 \
-		--tilemap $*.collision.tilemap \
+%.collision.1bpp %_0.collision.tilemap %_1.collision.tilemap %.collision.object-data: %.tablecollision %.png tools/collision
+	tools/collision \
+		--tilemap $*_%d.collision.tilemap \
+		--object-data $*.collision.object-data \
 		--output $*.collision.1bpp \
-		$*.collision.png
+		$*.tablecollision \
+		$*.png
 
 %.table.bank0.2bpp %.table.bank1.2bpp %.table.gbpal %.table.tilemap %.table.attrmap %.table.queued-tiledata: dep = $(shell tools/tablegfx --list-dependencies $*.tablegfx)
 %.table.bank0.2bpp %.table.bank1.2bpp %.table.gbpal %.table.tilemap %.table.attrmap %.table.queued-tiledata: %.tablegfx tools/tablegfx $$(dep)
@@ -62,12 +64,6 @@ clean: tidy
 		--output0 $*.table.bank0.2bpp \
 		--output1 $*.table.bank1.2bpp \
 		$*.tablegfx
-	rgbgfx -r16 \
-		--output $*.table.bank0.2bpp \
-		$*.table.bank0.2bpp.png
-	rgbgfx -r16 \
-		--output $*.table.bank1.2bpp \
-		$*.table.bank1.2bpp.png
 
 %.2bpp: %.png
 	rgbgfx -o $@ $<

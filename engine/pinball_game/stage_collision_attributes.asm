@@ -130,7 +130,7 @@ StageSilverFieldBottomCollisionAttributesPointers: ; 0xe60e
 StageRubyFieldTopCollisionAttributesPointers: ; 0xe5c7
 	db $01  ; multiple pair entries
 	dwb StageRubyFieldTopCollisionAttributesBallEntrance, Bank(StageRubyFieldTopCollisionAttributesBallEntrance)
-	dwb StageRubyFieldTopCollisionMasksBallEntrance, Bank(StageRubyFieldTopCollisionMasksBallEntrance)
+	dwb StageRubyFieldTopCollisionMasks, Bank(StageRubyFieldTopCollisionMasks)
 	dwb StageRubyFieldTopCollisionAttributes, Bank(StageRubyFieldTopCollisionAttributes)
 	dwb StageRubyFieldTopCollisionMasks, Bank(StageRubyFieldTopCollisionMasks)
 

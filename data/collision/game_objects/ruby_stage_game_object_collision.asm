@@ -9,13 +9,6 @@ RubyStageDiglettCollisionData:
 	db $02, $80, $40  ; id, x, y
 	db $FF ; terminator
 
-RubyStageVoltorbCollisionAttributes:
-	db $00  ; flat list
-	db $11, $27, $34, $35, $40, $41
-	db $36, $37, $42, $43, $4C, $4D, $33
-	db $57, $58, $60, $61
-	db $FF ; terminator
-
 RubyStageVoltorbCollisionData:
 	db $0E, $0E  ; x, y bounding box
 	db $03, $52, $43  ; id, x, y
@@ -145,3 +138,5 @@ RubyStageBottomEvolutionTrinketCoords: ; 0x145fb
 	db $01, $26, $34
 	db $01, $62, $34
 	db $00  ; terminator
+
+INCLUDE "data/collision/maps/ruby_stage_top.collision.object-data"

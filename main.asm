@@ -1438,17 +1438,15 @@ StageRubyFieldBottomCollisionMasks:
 	INCBIN "data/collision/masks/ruby_stage_bottom.masks"
 StageRubyFieldBottomCollisionAttributes:
 	INCBIN "data/collision/maps/ruby_stage_bottom.collision"
-StageRubyFieldTopCollisionMasksBallEntrance:
-	INCBIN "data/collision/maps/ruby_stage_top_ball_entrance.collision.1bpp"
 StageRubyFieldTopCollisionMasks:
 	INCBIN "data/collision/maps/ruby_stage_top.collision.1bpp"
 
 SECTION "bank63", ROMX
 
 StageRubyFieldTopCollisionAttributesBallEntrance:
-	INCBIN "data/collision/maps/ruby_stage_top_ball_entrance.collision.tilemap"
+	INCBIN "data/collision/maps/ruby_stage_top_0.collision.tilemap"
 StageRubyFieldTopCollisionAttributes:
-	INCBIN "data/collision/maps/ruby_stage_top.collision.tilemap"
+	INCBIN "data/collision/maps/ruby_stage_top_1.collision.tilemap"
 
 StageRubyFieldBottomBaseGameBoyGfx:
 	INCBIN  "gfx/stage/ruby_bottom/ruby_bottom_base_gameboy.2bpp"
