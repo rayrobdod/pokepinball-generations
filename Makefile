@@ -46,7 +46,7 @@ clean: tidy
 	rgbgfx -o $@ $<
 	tools/gfx --interleave --png $< -o $@ $@
 
-%.collision.1bpp %_0.collision.tilemap %_1.collision.tilemap %.collision.object-data: %.tablecollision %.png tools/collision
+%.collision.1bpp %_0.collision.tilemap %_1.collision.tilemap %_2.collision.tilemap %.collision.object-data: %.tablecollision %.png tools/collision
 	tools/collision \
 		--tilemap $*_%d.collision.tilemap \
 		--object-data $*.collision.object-data \

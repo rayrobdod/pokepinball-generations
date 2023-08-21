@@ -1260,7 +1260,6 @@ ConcludeEvolutionMode_RubyField:
 	call ResetIndicatorStates
 	call OpenSlotCave
 	call SetLeftAndRightAlleyArrowIndicatorStates_RubyField
-	call Func_107e9
 	ld a, [wCurrentStage]
 	bit 0, a
 	jp z, LoadRubyFieldTopGraphics

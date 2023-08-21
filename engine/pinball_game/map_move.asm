@@ -1538,8 +1538,6 @@ OpenRubyMapMoveSlotFromLeft: ; 0x31591
 	xor a
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 2], a
-	ld a, $80
-	ld [wIndicatorStates + 4], a
 	ld a, $1
 	ld [wSlotIsOpen], a
 	ld [wSpecialModeState], a
@@ -1556,9 +1554,7 @@ OpenRubyMapMoveSlotFromRight: ; 0x315b3
 	jr z, .asm_315d3
 	xor a
 	ld [wIndicatorStates + 1], a
-	ld [wIndicatorStates + 3], a
-	ld a, $80
-	ld [wIndicatorStates + 4], a
+	ld [wIndicatorStates + 5], a
 	ld a, $1
 	ld [wSlotIsOpen], a
 	ld [wSpecialModeState], a
@@ -1638,7 +1634,6 @@ Func_31234_RubyField: ; 0x31234
 	callba ResetIndicatorStates
 	callba OpenSlotCave
 	callba SetLeftAndRightAlleyArrowIndicatorStates_RubyField
-	callba Func_107e9
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z

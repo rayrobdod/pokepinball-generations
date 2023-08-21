@@ -1514,7 +1514,6 @@ Func_108f5_RubyField: ; 0x108f5
 	call ResetIndicatorStates
 	call OpenSlotCave
 	call SetLeftAndRightAlleyArrowIndicatorStates_RubyField
-	call Func_107e9
 	ld a, [wCurrentStage]
 	bit 0, a
 	ret z

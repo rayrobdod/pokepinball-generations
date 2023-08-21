@@ -6,6 +6,7 @@ ResolveRubyFieldTopGameObjectCollisions: ; 0x1460e
 	call UpdateCAVELightsBlinking_RubyField
 	call ResolveRubyStageBoardTriggerCollision
 	call ResolveRubyStagePikachuCollision
+	call ResolveBumperStanceChangeCollision_RubyField
 	call ResolveBellsproutCollision_RubyField
 	call ResolveDittoSlotCollision_RubyField
 	call ApplySlotForceField_RubyFieldTop
@@ -1153,12 +1154,11 @@ HandleRightAlleyTrigger_RubyField: ; 0x1597d
 
 ChangeCollisionStateOutOfBallEntrance_RubyField:
 	; If the stage collision state is in a ball entrance state,
-	; switch to a state with the same bumpers/structures
-	; but without the ball return open
+	; switch to the normal collision state, one without the ball entrance open
 	ld a, [wStageCollisionState]
 	cp $0
 	ret nz
-	ld a, $1
+	ld a, [wd7ad]
 	ld [wStageCollisionState], a
 	callba LoadStageCollisionAttributes
 	ret
@@ -2129,6 +2129,30 @@ SetPikachuSaverSide_RubyField: ; 0x16766
 	ret z
 	ld hl, wWhichPikachuSaverSide
 	ld [hl], $1
+	ret
+
+ResolveBumperStanceChangeCollision_RubyField:
+	ld a, [wStaryuCollision]
+	and a
+	ret z
+	xor a
+	ld [wStaryuCollision], a
+
+	ld bc, FiveThousandPoints
+	callba AddBigBCD6FromQueueWithBallMultiplier
+
+	ld a, [wd7ad]
+	inc a
+	cp $3
+	jr c, .no_overflow
+	ld a, $1
+.no_overflow
+	ld [wd7ad], a
+	ld [wStageCollisionState], a
+
+	ld a, SPECIAL_COLLISION_STARYU
+	callba CheckSpecialModeColision
+
 	ret
 
 UpdateArrowIndicators_RubyField: ; 0x169a6

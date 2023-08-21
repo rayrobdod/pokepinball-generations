@@ -50,15 +50,30 @@ AnimatedMonOAMIds_RubyField:
 	db $26, $27, $28, $29, $2A, $2B, $2C, $2D, $2E, $2F, $30, $31
 
 DrawVoltorbSprites_RubyField: ; 0x17cc4
+	ld a, [wd7ad]
+	cp $1
+	jr z, .stance1
+	cp $2
+	jr z, .stance2
+	ret
+
+.stance1
 	ld de, wVoltorb1Animation
-	ld hl, OAMData_17d15_RubyField
+	ld hl, OAMData_Voltorb_Stance1_A_RubyField
 	call DrawVoltorbSprite_RubyField
 	ld de, wVoltorb2Animation
-	ld hl, OAMData_17d1b_RubyField
+	ld hl, OAMData_Voltorb_Stance1_B_RubyField
 	call DrawVoltorbSprite_RubyField
 	ld de, wVoltorb3Animation
-	ld hl, OAMData_17d21_RubyField
-	; fall through
+	ld hl, OAMData_Voltorb_Stance1_C_RubyField
+	jp DrawVoltorbSprite_RubyField
+	; tail-call
+
+.stance2
+	ld de, wVoltorb1Animation
+	ld hl, OAMData_Voltorb_Stance2_A_RubyField
+	jp DrawVoltorbSprite_RubyField
+	; tail-call
 
 DrawVoltorbSprite_RubyField: ; 0x17cdc
 	push hl
@@ -103,19 +118,24 @@ DrawVoltorbSprite_RubyField: ; 0x17cdc
 	call LoadOAMData
 	ret
 
-OAMData_17d15_RubyField:
+OAMData_Voltorb_Stance1_A_RubyField:
 	db $4D, $2D ; x, y offsets
 	db $00 ; attached voltorb
 	db $BD, $BC, $F9 ; oam ids
 
-OAMData_17d1b_RubyField:
+OAMData_Voltorb_Stance1_B_RubyField:
 	db $64, $36 ; x, y offsets
 	db $01 ; attached voltorb
 	db $BD, $BC, $F9 ; oam ids
 
-OAMData_17d21_RubyField:
+OAMData_Voltorb_Stance1_C_RubyField:
 	db $51, $49 ; x, y offsets
 	db $02 ; attached voltorb
+	db $BD, $BC, $F9 ; oam ids
+
+OAMData_Voltorb_Stance2_A_RubyField:
+	db 87, 58 ; x, y offsets
+	db $00 ; attached voltorb
 	db $BD, $BC, $F9 ; oam ids
 
 AnimationData_17d27_RubyField:

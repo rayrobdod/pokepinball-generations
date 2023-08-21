@@ -1445,8 +1445,10 @@ SECTION "bank63", ROMX
 
 StageRubyFieldTopCollisionAttributesBallEntrance:
 	INCBIN "data/collision/maps/ruby_stage_top_0.collision.tilemap"
-StageRubyFieldTopCollisionAttributes:
+StageRubyFieldTopCollisionAttributes1:
 	INCBIN "data/collision/maps/ruby_stage_top_1.collision.tilemap"
+StageRubyFieldTopCollisionAttributes2:
+	INCBIN "data/collision/maps/ruby_stage_top_2.collision.tilemap"
 
 StageRubyFieldBottomBaseGameBoyGfx:
 	INCBIN  "gfx/stage/ruby_bottom/ruby_bottom_base_gameboy.2bpp"

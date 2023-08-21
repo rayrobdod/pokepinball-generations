@@ -2,6 +2,7 @@ CheckRubyStageTopGameObjectCollisions: ; 0x143e1
 	call CheckRubyStageVoltorbCollision
 	call CheckRubyStageSpinnerCollision
 	call CheckRubyStageBoardTriggersCollision
+	call CheckRubyStageBumperStanceChangeCollision
 	call CheckRubyStageBellsproutCollision
 	call CheckRubyStageDittoSlotCollision
 	call CheckRubyStagePinballUpgradeTriggersCollision
@@ -77,7 +78,15 @@ CheckRubyStageDiglettCollision: ; 0x14467
 	jp HandleGameObjectCollision
 
 CheckRubyStageVoltorbCollision: ; 0x14474
-	ld de, RubyStageVoltorbCollisionData
+	ld a, [wStageCollisionState]
+	sla a
+	ld c, a
+	ld b, 0  ; bc = 2 * [wStageCollisionState]
+	ld hl, RubyStageVoltorbCollisionDataList
+	add hl, bc
+	ld a, [hli]
+	ld d, [hl]
+	ld e, a
 	ld hl, RubyStageVoltorbCollisionAttributes
 	ld bc, wWhichVoltorb
 	and a
@@ -118,6 +127,13 @@ CheckRubyStageBoardTriggersCollision: ; 0x144b6
 	ld de, RubyStageBoardTriggersCollisionData
 	ld bc, wWhichBoardTrigger
 	scf
+	jp HandleGameObjectCollision
+
+CheckRubyStageBumperStanceChangeCollision: ; 0x144c0
+	ld de, RubyStageBumperStanceChangeCollisionData
+	ld hl, RubyStageBumperStanceChangeCollisionAttributes
+	ld bc, wStaryuCollision
+	and a
 	jp HandleGameObjectCollision
 
 CheckRubyStageBellsproutCollision: ; 0x144da

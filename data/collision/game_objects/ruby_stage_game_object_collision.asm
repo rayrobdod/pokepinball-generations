@@ -9,11 +9,21 @@ RubyStageDiglettCollisionData:
 	db $02, $80, $40  ; id, x, y
 	db $FF ; terminator
 
-RubyStageVoltorbCollisionData:
+RubyStageVoltorbCollisionDataList:
+	dw RubyStageVoltorbCollisionData1
+	dw RubyStageVoltorbCollisionData1
+	dw RubyStageVoltorbCollisionData2
+
+RubyStageVoltorbCollisionData1:
 	db $0E, $0E  ; x, y bounding box
 	db $03, $52, $43  ; id, x, y
 	db $04, $6B, $4C  ; id, x, y
 	db $05, $59, $5F  ; id, x, y
+	db $FF ; terminator
+
+RubyStageVoltorbCollisionData2:
+	db $0E, $0E  ; x, y bounding box
+	db $03, 92, 80  ; id, x, y
 	db $FF ; terminator
 
 RubyStageBumpersCollisionAttributes:
@@ -61,6 +71,11 @@ RubyStageBoardTriggersCollisionData:
 	db OBJ_ALLEYTRIGGER_RIGHT_SECONDARY_RUBYFIELD,	133, 48 + 16
 	db OBJ_ALLEYTRIGGER_INNERLEFT_PRIMARY_RUBYFIELD,	36, 92 + 16
 	db OBJ_ALLEYTRIGGER_INNERLEFT_SECONDARY_RUBYFIELD,	38, 52 + 16
+	db $FF ; terminator
+
+RubyStageBumperStanceChangeCollisionData:
+	db $05, $08  ; x, y bounding box
+	db $19, 63, 112  ; id, x, y
 	db $FF ; terminator
 
 RubyStageBellsproutCollisionData:
