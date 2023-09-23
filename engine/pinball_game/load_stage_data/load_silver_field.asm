@@ -407,7 +407,7 @@ LoadBillboardGraphics_SilverField: ; 0x1c4b6
 	ld a, [wOpenedSlotByGetting4CAVELights]
 	and a
 	jr z, .asm_1c4e5
-	ld a, $8
+	ld a, BILLBOARD_SLOT
 	callba LoadBillboardTileData
 	ret
 

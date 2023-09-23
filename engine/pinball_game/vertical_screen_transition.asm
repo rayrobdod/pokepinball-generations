@@ -123,6 +123,8 @@ BallMovingUpStageTransitions: ; 0xed3e
 	db $FF                      ; STAGE_DIGLETT_BONUS
 	db $FF                      ; STAGE_SEEL_BONUS
 	db $FF                      ; STAGE_SEEL_BONUS
+	db $FF                      ; STAGE_GROUDON_BONUS
+	db $FF                      ; STAGE_GROUDON_BONUS
 
 BallMovingDownStageTransitions: ; 0xed4e
 ; Maps the relationship between stages when
@@ -149,6 +151,8 @@ BallMovingDownStageTransitions: ; 0xed4e
 	db $FF                         ; STAGE_DIGLETT_BONUS
 	db $FF                         ; STAGE_SEEL_BONUS
 	db $FF                         ; STAGE_SEEL_BONUS
+	db $FF                         ; STAGE_GROUDON_BONUS
+	db $FF                         ; STAGE_GROUDON_BONUS
 
 ScrollScreenToShowPinball: ; 0xed5e
 ; When the ball is launched on the Blue and Red Fields, the screen starts off scrolled to the right.

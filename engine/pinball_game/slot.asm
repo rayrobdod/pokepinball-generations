@@ -180,6 +180,7 @@ SlotRewards_CallTable: ; 0xeeca
 	dw SlotRewardGoToBonusStage
 	dw SlotRewardGoToBonusStage
 	dw SlotRewardGoToBonusStage
+	dw SlotRewardGoToBonusStage
 
 Delay1Frame: ; 0xeeee
 ; Simply does nothing for approximately 1 frame of real time
@@ -552,6 +553,7 @@ PaletteDataPointerTable_f2be: ; 0xf2be
 	dab GoToMeowthBonusOnBillboardBGPalette
 	dab GoToDiglettBonusOnBillboardBGPalette
 	dab GoToSeelBonusOnBillboardBGPalette
+	dab GoToGroudonBonusOnBillboardBGPalette
 	dab PaletteData_dcc00
 	dab PaletteData_dcc00
 	dab PaletteData_dcc00
@@ -602,17 +604,17 @@ SlotRewardRoulettePermutations: ; 0xf339
 ; chosen if the player interrupted the roulette by pressing a flipper key?
 SlotRewardSets: ; 0xf439
 	; wSlotRewardProgress = 0
-	db BILLBOARD_SMALL_REWARD, $19
-	db BILLBOARD_BONUS_MULTIPLIER, $4C
-	db BILLBOARD_BALL_SAVER_30, $4C
-	db BILLBOARD_PIKACHU_SAVER, $4C
+	db BILLBOARD_GENGAR_BONUS, $19
+	db BILLBOARD_GENGAR_BONUS, $4C
+	db BILLBOARD_GENGAR_BONUS, $4C
+	db BILLBOARD_GENGAR_BONUS, $4C
 	db $FF, $00
 
 	; wSlotRewardProgress = 10
-	db BILLBOARD_SMALL_REWARD, $19
-	db BILLBOARD_BONUS_MULTIPLIER, $4C
-	db BILLBOARD_BALL_SAVER_30, $4C
-	db BILLBOARD_CATCHEM_MODE, $4C
+	db BILLBOARD_GENGAR_BONUS, $19
+	db BILLBOARD_GENGAR_BONUS, $4C
+	db BILLBOARD_GENGAR_BONUS, $4C
+	db BILLBOARD_GENGAR_BONUS, $4C
 	db $FF, $00
 
 	; wSlotRewardProgress = 20

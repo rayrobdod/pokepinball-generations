@@ -353,6 +353,8 @@ HighScoresStageMapping: ; 0xdb99
 	db $00  ; STAGE_DIGLETT_BONUS
 	db $00  ; STAGE_SEEL_BONUS
 	db $00  ; STAGE_SEEL_BONUS
+	db $00  ; STAGE_GROUDON_BONUS
+	db $00  ; STAGE_GROUDON_BONUS
 
 Func_dba9: ; 0xdba9
 	ld a, $85

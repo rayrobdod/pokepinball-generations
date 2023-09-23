@@ -338,7 +338,7 @@ LoadBillboardGraphics_RubyField: ; 0x14377
 	ld a, [wOpenedSlotByGetting4CAVELights]
 	and a
 	jr z, .asm_143a6
-	ld a, $8
+	ld a, BILLBOARD_SLOT
 	callba LoadBillboardTileData
 	ret
 

@@ -52,6 +52,8 @@ InitBall_CallTable: ; 0x8404
 	padded_dab InitBallDiglettBonusStage ; STAGE_DIGLETT_BONUS
 	padded_dab InitBallSeelBonusStage    ; STAGE_SEEL_BONUS
 	padded_dab InitBallSeelBonusStage    ; STAGE_SEEL_BONUS
+	padded_dab InitBallGroudonBonusStage ; STAGE_GROUDON_BONUS
+	padded_dab InitBallGroudonBonusStage ; STAGE_GROUDON_BONUS
 
 TryLoadWildMonCollisionMask: ; 0x8444
 	ld a, [wInSpecialMode]

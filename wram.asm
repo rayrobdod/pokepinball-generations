@@ -1715,6 +1715,18 @@ wd79c:: ; 0xd79c
 wd79e:: ; 0xd79e
 	ds $1
 
+wNumGroudonHits::
+	ds $1
+
+wGroudonBonusClosedGate::
+	ds $1
+
+wGroudonAnimationId::
+	ds $1
+
+wGroudonAnimation::
+	animation wGroudonAnimation
+
 wLeftAndRightTiltPixelsOffset:: ; 0xd79f
 ; Horizontal offset in pixels that the left and right tilt are currently moving the screen.
 	ds $1

@@ -30,11 +30,12 @@ InitRubyField:
 	ld a, $3
 	ld [wNumBallLives], a
 	ld [wd610], a
-	ld [wNextBonusStage], a
-	ld [wInitialNextBonusStage], a
 	ld a, $4
 	ld [wStageCollisionState], a
 	ld [wd7ad], a
+	ld a, BONUS_STAGE_ORDER_GROUDON
+	ld [wNextBonusStage], a
+	ld [wInitialNextBonusStage], a
 	ld a, $80
 	ld [wIndicatorStates], a
 	ld [wIndicatorStates + 3], a

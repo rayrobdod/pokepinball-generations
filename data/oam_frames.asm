@@ -1,3 +1,8 @@
+MACRO SpriteDataPointer
+	const \2
+	dw \1
+ENDM
+
 OAMDataPointers: ; 0x4000
 	dw BallSpin0OAM
 	dw BallSpin1OAM
@@ -2408,6 +2413,12 @@ OAMDataPointers2: ; 0x55d7
 	dw OAMData_Politoad1
 	dw OAMData_Politoad2
 	dw OAMData_Politoad3
+	const_def $97
+	SpriteDataPointer GroudonIdleFrame0Sprite, SPRITE_GROUDON_IDLE_0
+	SpriteDataPointer GroudonIdleFrame1Sprite, SPRITE_GROUDON_IDLE_1
+	SpriteDataPointer GroudonBoulderHealth3Sprite, SPRITE_GROUDON_BOULDER_3
+	SpriteDataPointer GroudonBoulderHealth2Sprite, SPRITE_GROUDON_BOULDER_2
+	SpriteDataPointer GroudonBoulderHealth1Sprite, SPRITE_GROUDON_BOULDER_1
 
 OAMData2_0: ; 0x56e1
 	db $20, $20, $9E, $04
@@ -3631,4 +3642,39 @@ OAMData_Politoad3 : ;96
 	db $22, $18, $1e, $11
 	db $22, $10, $1c, $11
 	db $22, $08, $1a, $11
+	db $80 ; terminator
+
+GroudonIdleFrame0Sprite:
+	db $20, $00, $00, $89
+	db $20, $08, $02, $89
+	db $20, $10, $04, $89
+	db $20, $18, $06, $89
+	db $30, $04, $08, $89
+	db $30, $0c, $0a, $89
+	db $30, $14, $0c, $89
+	db $80 ; terminator
+
+GroudonIdleFrame1Sprite:
+	db $20, $00, $0e, $89
+	db $20, $08, $10, $89
+	db $20, $10, $12, $89
+	db $20, $18, $14, $89
+	db $30, $04, $16, $89
+	db $30, $0c, $18, $89
+	db $30, $14, $1a, $89
+	db $80 ; terminator
+
+GroudonBoulderHealth3Sprite:
+	db $08, $08, $72, $07
+	db $08, $00, $74, $07
+	db $80 ; terminator
+
+GroudonBoulderHealth2Sprite:
+	db $08, $08, $76, $07
+	db $08, $00, $78, $07
+	db $80 ; terminator
+
+GroudonBoulderHealth1Sprite:
+	db $08, $08, $7a, $07
+	db $08, $00, $7c, $07
 	db $80 ; terminator

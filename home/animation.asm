@@ -16,7 +16,8 @@ UpdateAnimation: ; 0x28a9
 ; Updates an animation struct.  (See wDugtrioAnimationFrameCounter)
 ; Input:  de = pointer to 3-byte animation struct
 ;         hl = pointer to animation frames data
-; Sets carry flag if the animation is over.
+; Sets carry flag if the animation advanced a frame,
+;      and sets the zero flag if the animation is over
 	ld a, [de]
 	and a
 	ret z  ; return, if counter is zero

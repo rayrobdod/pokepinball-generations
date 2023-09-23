@@ -46,7 +46,10 @@ BillboardTileDataPointers:
 	dw GoToMeowthBonusOnBillboardTileDataList
 	dw GoToDiglettBonusOnBillboardTileDataList
 	dw GoToSeelBonusOnBillboardTileDataList
+	dw GoToGroudonBonusOnBillboardTileDataList
 	dw SlotOnBillboardTileDataList
+
+DEF BILLBOARD_SLOT EQU 9
 
 PalletTownBillboardTileDataList:
 	db 8
@@ -542,6 +545,17 @@ GoToSeelBonusOnBillboardTileDataList:
 	dw GoToSeelBonusOnBillboardTileData6
 	dw GoToSeelBonusOnBillboardTileData7
 	dw GoToSeelBonusOnBillboardTileData8
+
+GoToGroudonBonusOnBillboardTileDataList:
+	db 8
+	dw GoToGroudonBonusOnBillboardTileData1
+	dw GoToGroudonBonusOnBillboardTileData2
+	dw GoToGroudonBonusOnBillboardTileData3
+	dw GoToGroudonBonusOnBillboardTileData4
+	dw GoToGroudonBonusOnBillboardTileData5
+	dw GoToGroudonBonusOnBillboardTileData6
+	dw GoToGroudonBonusOnBillboardTileData7
+	dw GoToGroudonBonusOnBillboardTileData8
 
 SlotOnBillboardTileDataList:
 	db 8
@@ -3434,6 +3448,70 @@ GoToSeelBonusOnBillboardTileData8:
 	db Bank(GoToSeelBonusOnPic)
 	db $00
 
+GoToGroudonBonusOnBillboardTileData1:
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $10
+	dw GoToGroudonBonusOnPic
+	db Bank(GoToGroudonBonusOnPic)
+	db $00
+
+GoToGroudonBonusOnBillboardTileData2:
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $13
+	dw GoToGroudonBonusOnPic + $30
+	db Bank(GoToGroudonBonusOnPic)
+	db $00
+
+GoToGroudonBonusOnBillboardTileData3:
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $16
+	dw GoToGroudonBonusOnPic + $60
+	db Bank(GoToGroudonBonusOnPic)
+	db $00
+
+GoToGroudonBonusOnBillboardTileData4:
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $19
+	dw GoToGroudonBonusOnPic + $90
+	db Bank(GoToGroudonBonusOnPic)
+	db $00
+
+GoToGroudonBonusOnBillboardTileData5:
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $1C
+	dw GoToGroudonBonusOnPic + $C0
+	db Bank(GoToGroudonBonusOnPic)
+	db $00
+
+GoToGroudonBonusOnBillboardTileData6:
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $1F
+	dw GoToGroudonBonusOnPic + $F0
+	db Bank(GoToGroudonBonusOnPic)
+	db $00
+
+GoToGroudonBonusOnBillboardTileData7:
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $22
+	dw GoToGroudonBonusOnPic + $120
+	db Bank(GoToGroudonBonusOnPic)
+	db $00
+
+GoToGroudonBonusOnBillboardTileData8:
+	dw Func_11d2
+	db $30, $03
+	dw vTilesSH tile $25
+	dw GoToGroudonBonusOnPic + $150
+	db Bank(GoToGroudonBonusOnPic)
+	db $00
+
 SlotOnBillboardTileData1:
 	dw Func_11d2
 	db $30, $03
@@ -3546,6 +3624,7 @@ BillboardPaletteDataPointers:
 	dw GoToMeowthBonusOnBillboardPaletteData
 	dw GoToDiglettBonusOnBillboardPaletteData
 	dw GoToSeelBonusOnBillboardPaletteData
+	dw GoToGroudonBonusOnBillboardPaletteData
 	dw SlotOnBillboardPaletteData
 
 PalletTownBillboardPaletteData:
@@ -3773,6 +3852,11 @@ GoToSeelBonusOnBillboardPaletteData:
 	db $02
 	dw GoToSeelBonusOnBillboardBGPaletteData
 	dw GoToSeelBonusOnBillboardBGPaletteMapData
+
+GoToGroudonBonusOnBillboardPaletteData:
+	db $02
+	dw GoToGroudonBonusOnBillboardBGPaletteData
+	dw GoToGroudonBonusOnBillboardBGPaletteMapData
 
 SlotOnBillboardPaletteData:
 	db $02
@@ -5329,6 +5413,7 @@ GoToSeelBonusOnBillboardBGPaletteData:
 	db $00 ; terminator
 
 GoToSeelBonusOnBillboardBGPaletteMapData:
+GoToGroudonBonusOnBillboardBGPaletteMapData:
 	dw Func_122e
 	db $18 ; total number of bytes
 
@@ -5352,6 +5437,15 @@ GoToSeelBonusOnBillboardBGPaletteMapData:
 	dw SlotRewardBillboardBGPaletteMap + $12
 	db Bank(SlotRewardBillboardBGPaletteMap)
 
+	db $00 ; terminator
+
+GoToGroudonBonusOnBillboardBGPaletteData:
+	dw LoadPalettes
+	db $10
+	db $08 ; number of colors
+	db $30 ; OAM palettes
+	dw GoToGroudonBonusOnBillboardBGPalette
+	db Bank(GoToGroudonBonusOnBillboardBGPalette)
 	db $00 ; terminator
 
 SlotOnBillboardBGPaletteData:

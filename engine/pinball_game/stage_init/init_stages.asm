@@ -47,6 +47,8 @@ CallTable_8348: ; 0x8348
 	padded_dab InitDiglettBonusStage ; STAGE_DIGLETT_BONUS
 	padded_dab InitSeelBonusStage    ; STAGE_SEEL_BONUS
 	padded_dab InitSeelBonusStage    ; STAGE_SEEL_BONUS
+	padded_dab InitGroudonBonusStage ; STAGE_GROUDON_BONUS
+	padded_dab InitGroudonBonusStage ; STAGE_GROUDON_BONUS
 
 ResetDataForStageInitialization: ; 0x8388
 ; Resets some game data, depending on which stage is being initialized.

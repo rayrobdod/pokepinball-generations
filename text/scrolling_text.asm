@@ -292,6 +292,18 @@ SeelStageClearedText:
 	scrolling_text_normal 1, 20, 0, 20
 	db "SEEL STAGE CLEARED @"
 
+GoToGroudonStageText:
+	scrolling_text_normal 1, 20, 0, 20
+	db "GO TO GROUDON STAGE @"
+
+EndGroudonStageText:
+	scrolling_text_normal 2, 20, 0, 19
+	db "END GROUDON STAGE @"
+
+GroudonStageClearedText:
+	scrolling_text_normal 0, 20, 0, 21
+	db "GROUDON STAGE CLEARED @"
+
 NumPokemonCaughtText:
 	db "  0 POKeMON CAUGHT@"
 

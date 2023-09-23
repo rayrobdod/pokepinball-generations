@@ -1894,6 +1894,9 @@ ShowScrollingGoToBonusText_RubyField: ; 0x163f2
 	call EnableBottomText
 	ld hl, wScrollingText3
 	ld a, [wNextStage]
+	ld de, GoToGroudonStageText
+	cp STAGE_GROUDON_BONUS
+	jr z, .asm_1640f
 	ld de, GoToDiglettStageText
 	cp STAGE_DIGLETT_BONUS
 	jr z, .asm_1640f
@@ -1916,6 +1919,7 @@ BonusStages_RubyField:
 	db STAGE_MEOWTH_BONUS
 	db STAGE_DIGLETT_BONUS
 	db STAGE_SEEL_BONUS
+	db STAGE_GROUDON_BONUS
 
 LoadSlotCaveCoverGraphics_RubyField: ; 0x16425
 ; Loads the graphics for the circular slot cave area.
@@ -1968,7 +1972,7 @@ OpenSlotCave_RubyField: ; 0x164e3
 	ld a, [wOpenedSlotByGetting4CAVELights]
 	and a
 	ret z
-	ld a, $8 ; "Slot On" billboard picture id
+	ld a, BILLBOARD_SLOT
 .asm_16506
 	ld hl, wCurrentStage
 	bit 0, [hl]

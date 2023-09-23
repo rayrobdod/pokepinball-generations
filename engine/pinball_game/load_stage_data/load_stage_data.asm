@@ -25,3 +25,5 @@ CallTable_8477: ; 0x8477
 	padded_dab _LoadStageDataDiglettBonus        ; STAGE_DIGLETT_BONUS
 	padded_dab _LoadStageDataSeelBonus           ; STAGE_SEEL_BONUS
 	padded_dab _LoadStageDataSeelBonus           ; STAGE_SEEL_BONUS
+	padded_dab _LoadStageDataGroudonBonus        ; STAGE_GROUDON_BONUS
+	padded_dab _LoadStageDataGroudonBonus        ; STAGE_GROUDON_BONUS

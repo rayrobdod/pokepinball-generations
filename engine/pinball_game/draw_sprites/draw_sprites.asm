@@ -25,6 +25,8 @@ CallTable_84bd: ; 0x84bd
 	padded_dab DrawSpritesDiglettBonus        ; STAGE_DIGLETT_BONUS
 	padded_dab DrawSpritesSeelBonus           ; STAGE_SEEL_BONUS
 	padded_dab DrawSpritesSeelBonus           ; STAGE_SEEL_BONUS
+	padded_dab DrawSpritesGroudonBonus        ; STAGE_GROUDON_BONUS
+	padded_dab DrawSpritesGroudonBonus        ; STAGE_GROUDON_BONUS
 
 UnusedFunc_84fd:
 ; unused

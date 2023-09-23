@@ -32,6 +32,8 @@ GameObjectCollisions_CallTable: ; 0x2735
 	padded_dab CheckDiglettBonusStageGameObjectCollisions   ; STAGE_DIGLETT_BONUS
 	padded_dab CheckSeelBonusStageGameObjectCollisions      ; STAGE_SEEL_BONUS
 	padded_dab CheckSeelBonusStageGameObjectCollisions      ; STAGE_SEEL_BONUS
+	padded_dab CheckGroudonBonusStageGameObjectCollisions   ; STAGE_GROUDON_BONUS
+	padded_dab CheckGroudonBonusStageGameObjectCollisions   ; STAGE_GROUDON_BONUS
 
 HandleGameObjectCollision: ; 0x2775
 ; Handle collision checking for one set of game objects, such as the bumpers, Pikachu savers, etc.
@@ -201,3 +203,5 @@ CallTable_2822: ; 0x2822
 	padded_dab ResolveDiglettBonusGameObjectCollisions        ; STAGE_DIGLETT_BONUS
 	padded_dab ResolveSeelBonusGameObjectCollisions           ; STAGE_SEEL_BONUS
 	padded_dab ResolveSeelBonusGameObjectCollisions           ; STAGE_SEEL_BONUS
+	padded_dab ResolveGroudonBonusGameObjectCollisions        ; STAGE_GROUDON_BONUS
+	padded_dab ResolveGroudonBonusGameObjectCollisions        ; STAGE_GROUDON_BONUS

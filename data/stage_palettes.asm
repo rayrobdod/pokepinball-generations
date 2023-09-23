@@ -643,6 +643,11 @@ GoToSeelBonusOnBillboardBGPalette:  ; 0xdcc60
 	RGB 20, 20, 26
 	RGB 31, 11, 10
 	RGB 0, 0, 0
+GoToGroudonBonusOnBillboardBGPalette:
+	RGB 31, 31, 31
+	RGB 144 / 8, 128 / 8, 120 / 8
+	RGB 200 / 8, 0, 0
+	RGB 0, 0, 0
 
 HurryUp2OnBillboardBGPalette: ; 0xdcc68
 HurryUpOnBillboardBGPalette:
@@ -743,6 +748,93 @@ MeowthBonusOBJPalette7: ; 0xdccf8
 	RGB 20, 20, 20
 	RGB 8, 8, 8
 	RGB 0, 0, 0
+
+GroudonBonusPalettes:
+GroudonBonusBgPalette0:
+	RGB 31, 31, 31
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+GroudonBonusBgPaletteWall:
+	RGB 31, 31, 31
+	RGB 27, 16, 11
+	RGB 16, 9, 7
+	RGB 0, 0, 0
+GroudonBonusBgPaletteWallWithGem:
+	RGB 31, 31, 31
+	RGB 27, 16, 11
+	RGB 31, 6, 6
+	RGB 17, 0, 0
+GroudonBonusBgPalette3:
+	RGB 31, 31, 31
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+GroudonBonusBgPalette4:
+	RGB 31, 31, 31
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+GroudonBonusBgPalette5:
+	RGB 31, 31, 31
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+GroudonBonusBgPaletteLavaPlume:
+	RGB 31, 31, 31
+	RGB 31, 30, 11
+	RGB 31, 20, 6
+	RGB 26, 2, 0
+GroudonBonusBgPaletteGroudonLimbs:
+	RGB 31, 31, 31
+	RGB 28, 3, 3
+	RGB 6, 5, 11
+	RGB 0, 0, 0
+
+GroudonBonusObjPalettePokeball:
+	RGB 16, 31, 16
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+GroudonBonusObjPaletteGroudonBody:
+	RGB 16, 31, 31
+	RGB 18, 16, 15
+	RGB 11, 8, 8
+	RGB 0, 0, 0
+GroudonBonusObjPaletteFlippers:
+	RGB 16, 31, 31
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+GroudonBonusObjPalette3:
+; Might need groudon limbs as a sprite too?
+; E.g. For prologue and defeat animations
+	RGB 16, 31, 31
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+GroudonBonusObjPalette4:
+	RGB 16, 31, 31
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+GroudonBonusObjPalette5:
+; Fireball, if not same palette as lava plume.
+; Or maybe a damaged flash for the lave plumes
+	RGB 16, 31, 31
+	RGB 20, 20, 20
+	RGB 8, 8, 8
+	RGB 0, 0, 0
+GroudonBonusObjPaletteLavaPlume:
+	RGB 16, 31, 31
+	RGB 31, 30, 11
+	RGB 31, 20, 6
+	RGB 26, 2, 0
+GroudonBonusObjPaletteBoulder:
+	RGB 16, 31, 31
+	RGB 24, 12, 0
+	RGB 15, 7, 0
+	RGB 6, 3, 1
 
 HighScoresBlueStagePalettes: ; 0xdcd00
 HighScoresBlueStageBGPalette0: ; 0xdcd00

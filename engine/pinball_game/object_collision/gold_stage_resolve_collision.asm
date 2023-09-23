@@ -1917,6 +1917,7 @@ BonusStages_GoldField:
 	db STAGE_MEOWTH_BONUS
 	db STAGE_DIGLETT_BONUS
 	db STAGE_SEEL_BONUS
+	db STAGE_GROUDON_BONUS
 
 LoadSlotCaveCoverGraphics_GoldField: ; 0x16425
 ; Loads the graphics for the circular slot cave area.
@@ -1969,7 +1970,7 @@ OpenSlotCave_GoldField: ; 0x164e3
 	ld a, [wOpenedSlotByGetting4CAVELights]
 	and a
 	ret z
-	ld a, $8 ; "Slot On" billboard picture id
+	ld a, BILLBOARD_SLOT
 .asm_16506
 	ld hl, wCurrentStage
 	bit 0, [hl]
@@ -2355,7 +2356,7 @@ ResolveStaryuCollision_Bottom_GoldField: ; 0x167ff
 	dec a
 	ld [wd503], a
 	ret nz
-	ld a, [wd502] 
+	ld a, [wd502]
 	and $1
 	ld c, a
 	ld a, [wStageCollisionState]

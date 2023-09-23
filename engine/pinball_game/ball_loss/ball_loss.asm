@@ -24,6 +24,8 @@ CallTable_dc4d: ; 0xdc4d
 	dw HandleBallLossDiglettBonus  ; STAGE_DIGLETT_BONUS
 	dw HandleBallLossSeelBonus     ; STAGE_SEEL_BONUS
 	dw HandleBallLossSeelBonus     ; STAGE_SEEL_BONUS
+	dw HandleBallLossGroudonBonus  ; STAGE_GROUDON_BONUS
+	dw HandleBallLossGroudonBonus  ; STAGE_GROUDON_BONUS
 
 ShowBallLossText: ; 0xdc6d
 ; Input: de = pointer to scrolling text header

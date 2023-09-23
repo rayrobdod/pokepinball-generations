@@ -50,6 +50,7 @@ INCLUDE "engine/pinball_game/ball_loss/ball_loss_mewtwo_bonus.asm"
 INCLUDE "engine/pinball_game/ball_loss/ball_loss_meowth_bonus.asm"
 INCLUDE "engine/pinball_game/ball_loss/ball_loss_diglett_bonus.asm"
 INCLUDE "engine/pinball_game/ball_loss/ball_loss_seel_bonus.asm"
+INCLUDE "engine/pinball_game/ball_loss/ball_loss_groudon_bonus.asm"
 INCLUDE "engine/pinball_game/flippers.asm"
 INCLUDE "engine/pinball_game/stage_collision_attributes.asm"
 INCLUDE "engine/pinball_game/vertical_screen_transition.asm"
@@ -1531,3 +1532,43 @@ INCLUDE "data/mon_gfx/mon_billboard_pics_22.asm"
 SECTION "bank70", ROMX
 
 INCLUDE "text/pokedex_descriptions_3.asm"
+
+SECTION "bank71", ROMX
+
+INCLUDE "data/billboard/billboard_pics_2.asm"
+
+GroudonBonusBaseGfx:
+	INCBIN "gfx/stage/groudon_bonus/base.2bpp"
+
+GroudonBonusGroudonBodyGfx:
+	INCBIN "gfx/stage/groudon_bonus/groudon_body.interleave.2bpp"
+GroudonBonusGroudonLimbsGfx:
+	INCBIN "gfx/stage/groudon_bonus/groudon_limbs.2bpp"
+GroudonBonusBoulderGfx:
+	INCBIN "gfx/stage/groudon_bonus/boulder.interleave.2bpp"
+GroudonBonusGroudonLavaPlumeAttackGfx:
+	INCBIN "gfx/stage/groudon_bonus/blank.2bpp"
+
+GroudonBonusTilemap:
+	INCBIN "gfx/tilemaps/stage_groudon_bonus.tilemap"
+GroudonBonusTilemap2:
+	INCBIN "gfx/tilemaps/stage_groudon_bonus.attrmap"
+
+StageGroudonBonusCollisionAttributesBallEntrance:
+	INCBIN "data/collision/maps/groudon_bonus_ball_entrance.collision"
+StageGroudonBonusCollisionAttributes:
+	INCBIN "data/collision/maps/groudon_bonus.collision"
+StageGroudonBonusCollisionMasks:
+	INCBIN "data/collision/masks/groudon_bonus.1bpp"
+
+INCLUDE "engine/pinball_game/stage_init/init_groudon_bonus.asm"
+INCLUDE "engine/pinball_game/ball_init/ball_init_groudon_bonus.asm"
+INCLUDE "engine/pinball_game/load_stage_data/load_groudon_bonus.asm"
+INCLUDE "engine/pinball_game/object_collision/groudon_bonus_object_collision.asm"
+INCLUDE "engine/pinball_game/object_collision/groudon_bonus_resolve_collision.asm"
+INCLUDE "engine/pinball_game/draw_sprites/draw_groudon_bonus_sprites.asm"
+INCLUDE "data/queued_tiledata/groudon_bonus/groudon_limbs.asm"
+INCLUDE "data/queued_tiledata/groudon_bonus/groudon_attacks.asm"
+
+GroudonBonusBlank:
+	INCBIN "gfx/stage/groudon_bonus/blank.2bpp"

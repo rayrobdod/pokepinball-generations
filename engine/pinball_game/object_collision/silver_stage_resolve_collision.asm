@@ -1784,7 +1784,7 @@ _LoadPsyduckOrPoliwagGraphics_SilverField: ; 0x1de4b
 	bit 0, a
 	ret z
 	ld a, b
-	sla a 
+	sla a
 	ld c, a
 	ld b, $0
 	ld hl, TileDataPointers_1e00f_SilverField
@@ -2615,6 +2615,7 @@ BonusStages_SilverField:
 	db STAGE_MEOWTH_BONUS
 	db STAGE_DIGLETT_BONUS
 	db STAGE_SEEL_BONUS
+	db STAGE_GROUDON_BONUS
 
 LoadSlotCaveCoverGraphics_SilverField: ; 0x1e8f6
 ; Loads the graphics for the circular slot cave area.
@@ -2667,7 +2668,7 @@ OpenSlotCave_SilverField: ; 0x1e9c0
 	ld a, [wOpenedSlotByGetting4CAVELights]
 	and a
 	ret z
-	ld a, $8 ; "Slot On" billboard picture id
+	ld a, BILLBOARD_SLOT
 .asm_1e9e3
 	ld hl, wCurrentStage
 	bit 0, [hl]

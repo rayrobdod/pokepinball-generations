@@ -54,6 +54,8 @@ StageCollisionAttributesPointers: ; 0xe5a7
 	dw StageDiglettBonusCollisionAttributesPointers
 	dw StageSeelBonusCollisionAttributesPointers
 	dw StageSeelBonusCollisionAttributesPointers
+	dw StageGroudonBonusCollisionAttributesPointers ; STAGE_GROUDON_BONUS
+	dw StageGroudonBonusCollisionAttributesPointers ; STAGE_GROUDON_BONUS
 
 StageRedFieldTopCollisionAttributesPointers: ; 0xe5c7
 	db $01  ; multiple pair entries
@@ -197,6 +199,13 @@ StageSeelBonusCollisionAttributesPointers: ; 0xe649
 	dwb StageSeelBonusCollisionMasks, Bank(StageSeelBonusCollisionMasks)
 	dwb StageSeelBonusCollisionAttributes, Bank(StageSeelBonusCollisionAttributes)
 	dwb StageSeelBonusCollisionMasks, Bank(StageSeelBonusCollisionMasks)
+
+StageGroudonBonusCollisionAttributesPointers: ; 0xe649
+	db $01  ; multiple pair entries
+	dwb StageGroudonBonusCollisionAttributesBallEntrance, Bank(StageGroudonBonusCollisionAttributesBallEntrance)
+	dwb StageGroudonBonusCollisionMasks, Bank(StageGroudonBonusCollisionMasks)
+	dwb StageGroudonBonusCollisionAttributes, Bank(StageGroudonBonusCollisionAttributes)
+	dwb StageGroudonBonusCollisionMasks, Bank(StageGroudonBonusCollisionMasks)
 
 LoadCollisionAttributes: ; 0xe656
 ; Loads the stage's collision attributes into RAM

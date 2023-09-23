@@ -2614,6 +2614,7 @@ BonusStages_SapphireField:
 	db STAGE_MEOWTH_BONUS
 	db STAGE_DIGLETT_BONUS
 	db STAGE_SEEL_BONUS
+	db STAGE_GROUDON_BONUS
 
 LoadSlotCaveCoverGraphics_SapphireField: ; 0x1e8f6
 ; Loads the graphics for the circular slot cave area.
@@ -2666,7 +2667,7 @@ OpenSlotCave_SapphireField: ; 0x1e9c0
 	ld a, [wOpenedSlotByGetting4CAVELights]
 	and a
 	ret z
-	ld a, $8 ; "Slot On" billboard picture id
+	ld a, BILLBOARD_SLOT
 .asm_1e9e3
 	ld hl, wCurrentStage
 	bit 0, [hl]
