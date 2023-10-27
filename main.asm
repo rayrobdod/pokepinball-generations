@@ -1535,19 +1535,20 @@ INCLUDE "text/pokedex_descriptions_3.asm"
 
 SECTION "bank71", ROMX
 
+GroudonBonusGroudonBodyGfx:
+	INCBIN "gfx/stage/groudon_bonus/groudon_body.interleave.2bpp"
+GroudonBonusGroudonLimbsGfx:
+	INCBIN "gfx/stage/groudon_bonus/groudon_limbs.2bpp"
+
+SECTION "bank72", ROMX
+
 INCLUDE "data/billboard/billboard_pics_2.asm"
 
 GroudonBonusBaseGfx:
 	INCBIN "gfx/stage/groudon_bonus/base.2bpp"
 
-GroudonBonusGroudonBodyGfx:
-	INCBIN "gfx/stage/groudon_bonus/groudon_body.interleave.2bpp"
-GroudonBonusGroudonLimbsGfx:
-	INCBIN "gfx/stage/groudon_bonus/groudon_limbs.2bpp"
 GroudonBonusBoulderGfx:
 	INCBIN "gfx/stage/groudon_bonus/boulder.interleave.2bpp"
-GroudonBonusGroudonLavaPlumeAttackGfx:
-	INCBIN "gfx/stage/groudon_bonus/blank.2bpp"
 
 GroudonBonusTilemap:
 	INCBIN "gfx/tilemaps/stage_groudon_bonus.tilemap"
@@ -1571,4 +1572,5 @@ INCLUDE "data/queued_tiledata/groudon_bonus/groudon_limbs.asm"
 INCLUDE "data/queued_tiledata/groudon_bonus/groudon_attacks.asm"
 
 GroudonBonusBlank:
+GroudonBonusGroudonLavaPlumeAttackGfx:
 	INCBIN "gfx/stage/groudon_bonus/blank.2bpp"

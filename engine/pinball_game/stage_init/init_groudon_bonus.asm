@@ -15,8 +15,13 @@ InitGroudonBonusStage:
 	ld a, [wBallType]
 	ld [wBallTypeBackup], a
 
+	ld hl, EventGroudonAnimation
+	ld de, wGroudonEventAnimation
+	call InitAnimation
+
 	ld bc, GROUDON_DURATION
 	callba StartTimer
+
 	ld a, Bank(Music_MewtwoStage)
 	call SetSongBank
 	ld de, MUSIC_MEWTWO_STAGE

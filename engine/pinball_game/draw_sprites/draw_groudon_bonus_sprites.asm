@@ -7,7 +7,7 @@ DrawSpritesGroudonBonus:
 	ret
 
 DrawGroudonBodySprite:
-	ld a, $48
+	ld a, $40
 	ld hl, hSCX
 	sub [hl]
 	ld b, a

@@ -836,6 +836,27 @@ GroudonBonusObjPaletteBoulder:
 	RGB 15, 7, 0
 	RGB 6, 3, 1
 
+GroudonBonusBgPaletteGroudonLimbsHalfGlow:
+	RGB 31, 31, 31
+	RGB 31, 6, 6
+	RGB 5, 4, 21
+	RGB 16, 4, 4
+GroudonBonusBgPaletteGroudonLimbsFullGlow:
+	RGB 31, 31, 31
+	RGB 31, 23, 23
+	RGB 4, 3, 31
+	RGB 31, 17, 17
+GroudonBonusObjPaletteGroudonBodyHalfGlow:
+	RGB 16, 31, 31
+	RGB 25, 22, 21
+	RGB 21, 16, 16
+	RGB 16, 4, 4
+GroudonBonusObjPaletteGroudonBodyFullGlow:
+	RGB 16, 31, 31
+	RGB 31, 31, 31
+	RGB 31, 25, 25
+	RGB 31, 17, 17
+
 HighScoresBlueStagePalettes: ; 0xdcd00
 HighScoresBlueStageBGPalette0: ; 0xdcd00
 	RGB 31, 31, 31

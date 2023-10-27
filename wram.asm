@@ -1721,10 +1721,13 @@ wNumGroudonHits::
 wGroudonBonusClosedGate::
 	ds $1
 
+wGroudonEventAnimation:: ; the groudon bonus stage's event timer
+	animation wGroudonEventAnimation
+
 wGroudonAnimationId::
 	ds $1
 
-wGroudonAnimation::
+wGroudonAnimation:: ; the groudon bonus's groudon animation
 	animation wGroudonAnimation
 
 wLeftAndRightTiltPixelsOffset:: ; 0xd79f
