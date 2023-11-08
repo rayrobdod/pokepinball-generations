@@ -10,11 +10,11 @@ TileData_GroudonLimbs_Idle0_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $80, $80, $81, $82, $80, $80
+	db $00, $00, $01, $02, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $80, $83, $84, $85, $83, $80
+	db $00, $03, $04, $05, $03, $00
 
 	db $00
 
@@ -24,11 +24,11 @@ TileData_GroudonLimbs_Idle0_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $80, $86, $87, $87, $86, $80
+	db $00, $06, $07, $07, $06, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $88, $89, $8A, $8A, $89, $88
+	db $08, $09, $0A, $0A, $09, $08
 
 	db $00
 
@@ -38,11 +38,11 @@ TileData_GroudonLimbs_Idle0_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $8B, $8C, $8D, $8D, $8C, $8B
+	db $0B, $0C, $0D, $0D, $0C, $0B
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
-	db $8E, $8F, $90, $90, $8F, $8E
+	db $0E, $0F, $10, $10, $0F, $0E
 
 	db $00
 
@@ -59,11 +59,11 @@ TileData_GroudonLimbs_Idle1_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $80, $80, $91, $92, $80, $80
+	db $00, $00, $11, $12, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $80, $93, $94, $95, $93, $80
+	db $00, $13, $14, $15, $13, $00
 
 	db $00
 
@@ -73,11 +73,11 @@ TileData_GroudonLimbs_Idle1_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $80, $96, $97, $97, $96, $80
+	db $00, $16, $17, $17, $16, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $80, $98, $99, $99, $98, $80
+	db $00, $18, $19, $19, $18, $00
 
 	db $00
 
@@ -87,166 +87,166 @@ TileData_GroudonLimbs_Idle1_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $9A, $9B, $9C, $9C, $9B, $9A
+	db $1A, $1B, $1C, $1C, $1B, $1A
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
-	db $9D, $9E, $9F, $9F, $9E, $9D
+	db $1D, $1E, $1F, $1F, $1E, $1D
 
 	db $00
 
 
-TileDataPointer_GroudonLimbs_LavaPlume0:
+TileDataPointer_GroudonLimbs_LavaPlumeWindup0:
 	db $03
-	dw TileData_GroudonLimbs_LavaPlume0_0
-	dw TileData_GroudonLimbs_LavaPlume0_2
-	dw TileData_GroudonLimbs_LavaPlume0_4
+	dw TileData_GroudonLimbs_LavaPlumeWindup0_0
+	dw TileData_GroudonLimbs_LavaPlumeWindup0_2
+	dw TileData_GroudonLimbs_LavaPlumeWindup0_4
 
-TileData_GroudonLimbs_LavaPlume0_0:
+TileData_GroudonLimbs_LavaPlumeWindup0_0:
 	dw LoadTileLists
 	db 2 * 6
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $80, $80, $81, $82, $80, $80
+	db $00, $00, $01, $02, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $80, $83, $84, $85, $83, $80
+	db $00, $03, $04, $05, $03, $00
 
 	db $00
 
-TileData_GroudonLimbs_LavaPlume0_2:
+TileData_GroudonLimbs_LavaPlumeWindup0_2:
 	dw LoadTileLists
 	db 2 * 6
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $80, $A0, $A1, $A1, $A0, $80
+	db $00, $20, $21, $21, $20, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $80, $A2, $A3, $A3, $A2, $80
+	db $00, $22, $23, $23, $22, $00
 
 	db $00
 
-TileData_GroudonLimbs_LavaPlume0_4:
+TileData_GroudonLimbs_LavaPlumeWindup0_4:
 	dw LoadTileLists
 	db 2 * 6
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $8B, $A4, $A5, $A5, $A4, $8B
+	db $0B, $24, $25, $25, $24, $0B
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
-	db $8E, $8F, $90, $90, $8F, $8E
+	db $0E, $0F, $10, $10, $0F, $0E
 
 	db $00
 
 
-TileDataPointer_GroudonLimbs_LavaPlume1:
+TileDataPointer_GroudonLimbs_LavaPlumeWindup1:
 	db $03
-	dw TileData_GroudonLimbs_LavaPlume1_0
-	dw TileData_GroudonLimbs_LavaPlume1_2
-	dw TileData_GroudonLimbs_LavaPlume1_4
+	dw TileData_GroudonLimbs_LavaPlumeWindup1_0
+	dw TileData_GroudonLimbs_LavaPlumeWindup1_2
+	dw TileData_GroudonLimbs_LavaPlumeWindup1_4
 
-TileData_GroudonLimbs_LavaPlume1_0:
+TileData_GroudonLimbs_LavaPlumeWindup1_0:
 	dw LoadTileLists
 	db 2 * 6
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $80, $80, $91, $92, $80, $80
+	db $00, $00, $11, $12, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $80, $93, $A6, $A7, $93, $80
+	db $00, $13, $26, $27, $13, $00
 
 	db $00
 
-TileData_GroudonLimbs_LavaPlume1_2:
+TileData_GroudonLimbs_LavaPlumeWindup1_2:
 	dw LoadTileLists
 	db 2 * 6
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $80, $A8, $A9, $AA, $A8, $80
+	db $00, $28, $29, $2A, $28, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $80, $AB, $AC, $AC, $AB, $80
+	db $00, $2B, $2C, $2C, $2B, $00
 
 	db $00
 
-TileData_GroudonLimbs_LavaPlume1_4:
+TileData_GroudonLimbs_LavaPlumeWindup1_4:
 	dw LoadTileLists
 	db 2 * 6
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $9A, $AD, $AE, $AE, $AD, $9A
+	db $1A, $2D, $2E, $2E, $2D, $1A
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
-	db $9D, $9E, $9F, $9F, $9E, $9D
+	db $1D, $1E, $1F, $1F, $1E, $1D
 
 	db $00
 
 
-TileDataPointer_GroudonLimbs_LavaPlume2:
+TileDataPointer_GroudonLimbs_LavaPlumeWindup2:
 	db $03
-	dw TileData_GroudonLimbs_LavaPlume2_0
-	dw TileData_GroudonLimbs_LavaPlume2_2
-	dw TileData_GroudonLimbs_LavaPlume2_4
+	dw TileData_GroudonLimbs_LavaPlumeWindup2_0
+	dw TileData_GroudonLimbs_LavaPlumeWindup2_2
+	dw TileData_GroudonLimbs_LavaPlumeWindup2_4
 
-TileDataPointer_GroudonLimbs_LavaPlume2_HalfGlow:
+TileDataPointer_GroudonLimbs_LavaPlumeWindup2_HalfGlow:
 	db $05
-	dw TileData_GroudonLimbs_LavaPlume2_0
-	dw TileData_GroudonLimbs_LavaPlume2_2
-	dw TileData_GroudonLimbs_LavaPlume2_4
+	dw TileData_GroudonLimbs_LavaPlumeWindup2_0
+	dw TileData_GroudonLimbs_LavaPlumeWindup2_2
+	dw TileData_GroudonLimbs_LavaPlumeWindup2_4
 	dw TileData_GroudonLimbs_HalfGlow
 	dw TileData_GroudonBody_HalfGlow
 
-TileData_GroudonLimbs_LavaPlume2_0:
+TileData_GroudonLimbs_LavaPlumeWindup2_0:
 	dw LoadTileLists
 	db 2 * 6
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $80, $80, $91, $92, $80, $80
+	db $00, $00, $11, $12, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $80, $93, $94, $95, $93, $80
+	db $00, $13, $14, $15, $13, $00
 
 	db $00
 
-TileData_GroudonLimbs_LavaPlume2_2:
+TileData_GroudonLimbs_LavaPlumeWindup2_2:
 	dw LoadTileLists
 	db 2 * 6
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $80, $AF, $B0, $B0, $B1, $80
+	db $00, $2F, $30, $30, $2F, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $80, $B2, $B3, $B3, $B2, $80
+	db $00, $31, $32, $32, $31, $00
 
 	db $00
 
-TileData_GroudonLimbs_LavaPlume2_4:
+TileData_GroudonLimbs_LavaPlumeWindup2_4:
 	dw LoadTileLists
 	db 2 * 6
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $9A, $AD, $AE, $AE, $AD, $9A
+	db $1A, $2D, $2E, $2E, $2D, $1A
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
-	db $9D, $9E, $9F, $9F, $9E, $9D
+	db $1D, $1E, $1F, $1F, $1E, $1D
 
 	db $00
 
@@ -279,11 +279,11 @@ TileData_GroudonLimbs_LavaPlume3_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $80, $80, $81, $82, $80, $80
+	db $00, $00, $01, $02, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $80, $83, $84, $85, $83, $80
+	db $00, $03, $04, $05, $03, $00
 
 	db $00
 
@@ -293,11 +293,11 @@ TileData_GroudonLimbs_LavaPlume3_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $80, $86, $B4, $B4, $86, $80
+	db $00, $06, $33, $33, $06, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $88, $89, $8A, $8A, $89, $88
+	db $08, $09, $0A, $0A, $09, $08
 
 	db $00
 
@@ -307,11 +307,11 @@ TileData_GroudonLimbs_LavaPlume3_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $9A, $B5, $B6, $B6, $B7, $9A
+	db $1A, $34, $35, $35, $34, $1A
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
-	db $9D, $9E, $9F, $9F, $9E, $9D
+	db $1D, $1E, $1F, $1F, $1E, $1D
 
 	db $00
 
@@ -336,11 +336,11 @@ TileData_GroudonLimbs_LavaPlume4_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $80, $80, $B8, $B9, $80, $80
+	db $00, $00, $36, $37, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $80, $BA, $BB, $BC, $BA, $80
+	db $00, $38, $39, $3A, $38, $00
 
 	db $00
 
@@ -350,11 +350,11 @@ TileData_GroudonLimbs_LavaPlume4_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $80, $BD, $BE, $BE, $BD, $80
+	db $00, $3B, $3C, $3C, $3B, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $BF, $C0, $C1, $C1, $C0, $BF
+	db $3D, $3E, $3F, $3F, $3E, $3D
 
 	db $00
 
@@ -364,11 +364,786 @@ TileData_GroudonLimbs_LavaPlume4_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $C2, $C3, $C4, $C4, $C5, $C2
+	db $40, $41, $42, $42, $41, $40
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
-	db $8E, $8F, $90, $90, $8F, $8E
+	db $0E, $0F, $10, $10, $0F, $0E
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_FireballWindup0:
+	db $03
+	dw TileData_GroudonLimbs_FireballWindup0_0
+	dw TileData_GroudonLimbs_FireballWindup0_2
+	dw TileData_GroudonLimbs_FireballWindup0_4
+
+TileData_GroudonLimbs_FireballWindup0_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $00, $43, $44, $00, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $45, $46, $47, $45, $00
+
+	db $00
+
+TileData_GroudonLimbs_FireballWindup0_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $00, $48, $49, $49, $48, $00
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $00, $4A, $4B, $4B, $4A, $00
+
+	db $00
+
+TileData_GroudonLimbs_FireballWindup0_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $1A, $4C, $4D, $4D, $4C, $1A
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $1D, $4E, $4F, $4F, $4E, $1D
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_FireballWindup1:
+	db $03
+	dw TileData_GroudonLimbs_FireballWindup1_0
+	dw TileData_GroudonLimbs_FireballWindup1_2
+	dw TileData_GroudonLimbs_FireballWindup1_4
+
+TileDataPointer_GroudonLimbs_FireballWindup1_HalfGlow:
+	db $05
+	dw TileData_GroudonLimbs_FireballWindup1_0
+	dw TileData_GroudonLimbs_FireballWindup1_2
+	dw TileData_GroudonLimbs_FireballWindup1_4
+	dw TileData_GroudonLimbs_HalfGlow
+	dw TileData_GroudonBody_HalfGlow
+
+TileData_GroudonLimbs_FireballWindup1_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $50, $51, $52, $50, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $53, $54, $55, $53, $00
+
+	db $00
+
+TileData_GroudonLimbs_FireballWindup1_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $00, $56, $57, $57, $56, $00
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $00, $58, $59, $59, $58, $00
+
+	db $00
+
+TileData_GroudonLimbs_FireballWindup1_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $1A, $5A, $5B, $5B, $5A, $1A
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $1D, $4E, $4F, $4F, $4E, $1D
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_FireballDown:
+	db $03
+	dw TileData_GroudonLimbs_FireballDown_0
+	dw TileData_GroudonLimbs_FireballDown_2
+	dw TileData_GroudonLimbs_FireballDown_4
+
+TileDataPointer_GroudonLimbs_FireballDown_NoGlow:
+	db $05
+	dw TileData_GroudonLimbs_FireballDown_0
+	dw TileData_GroudonLimbs_FireballDown_2
+	dw TileData_GroudonLimbs_FireballDown_4
+	dw TileData_GroudonLimbs_NoGlow
+	dw TileData_GroudonBody_NoGlow
+
+TileData_GroudonLimbs_FireballDown_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $00, $5C, $5C, $00, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $50, $5D, $5E, $50, $00
+
+	db $00
+
+TileData_GroudonLimbs_FireballDown_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $00, $5F, $60, $61, $5F, $00
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $62, $63, $64, $64, $63, $62
+
+	db $00
+
+TileData_GroudonLimbs_FireballDown_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $65, $66, $67, $67, $66, $65
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $0E, $0F, $10, $10, $0F, $0E
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_FireballRight:
+	db $03
+	dw TileData_GroudonLimbs_FireballRight_0
+	dw TileData_GroudonLimbs_FireballRight_2
+	dw TileData_GroudonLimbs_FireballRight_4
+
+TileDataPointer_GroudonLimbs_FireballRight_NoGlow:
+	db $05
+	dw TileData_GroudonLimbs_FireballRight_0
+	dw TileData_GroudonLimbs_FireballRight_2
+	dw TileData_GroudonLimbs_FireballRight_4
+	dw TileData_GroudonLimbs_NoGlow
+	dw TileData_GroudonBody_NoGlow
+
+TileData_GroudonLimbs_FireballRight_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $00, $68, $69, $00, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $00, $6A, $6B, $00, $00
+
+	db $00
+
+TileData_GroudonLimbs_FireballRight_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $00, $6C, $6D, $6E, $6C, $00
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $62, $63, $6F, $70, $63, $62
+
+	db $00
+
+TileData_GroudonLimbs_FireballRight_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $65, $66, $67, $67, $66, $65
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $0E, $0F, $10, $10, $0F, $0E
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_FireballLeft:
+	db $03
+	dw TileData_GroudonLimbs_FireballLeft_0
+	dw TileData_GroudonLimbs_FireballLeft_2
+	dw TileData_GroudonLimbs_FireballLeft_4
+
+TileDataPointer_GroudonLimbs_FireballLeft_NoGlow:
+	db $05
+	dw TileData_GroudonLimbs_FireballLeft_0
+	dw TileData_GroudonLimbs_FireballLeft_2
+	dw TileData_GroudonLimbs_FireballLeft_4
+	dw TileData_GroudonLimbs_NoGlow
+	dw TileData_GroudonBody_NoGlow
+
+TileData_GroudonLimbs_FireballLeft_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $00, $69, $68, $00, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $00, $71, $72, $00, $00
+
+	db $00
+
+TileData_GroudonLimbs_FireballLeft_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $00, $6C, $73, $74, $6C, $00
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $62, $63, $70, $6F, $63, $62
+
+	db $00
+
+TileData_GroudonLimbs_FireballLeft_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $65, $66, $67, $67, $66, $65
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $0E, $0F, $10, $10, $0F, $0E
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_FireballReset:
+	db $03
+	dw TileData_GroudonLimbs_FireballReset_0
+	dw TileData_GroudonLimbs_FireballReset_2
+	dw TileData_GroudonLimbs_FireballReset_4
+
+TileData_GroudonLimbs_FireballReset_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $00, $36, $37, $00, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $38, $39, $3A, $38, $00
+
+	db $00
+
+TileData_GroudonLimbs_FireballReset_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $00, $3B, $3C, $3C, $3B, $00
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $3D, $3E, $3F, $3F, $3E, $3D
+
+	db $00
+
+TileData_GroudonLimbs_FireballReset_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $40, $41, $42, $42, $41, $40
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $0E, $0F, $10, $10, $0F, $0E
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_RockTomb0:
+	db $03
+	dw TileData_GroudonLimbs_RockTomb0_0
+	dw TileData_GroudonLimbs_RockTomb0_2
+	dw TileData_GroudonLimbs_RockTomb0_4
+
+TileData_GroudonLimbs_RockTomb0_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $00, $36, $37, $00, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $38, $39, $3A, $38, $00
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb0_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $00, $3B, $3C, $3C, $3B, $00
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $3D, $3E, $3F, $3F, $3E, $3D
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb0_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $40, $41, $42, $42, $41, $40
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $0E, $0F, $10, $10, $0F, $0E
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_RockTomb1:
+	db $03
+	dw TileData_GroudonLimbs_RockTomb1_0
+	dw TileData_GroudonLimbs_RockTomb1_2
+	dw TileData_GroudonLimbs_RockTomb1_4
+
+TileData_GroudonLimbs_RockTomb1_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $00, $5C, $5C, $00, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $50, $5D, $5E, $50, $00
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb1_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $00, $75, $76, $77, $75, $00
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $78, $79, $7A, $7A, $79, $78
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb1_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $7B, $7C, $7D, $7D, $7C, $7B
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $7E, $7F, $10, $10, $7F, $7E
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_RockTomb2:
+	db $03
+	dw TileData_GroudonLimbs_RockTomb2_0
+	dw TileData_GroudonLimbs_RockTomb2_2
+	dw TileData_GroudonLimbs_RockTomb2_4
+
+TileData_GroudonLimbs_RockTomb2_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $50, $5D, $5E, $50, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $53, $FF, $FE, $53, $00
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb2_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $00, $FD, $FC, $FC, $FD, $00
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $00, $FB, $FA, $FA, $FB, $00
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb2_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $F9, $F8, $F7, $F7, $F8, $F9
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $F6, $F5, $00, $00, $F5, $F6
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_RockTomb3:
+	db $03
+	dw TileData_GroudonLimbs_RockTomb3_0
+	dw TileData_GroudonLimbs_RockTomb3_2
+	dw TileData_GroudonLimbs_RockTomb3_4
+
+TileData_GroudonLimbs_RockTomb3_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $53, $FF, $FE, $53, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $FD, $FC, $FC, $FD, $00
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb3_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $00, $FB, $FA, $FA, $FB, $00
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $F4, $F3, $F2, $F2, $F3, $F4
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb3_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $F1, $F0, $EF, $EF, $F0, $F1
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $00, $00, $00, $00, $00, $00
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_RockTomb4:
+	db $03
+	dw TileData_GroudonLimbs_RockTomb4_0
+	dw TileData_GroudonLimbs_RockTomb4_2
+	dw TileData_GroudonLimbs_RockTomb4_4
+
+TileData_GroudonLimbs_RockTomb4_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $EE, $ED, $ED, $EE, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $EC, $EB, $EB, $EC, $00
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb4_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $EA, $E9, $E8, $E8, $E9, $EA
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $E7, $E6, $E5, $E5, $E6, $E7
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb4_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $E4, $E3, $E2, $E2, $E3, $E4
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $00, $00, $00, $00, $00, $00
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_RockTomb5:
+	db $03
+	dw TileData_GroudonLimbs_RockTomb5_0
+	dw TileData_GroudonLimbs_RockTomb5_2
+	dw TileData_GroudonLimbs_RockTomb5_4
+
+TileData_GroudonLimbs_RockTomb5_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $E1, $E0, $E0, $E1, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $DF, $DE, $DE, $DF, $00
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb5_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $DD, $DC, $DB, $DB, $DC, $DD
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $DA, $D9, $D8, $D8, $D9, $DA
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb5_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $00, $D7, $00, $00, $D7, $00
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $00, $00, $00, $00, $00, $00
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_RockTomb6:
+	db $03
+	dw TileData_GroudonLimbs_RockTomb6_0
+	dw TileData_GroudonLimbs_RockTomb6_2
+	dw TileData_GroudonLimbs_RockTomb6_4
+
+TileData_GroudonLimbs_RockTomb6_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $D6, $E0, $E0, $D6, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $18, $19, $19, $18, $00
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb6_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $D5, $D4, $1C, $1C, $D4, $D5
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $D3, $D2, $1F, $1F, $D2, $D3
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb6_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $00, $D1, $00, $00, $D1, $00
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $00, $00, $00, $00, $00, $00
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_RockTomb7:
+	db $03
+	dw TileData_GroudonLimbs_RockTomb7_0
+	dw TileData_GroudonLimbs_RockTomb7_2
+	dw TileData_GroudonLimbs_RockTomb7_4
+
+TileData_GroudonLimbs_RockTomb7_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $D0, $FF, $FE, $D0, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $EA, $CF, $CE, $CE, $CF, $EA
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb7_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $CD, $CC, $CB, $CB, $CC, $CD
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $F9, $CA, $C9, $C9, $CA, $F9
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb7_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $F6, $F5, $00, $00, $F5, $F6
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $00, $00, $00, $00, $00, $00
+
+	db $00
+
+
+TileDataPointer_GroudonLimbs_RockTomb8:
+	db $03
+	dw TileData_GroudonLimbs_RockTomb8_0
+	dw TileData_GroudonLimbs_RockTomb8_2
+	dw TileData_GroudonLimbs_RockTomb8_4
+
+TileDataPointer_GroudonLimbs_RockTomb8_HalfGlow:
+	db $05
+	dw TileData_GroudonLimbs_RockTomb8_0
+	dw TileData_GroudonLimbs_RockTomb8_2
+	dw TileData_GroudonLimbs_RockTomb8_4
+	dw TileData_GroudonLimbs_HalfGlow
+	dw TileData_GroudonBody_HalfGlow
+
+TileData_GroudonLimbs_RockTomb8_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $00, $36, $37, $00, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $38, $39, $3A, $38, $00
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb8_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $00, $3B, $3C, $3C, $3B, $00
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $3D, $3E, $3F, $3F, $3E, $3D
+
+	db $00
+
+TileData_GroudonLimbs_RockTomb8_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $40, $41, $42, $42, $41, $40
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $0E, $0F, $10, $10, $0F, $0E
 
 	db $00
 

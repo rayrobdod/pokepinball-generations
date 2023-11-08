@@ -1537,8 +1537,12 @@ SECTION "bank71", ROMX
 
 GroudonBonusGroudonBodyGfx:
 	INCBIN "gfx/stage/groudon_bonus/groudon_body.interleave.2bpp"
+GroudonBonusGroudonSharedGfx:
+	INCBIN "gfx/stage/groudon_bonus/groudon_shared.2bpp"
 GroudonBonusGroudonLimbsGfx:
 	INCBIN "gfx/stage/groudon_bonus/groudon_limbs.2bpp"
+GroudonBonusBlank:
+	INCBIN "gfx/stage/groudon_bonus/blank.2bpp"
 
 SECTION "bank72", ROMX
 
@@ -1569,8 +1573,3 @@ INCLUDE "engine/pinball_game/object_collision/groudon_bonus_object_collision.asm
 INCLUDE "engine/pinball_game/object_collision/groudon_bonus_resolve_collision.asm"
 INCLUDE "engine/pinball_game/draw_sprites/draw_groudon_bonus_sprites.asm"
 INCLUDE "data/queued_tiledata/groudon_bonus/groudon_limbs.asm"
-INCLUDE "data/queued_tiledata/groudon_bonus/groudon_attacks.asm"
-
-GroudonBonusBlank:
-GroudonBonusGroudonLavaPlumeAttackGfx:
-	INCBIN "gfx/stage/groudon_bonus/blank.2bpp"
