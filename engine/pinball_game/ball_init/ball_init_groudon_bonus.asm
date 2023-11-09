@@ -9,6 +9,11 @@ InitBallGroudonBonusStage:
 	ld [wBallYPos + 1], a
 	ld a, $80
 	ld [wBallXVelocity], a
+	; the fireball being this far below the visible area will disable the fireball,
+	; and all other fireball variables are set when the fireball is 'created',
+	; so those variables don't have to be set here
+	ld a, $E0
+	ld [wGroudonFireballYPos], a
 	ld a, GROUDONANIMATION_IDLE
 	ld [wGroudonAnimationId], a
 	xor a

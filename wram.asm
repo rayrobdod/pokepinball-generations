@@ -1730,6 +1730,15 @@ wGroudonAnimationId::
 wGroudonAnimation:: ; the groudon bonus's groudon animation
 	animation wGroudonAnimation
 
+wGroudonFireballXPos::
+	ds $2
+wGroudonFireballYPos::
+	ds $1
+
+wGroudonFireballXVelocity::
+	ds $2
+; wGroudonFireballYVelocity is constant (GROUDON_FIREBALL_Y_VELOCITY) and thus has no associated variable
+
 wLeftAndRightTiltPixelsOffset:: ; 0xd79f
 ; Horizontal offset in pixels that the left and right tilt are currently moving the screen.
 	ds $1

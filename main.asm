@@ -1543,6 +1543,8 @@ GroudonBonusGroudonLimbsGfx:
 	INCBIN "gfx/stage/groudon_bonus/groudon_limbs.2bpp"
 GroudonBonusBlank:
 	INCBIN "gfx/stage/groudon_bonus/blank.2bpp"
+GroudonBonusFireballGfx:
+	INCBIN "gfx/stage/groudon_bonus/fireball.interleave.2bpp"
 
 SECTION "bank72", ROMX
 

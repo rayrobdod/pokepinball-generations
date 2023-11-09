@@ -3,6 +3,7 @@ ResolveGroudonBonusGameObjectCollisions:
 	callba PlayLowTimeSfx
 	call CheckTimeRanOut_GroudonBonus
 	call UpdateGroudonEventTimer
+	call UpdateGroudonFireball
 	call UpdateGroudonAnimation
 	ret
 
@@ -65,6 +66,7 @@ UpdateGroudonEventTimer:
 	GroudonEvent GROUDONEVENT_LAVAPLUME_INITGROUDONANIMATION, .groudonLavaplumeAnimationInit
 	GroudonEvent GROUDONEVENT_ROCKTOMB_STARTGROUDONANIMATION, .groudonRockTombAnimationInit
 	GroudonEvent GROUDONEVENT_FIREBALL_STARTGROUDONANIMATION, .groudonFireballAnimationInit
+	GroudonEvent GROUDONEVENT_FIREBALL_FIRE, .fireballFire
 
 .idle
 	ret
@@ -96,6 +98,74 @@ UpdateGroudonEventTimer:
 	call UpdateGroudonLimbGraphics
 	ret
 
+.fireballFire
+	xor a
+	ld [wGroudonFireballXPos], a
+	ld a, 80
+	ld [wGroudonFireballXPos + 1], a
+	ld a, 32
+	ld [wGroudonFireballYPos], a
+
+	ld a, [wBallYPos + 1]
+	; 0 < a < 166; lookup table is 24 by 24
+	; divide by 8 to scale to table height, then multiply by 24 to get to row
+	; that is equivalent to and with $F8 and multiply by 3
+	and $F8
+	ld b, 0
+	ld c, a
+	ld l, c
+	ld h, b
+	sla c
+	rl b
+	add hl, bc
+	ld b, 0
+	ld a, [wBallXPos + 1]
+	srl a
+	srl a
+	srl a
+	ld c, a
+	add hl, bc
+	ld bc, .fireballXVelocities
+	add hl, bc
+	ld a, [hl]
+	ld b, a
+	ld c, 0
+	sra b
+	rr c
+	sra b
+	rr c
+	ld a, c
+	ld [wGroudonFireballXVelocity], a
+	ld a, b
+	ld [wGroudonFireballXVelocity + 1], a
+	ret
+
+.fireballXVelocities
+	; a lookup table; 24 x 24, indicates the x velocity required to target a particular point
+	; assuming the fireball starts at groudon's mouth, has the constant y velocity, has a maximum angle from down
+	; these values are 6.2 fixed point; e.g. a value of 6 actually means 1.5 pixels per frame
+	FOR Y, 1, 4
+	FOR X, -10, 14
+		IF X < 0
+			DEF NUM = -GROUDON_FIREBALL_X_VELOCITY_BOUND
+		ELSE
+			DEF NUM = GROUDON_FIREBALL_X_VELOCITY_BOUND
+		ENDC
+		db NUM
+	ENDR
+	ENDR
+
+	FOR Y, 1, 20
+	FOR X, -10, 14
+		DEF NUM = (((X) * 4 * GROUDON_FIREBALL_Y_VELOCITY) + 6) / (Y)
+		IF NUM < -GROUDON_FIREBALL_X_VELOCITY_BOUND
+			DEF NUM = -GROUDON_FIREBALL_X_VELOCITY_BOUND
+		ELIF NUM > GROUDON_FIREBALL_X_VELOCITY_BOUND
+			DEF NUM = GROUDON_FIREBALL_X_VELOCITY_BOUND
+		ENDC
+		db NUM
+	ENDR
+	ENDR
 
 EventGroudonAnimation:
 	db 3 * 60, GROUDONEVENT_IDLE
@@ -104,15 +174,26 @@ EventGroudonAnimation:
 	;db 3 * 60, GROUDONEVENT_LAVAPLUME_SPROUTLAVA
 	db 3 * 60, GROUDONEVENT_IDLE
 	db $20, GROUDONEVENT_FIREBALL_STARTGROUDONANIMATION
-	;db 3 * 60, GROUDONEVENT_FIREBALL_FIRE
+	db 3 * 60, GROUDONEVENT_FIREBALL_FIRE
 	db 3 * 60, GROUDONEVENT_IDLE
 	db $46, GROUDONEVENT_ROCKTOMB_STARTGROUDONANIMATION
 	;db 3 * 60, GROUDONEVENT_ROCKTOMB_SUMMONROCKS
 	db 3 * 60, GROUDONEVENT_IDLE
 	db $20, GROUDONEVENT_FIREBALL_STARTGROUDONANIMATION
-	;db 3 * 60, GROUDONEVENT_FIREBALL_FIRE
+	db 3 * 60, GROUDONEVENT_FIREBALL_FIRE
 	db 3 * 60, GROUDONEVENT_IDLE
 	db $00
+
+UpdateGroudonFireball:
+	ld a, [wGroudonFireballYPos]
+	cp $B0
+	ret nc ; disable fireball if it is below play area
+	add GROUDON_FIREBALL_Y_VELOCITY
+	ld [wGroudonFireballYPos], a
+	ld de, wGroudonFireballXVelocity + 1
+	ld hl, wGroudonFireballXPos
+	call AddVelocityToPosition
+	ret
 
 UpdateGroudonAnimation:
 	ld a, [wGroudonAnimationId]
