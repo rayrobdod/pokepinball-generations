@@ -20,6 +20,7 @@ InitBallGroudonBonusStage:
 	ld [wSCX], a
 	ld [wStageCollisionState], a
 	ld [wGroudonBonusClosedGate], a
+	ld [wGroudonFireballBreakoutCounter], a
 	ld [wLostBall], a
 
 	ld de, wGroudonAnimation

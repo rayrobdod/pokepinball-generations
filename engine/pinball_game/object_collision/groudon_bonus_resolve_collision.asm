@@ -4,6 +4,8 @@ ResolveGroudonBonusGameObjectCollisions:
 	call CheckTimeRanOut_GroudonBonus
 	call UpdateGroudonEventTimer
 	call UpdateGroudonFireball
+	call UpdateGroudonFireballBreakoutCooldown
+	call UpdateGroudonFireballBreakoutCounter
 	call UpdateGroudonAnimation
 	ret
 
@@ -193,6 +195,42 @@ UpdateGroudonFireball:
 	ld de, wGroudonFireballXVelocity + 1
 	ld hl, wGroudonFireballXPos
 	call AddVelocityToPosition
+	ret
+
+UpdateGroudonFireballBreakoutCooldown:
+	ld a, [wGroudonFireballBreakoutCooldown]
+	and a
+	ret z
+	dec a
+	ld [wGroudonFireballBreakoutCooldown], a
+	ret
+
+UpdateGroudonFireballBreakoutCounter:
+	ld a, [wGroudonFireballBreakoutCounter]
+	and a
+	ret z
+
+	ld hl, wKeyConfigLeftFlipper
+	call IsKeyPressed
+	jp nz, .checkCooldown
+	ld hl, wKeyConfigRightFlipper
+	call IsKeyPressed
+	ret z
+
+.checkCooldown
+	ld a, [wGroudonFireballBreakoutCooldown]
+	and a
+	ret nz
+
+	ld a, [wGroudonFireballBreakoutCounter]
+	dec a
+	ld [wGroudonFireballBreakoutCounter], a
+	ld a, GROUDON_FIREBALL_BREAKOUT_COOLDOWN
+	ld [wGroudonFireballBreakoutCooldown], a
+	ret nz
+
+	ld a, 1
+	ld [wEnableBallGravityAndTilt], a
 	ret
 
 UpdateGroudonAnimation:

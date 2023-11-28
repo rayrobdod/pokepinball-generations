@@ -1739,6 +1739,12 @@ wGroudonFireballXVelocity::
 	ds $2
 ; wGroudonFireballYVelocity is constant (GROUDON_FIREBALL_Y_VELOCITY) and thus has no associated variable
 
+wGroudonFireballBreakoutCounter::
+	ds $1
+
+wGroudonFireballBreakoutCooldown::
+	ds $1
+
 wLeftAndRightTiltPixelsOffset:: ; 0xd79f
 ; Horizontal offset in pixels that the left and right tilt are currently moving the screen.
 	ds $1
