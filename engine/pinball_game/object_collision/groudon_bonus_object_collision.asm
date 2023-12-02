@@ -1,5 +1,6 @@
 CheckGroudonBonusStageGameObjectCollisions:
 	call CheckGroudonBonusStageFireballCollision
+	call CheckGroudonBonusStageGroudonCollision
 	ret
 
 CheckGroudonBonusStageFireballCollision:
@@ -65,3 +66,12 @@ CheckGroudonBonusStageFireballCollision:
 	ld [wGroudonFireballBreakoutCounter], a
 
 	ret
+
+CheckGroudonBonusStageGroudonCollision:
+	ld de, GroudonBonusStageGroudonCollisionData
+	ld hl, GroudonBonusStageGroudonCollisionAttributes
+	ld bc, wGroudonGroudonCollision
+	and a
+	jp HandleGameObjectCollision
+
+INCLUDE "data/collision/game_objects/groudon_bonus_game_object_collision.asm"

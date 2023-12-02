@@ -2416,6 +2416,7 @@ OAMDataPointers2: ; 0x55d7
 	const_def $97
 	SpriteDataPointer GroudonIdle0Sprite, SPRITE2_GROUDON_IDLE_0
 	SpriteDataPointer GroudonIdle1Sprite, SPRITE2_GROUDON_IDLE_1
+	SpriteDataPointer GroudonHitSprite, SPRITE2_GROUDON_HIT
 	SpriteDataPointer GroudonLavaPlumeWindup0Sprite, SPRITE2_GROUDON_LAVAPLUME_WINDUP_0
 	SpriteDataPointer GroudonLavaPlumeWindup1Sprite, SPRITE2_GROUDON_LAVAPLUME_WINDUP_1
 	SpriteDataPointer GroudonLavaPlumeWindup2Sprite, SPRITE2_GROUDON_LAVAPLUME_WINDUP_2
@@ -3684,181 +3685,191 @@ GroudonIdle1Sprite:
 	db $29, $1C, $0C, $29
 	db $80 ; terminator
 
+GroudonHitSprite:
+	db $1A, $08, $10, $09
+	db $1A, $10, $12, $09
+	db $1A, $18, $12, $29
+	db $1A, $20, $10, $29
+	db $2A, $0C, $14, $09
+	db $2A, $14, $16, $09
+	db $2A, $1C, $14, $29
+	db $80 ; terminator
+
 GroudonLavaPlumeWindup0Sprite:
-	db $1A, $10, $10, $09
-	db $1A, $18, $10, $29
-	db $2A, $0C, $12, $09
-	db $2A, $14, $14, $09
-	db $2A, $1C, $12, $29
+	db $1A, $10, $18, $09
+	db $1A, $18, $18, $29
+	db $2A, $0C, $1A, $09
+	db $2A, $14, $1C, $09
+	db $2A, $1C, $1A, $29
 	db $80 ; terminator
 
 GroudonLavaPlumeWindup1Sprite:
-	db $29, $0C, $16, $09
-	db $29, $14, $18, $09
-	db $29, $1C, $16, $29
+	db $29, $0C, $1E, $09
+	db $29, $14, $20, $09
+	db $29, $1C, $1E, $29
 	db $80 ; terminator
 
 GroudonLavaPlumeWindup2Sprite:
-	db $19, $14, $1A, $09
-	db $29, $0C, $1C, $09
-	db $29, $14, $1E, $09
-	db $29, $1C, $1C, $29
-	db $80 ; terminator
-
-GroudonLavaPlume3Sprite:
-	db $19, $08, $20, $09
-	db $19, $10, $22, $09
-	db $19, $18, $22, $29
-	db $19, $20, $20, $29
+	db $19, $14, $22, $09
 	db $29, $0C, $24, $09
 	db $29, $14, $26, $09
 	db $29, $1C, $24, $29
 	db $80 ; terminator
 
+GroudonLavaPlume3Sprite:
+	db $19, $08, $28, $09
+	db $19, $10, $2A, $09
+	db $19, $18, $2A, $29
+	db $19, $20, $28, $29
+	db $29, $0C, $2C, $09
+	db $29, $14, $2E, $09
+	db $29, $1C, $2C, $29
+	db $80 ; terminator
+
 GroudonLavaPlume4Sprite:
-	db $1A, $08, $28, $09
-	db $1A, $10, $22, $09
-	db $1A, $18, $22, $29
-	db $1A, $20, $28, $29
-	db $2A, $0C, $2A, $09
-	db $2A, $14, $2C, $09
-	db $2A, $1C, $2A, $29
+	db $1A, $08, $30, $09
+	db $1A, $10, $2A, $09
+	db $1A, $18, $2A, $29
+	db $1A, $20, $30, $29
+	db $2A, $0C, $32, $09
+	db $2A, $14, $34, $09
+	db $2A, $1C, $32, $29
 	db $80 ; terminator
 
 GroudonFireballWindup0Sprite:
 	db $18, $08, $08, $09
-	db $18, $10, $2E, $09
-	db $18, $18, $2E, $29
+	db $18, $10, $36, $09
+	db $18, $18, $36, $29
 	db $18, $20, $08, $29
-	db $28, $0C, $30, $09
+	db $28, $0C, $38, $09
 	db $28, $14, $0E, $29
-	db $28, $1C, $30, $29
+	db $28, $1C, $38, $29
 	db $80 ; terminator
 
 GroudonFireballWindup1Sprite:
-	db $18, $08, $32, $09
-	db $18, $10, $34, $09
-	db $18, $18, $34, $29
-	db $18, $20, $32, $29
-	db $28, $0C, $36, $09
-	db $28, $14, $38, $09
-	db $28, $1C, $36, $29
+	db $18, $08, $3A, $09
+	db $18, $10, $3C, $09
+	db $18, $18, $3C, $29
+	db $18, $20, $3A, $29
+	db $28, $0C, $3E, $09
+	db $28, $14, $40, $09
+	db $28, $1C, $3E, $29
 	db $80 ; terminator
 
 GroudonFireballDownSprite:
-	db $1A, $14, $3A, $09
-	db $2A, $0C, $3C, $09
-	db $2A, $14, $3E, $09
-	db $2A, $1C, $3C, $29
-	db $80 ; terminator
-
-GroudonFireballRightSprite:
-	db $1A, $10, $40, $09
-	db $1A, $18, $42, $29
+	db $1A, $14, $42, $09
 	db $2A, $0C, $44, $09
 	db $2A, $14, $46, $09
-	db $2A, $1C, $48, $29
-	db $80 ; terminator
-
-GroudonFireballLeftSprite:
-	db $1A, $10, $42, $09
-	db $1A, $18, $40, $29
-	db $2A, $0C, $48, $09
-	db $2A, $14, $46, $29
 	db $2A, $1C, $44, $29
 	db $80 ; terminator
 
-GroudonFireballResetSprite:
-	db $1A, $08, $28, $09
-	db $1A, $10, $22, $09
-	db $1A, $18, $22, $29
-	db $1A, $20, $28, $29
-	db $2A, $0C, $2A, $09
-	db $2A, $14, $2C, $29
-	db $2A, $1C, $2A, $29
-	db $80 ; terminator
-
-GroudonRockTomb0Sprite:
-	db $1A, $08, $28, $09
-	db $1A, $10, $22, $09
-	db $1A, $18, $22, $29
-	db $1A, $20, $28, $29
-	db $2A, $0C, $2A, $09
-	db $2A, $14, $2C, $29
-	db $2A, $1C, $2A, $29
-	db $80 ; terminator
-
-GroudonRockTomb1Sprite:
-	db $1A, $10, $4A, $09
+GroudonFireballRightSprite:
+	db $1A, $10, $48, $09
 	db $1A, $18, $4A, $29
 	db $2A, $0C, $4C, $09
-	db $2A, $14, $3E, $29
+	db $2A, $14, $4E, $09
+	db $2A, $1C, $50, $29
+	db $80 ; terminator
+
+GroudonFireballLeftSprite:
+	db $1A, $10, $4A, $09
+	db $1A, $18, $48, $29
+	db $2A, $0C, $50, $09
+	db $2A, $14, $4E, $29
 	db $2A, $1C, $4C, $29
 	db $80 ; terminator
 
+GroudonFireballResetSprite:
+	db $1A, $08, $30, $09
+	db $1A, $10, $2A, $09
+	db $1A, $18, $2A, $29
+	db $1A, $20, $30, $29
+	db $2A, $0C, $32, $09
+	db $2A, $14, $34, $29
+	db $2A, $1C, $32, $29
+	db $80 ; terminator
+
+GroudonRockTomb0Sprite:
+	db $1A, $08, $30, $09
+	db $1A, $10, $2A, $09
+	db $1A, $18, $2A, $29
+	db $1A, $20, $30, $29
+	db $2A, $0C, $32, $09
+	db $2A, $14, $34, $29
+	db $2A, $1C, $32, $29
+	db $80 ; terminator
+
+GroudonRockTomb1Sprite:
+	db $1A, $10, $52, $09
+	db $1A, $18, $52, $29
+	db $2A, $0C, $54, $09
+	db $2A, $14, $46, $29
+	db $2A, $1C, $54, $29
+	db $80 ; terminator
+
 GroudonRockTomb2Sprite:
-	db $17, $08, $4E, $09
-	db $17, $10, $50, $09
-	db $17, $18, $50, $29
-	db $17, $20, $4E, $29
-	db $27, $0C, $52, $09
-	db $27, $14, $54, $09
-	db $27, $1C, $52, $29
+	db $17, $08, $56, $09
+	db $17, $10, $58, $09
+	db $17, $18, $58, $29
+	db $17, $20, $56, $29
+	db $27, $0C, $5A, $09
+	db $27, $14, $5C, $09
+	db $27, $1C, $5A, $29
 	db $80 ; terminator
 
 GroudonRockTomb3Sprite:
-	db $0F, $08, $4E, $09
-	db $0F, $10, $50, $09
-	db $0F, $18, $50, $29
-	db $0F, $20, $4E, $29
-	db $1F, $10, $56, $09
-	db $1F, $18, $56, $29
+	db $0F, $08, $56, $09
+	db $0F, $10, $58, $09
+	db $0F, $18, $58, $29
+	db $0F, $20, $56, $29
+	db $1F, $10, $5E, $09
+	db $1F, $18, $5E, $29
 	db $80 ; terminator
 
 GroudonRockTomb4Sprite:
-	db $0B, $08, $4E, $09
-	db $0B, $10, $50, $09
-	db $0B, $18, $50, $29
-	db $0B, $20, $4E, $29
-	db $1B, $10, $56, $09
-	db $1B, $18, $56, $29
+	db $0B, $08, $56, $09
+	db $0B, $10, $58, $09
+	db $0B, $18, $58, $29
+	db $0B, $20, $56, $29
+	db $1B, $10, $5E, $09
+	db $1B, $18, $5E, $29
 	db $80 ; terminator
 
 GroudonRockTomb5Sprite:
-	db $09, $08, $4E, $09
-	db $09, $10, $50, $09
-	db $09, $18, $50, $29
-	db $09, $20, $4E, $29
-	db $19, $10, $56, $09
-	db $19, $18, $56, $29
+	db $09, $08, $56, $09
+	db $09, $10, $58, $09
+	db $09, $18, $58, $29
+	db $09, $20, $56, $29
+	db $19, $10, $5E, $09
+	db $19, $18, $5E, $29
 	db $80 ; terminator
 
 GroudonRockTomb6Sprite:
-	db $09, $0C, $58, $09
-	db $09, $14, $5A, $09
-	db $09, $1C, $58, $29
-	db $19, $0C, $5C, $09
+	db $09, $0C, $76, $09
+	db $09, $14, $78, $09
+	db $09, $1C, $76, $29
+	db $19, $0C, $7A, $09
 	db $19, $14, $0E, $29
-	db $19, $1C, $5C, $29
+	db $19, $1C, $7A, $29
 	db $80 ; terminator
 
 GroudonRockTomb7Sprite:
-	db $0F, $0C, $5E, $09
-	db $0F, $14, $5A, $29
-	db $0F, $1C, $5E, $29
-	db $1F, $0C, $76, $09
-	db $1F, $14, $78, $09
-	db $1F, $1C, $76, $29
+	db $0F, $0C, $7C, $09
+	db $0F, $14, $78, $29
+	db $0F, $1C, $7C, $29
+	db $1F, $0C, $7E, $09
+	db $1F, $14, $80, $09
+	db $1F, $1C, $7E, $29
 	db $80 ; terminator
 
 GroudonRockTomb8Sprite:
-	db $1A, $08, $28, $09
-	db $1A, $10, $22, $09
-	db $1A, $18, $22, $29
-	db $1A, $20, $28, $29
-	db $2A, $0C, $2A, $09
-	db $2A, $14, $2C, $29
-	db $2A, $1C, $2A, $29
+	db $1A, $08, $30, $09
+	db $1A, $10, $2A, $09
+	db $1A, $18, $2A, $29
+	db $1A, $20, $30, $29
+	db $2A, $0C, $32, $09
+	db $2A, $14, $34, $29
+	db $2A, $1C, $32, $29
 	db $80 ; terminator
 
 GroudonFireballFireballDownSprite:

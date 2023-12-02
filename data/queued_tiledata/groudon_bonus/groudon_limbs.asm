@@ -96,6 +96,55 @@ TileData_GroudonLimbs_Idle1_4:
 	db $00
 
 
+TileDataPointer_GroudonLimbs_Hit:
+	db $03
+	dw TileData_GroudonLimbs_Hit_0
+	dw TileData_GroudonLimbs_Hit_2
+	dw TileData_GroudonLimbs_Hit_4
+
+TileData_GroudonLimbs_Hit_0:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 0 * $20 + 7
+	db $00, $00, $20, $21, $00, $00
+
+	db $06
+	dw vBGMap + 1 * $20 + 7
+	db $00, $22, $23, $24, $22, $00
+
+	db $00
+
+TileData_GroudonLimbs_Hit_2:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 2 * $20 + 7
+	db $00, $25, $26, $26, $25, $00
+
+	db $06
+	dw vBGMap + 3 * $20 + 7
+	db $27, $28, $29, $29, $28, $27
+
+	db $00
+
+TileData_GroudonLimbs_Hit_4:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + 4 * $20 + 7
+	db $2A, $2B, $2C, $2C, $2B, $2A
+
+	db $06
+	dw vBGMap + 5 * $20 + 7
+	db $0E, $0F, $10, $10, $0F, $0E
+
+	db $00
+
+
 TileDataPointer_GroudonLimbs_LavaPlumeWindup0:
 	db $03
 	dw TileData_GroudonLimbs_LavaPlumeWindup0_0
@@ -122,11 +171,11 @@ TileData_GroudonLimbs_LavaPlumeWindup0_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $20, $21, $21, $20, $00
+	db $00, $2D, $2E, $2E, $2D, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $00, $22, $23, $23, $22, $00
+	db $00, $2F, $30, $30, $2F, $00
 
 	db $00
 
@@ -136,7 +185,7 @@ TileData_GroudonLimbs_LavaPlumeWindup0_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $0B, $24, $25, $25, $24, $0B
+	db $0B, $31, $32, $32, $31, $0B
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -161,7 +210,7 @@ TileData_GroudonLimbs_LavaPlumeWindup1_0:
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $13, $26, $27, $13, $00
+	db $00, $13, $33, $34, $13, $00
 
 	db $00
 
@@ -171,11 +220,11 @@ TileData_GroudonLimbs_LavaPlumeWindup1_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $28, $29, $2A, $28, $00
+	db $00, $35, $36, $37, $35, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $00, $2B, $2C, $2C, $2B, $00
+	db $00, $38, $39, $39, $38, $00
 
 	db $00
 
@@ -185,7 +234,7 @@ TileData_GroudonLimbs_LavaPlumeWindup1_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $1A, $2D, $2E, $2E, $2D, $1A
+	db $1A, $3A, $3B, $3B, $3A, $1A
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -228,11 +277,11 @@ TileData_GroudonLimbs_LavaPlumeWindup2_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $2F, $30, $30, $2F, $00
+	db $00, $3C, $3D, $3D, $3C, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $00, $31, $32, $32, $31, $00
+	db $00, $3E, $3F, $3F, $3E, $00
 
 	db $00
 
@@ -242,7 +291,7 @@ TileData_GroudonLimbs_LavaPlumeWindup2_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $1A, $2D, $2E, $2E, $2D, $1A
+	db $1A, $3A, $3B, $3B, $3A, $1A
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -293,7 +342,7 @@ TileData_GroudonLimbs_LavaPlume3_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $06, $33, $33, $06, $00
+	db $00, $06, $40, $40, $06, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
@@ -307,7 +356,7 @@ TileData_GroudonLimbs_LavaPlume3_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $1A, $34, $35, $35, $34, $1A
+	db $1A, $41, $42, $42, $41, $1A
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -336,11 +385,11 @@ TileData_GroudonLimbs_LavaPlume4_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $00, $36, $37, $00, $00
+	db $00, $00, $43, $44, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $38, $39, $3A, $38, $00
+	db $00, $45, $46, $47, $45, $00
 
 	db $00
 
@@ -350,11 +399,11 @@ TileData_GroudonLimbs_LavaPlume4_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $3B, $3C, $3C, $3B, $00
+	db $00, $48, $49, $49, $48, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $3D, $3E, $3F, $3F, $3E, $3D
+	db $4A, $4B, $4C, $4C, $4B, $4A
 
 	db $00
 
@@ -364,7 +413,7 @@ TileData_GroudonLimbs_LavaPlume4_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $40, $41, $42, $42, $41, $40
+	db $4D, $4E, $4F, $4F, $4E, $4D
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -385,11 +434,11 @@ TileData_GroudonLimbs_FireballWindup0_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $00, $43, $44, $00, $00
+	db $00, $00, $50, $51, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $45, $46, $47, $45, $00
+	db $00, $52, $53, $54, $52, $00
 
 	db $00
 
@@ -399,11 +448,11 @@ TileData_GroudonLimbs_FireballWindup0_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $48, $49, $49, $48, $00
+	db $00, $55, $56, $56, $55, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $00, $4A, $4B, $4B, $4A, $00
+	db $00, $57, $58, $58, $57, $00
 
 	db $00
 
@@ -413,11 +462,11 @@ TileData_GroudonLimbs_FireballWindup0_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $1A, $4C, $4D, $4D, $4C, $1A
+	db $1A, $59, $5A, $5A, $59, $1A
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
-	db $1D, $4E, $4F, $4F, $4E, $1D
+	db $1D, $5B, $5C, $5C, $5B, $1D
 
 	db $00
 
@@ -442,11 +491,11 @@ TileData_GroudonLimbs_FireballWindup1_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $50, $51, $52, $50, $00
+	db $00, $5D, $5E, $5F, $5D, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $53, $54, $55, $53, $00
+	db $00, $60, $61, $62, $60, $00
 
 	db $00
 
@@ -456,11 +505,11 @@ TileData_GroudonLimbs_FireballWindup1_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $56, $57, $57, $56, $00
+	db $00, $63, $64, $64, $63, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $00, $58, $59, $59, $58, $00
+	db $00, $65, $66, $66, $65, $00
 
 	db $00
 
@@ -470,11 +519,11 @@ TileData_GroudonLimbs_FireballWindup1_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $1A, $5A, $5B, $5B, $5A, $1A
+	db $1A, $67, $68, $68, $67, $1A
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
-	db $1D, $4E, $4F, $4F, $4E, $1D
+	db $1D, $5B, $5C, $5C, $5B, $1D
 
 	db $00
 
@@ -499,11 +548,11 @@ TileData_GroudonLimbs_FireballDown_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $00, $5C, $5C, $00, $00
+	db $00, $00, $69, $69, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $50, $5D, $5E, $50, $00
+	db $00, $5D, $6A, $6B, $5D, $00
 
 	db $00
 
@@ -513,11 +562,11 @@ TileData_GroudonLimbs_FireballDown_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $5F, $60, $61, $5F, $00
+	db $00, $6C, $6D, $6E, $6C, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $62, $63, $64, $64, $63, $62
+	db $6F, $70, $71, $71, $70, $6F
 
 	db $00
 
@@ -527,7 +576,7 @@ TileData_GroudonLimbs_FireballDown_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $65, $66, $67, $67, $66, $65
+	db $72, $73, $74, $74, $73, $72
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -556,11 +605,11 @@ TileData_GroudonLimbs_FireballRight_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $00, $68, $69, $00, $00
+	db $00, $00, $75, $76, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $00, $6A, $6B, $00, $00
+	db $00, $00, $77, $78, $00, $00
 
 	db $00
 
@@ -570,11 +619,11 @@ TileData_GroudonLimbs_FireballRight_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $6C, $6D, $6E, $6C, $00
+	db $00, $79, $7A, $7B, $79, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $62, $63, $6F, $70, $63, $62
+	db $6F, $70, $7C, $7D, $70, $6F
 
 	db $00
 
@@ -584,7 +633,7 @@ TileData_GroudonLimbs_FireballRight_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $65, $66, $67, $67, $66, $65
+	db $72, $73, $74, $74, $73, $72
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -613,11 +662,11 @@ TileData_GroudonLimbs_FireballLeft_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $00, $69, $68, $00, $00
+	db $00, $00, $76, $75, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $00, $71, $72, $00, $00
+	db $00, $00, $7E, $7F, $00, $00
 
 	db $00
 
@@ -627,11 +676,11 @@ TileData_GroudonLimbs_FireballLeft_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $6C, $73, $74, $6C, $00
+	db $00, $79, $FF, $FE, $79, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $62, $63, $70, $6F, $63, $62
+	db $6F, $70, $7D, $7C, $70, $6F
 
 	db $00
 
@@ -641,7 +690,7 @@ TileData_GroudonLimbs_FireballLeft_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $65, $66, $67, $67, $66, $65
+	db $72, $73, $74, $74, $73, $72
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -662,11 +711,11 @@ TileData_GroudonLimbs_FireballReset_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $00, $36, $37, $00, $00
+	db $00, $00, $43, $44, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $38, $39, $3A, $38, $00
+	db $00, $45, $46, $47, $45, $00
 
 	db $00
 
@@ -676,11 +725,11 @@ TileData_GroudonLimbs_FireballReset_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $3B, $3C, $3C, $3B, $00
+	db $00, $48, $49, $49, $48, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $3D, $3E, $3F, $3F, $3E, $3D
+	db $4A, $4B, $4C, $4C, $4B, $4A
 
 	db $00
 
@@ -690,7 +739,7 @@ TileData_GroudonLimbs_FireballReset_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $40, $41, $42, $42, $41, $40
+	db $4D, $4E, $4F, $4F, $4E, $4D
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -711,11 +760,11 @@ TileData_GroudonLimbs_RockTomb0_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $00, $36, $37, $00, $00
+	db $00, $00, $43, $44, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $38, $39, $3A, $38, $00
+	db $00, $45, $46, $47, $45, $00
 
 	db $00
 
@@ -725,11 +774,11 @@ TileData_GroudonLimbs_RockTomb0_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $3B, $3C, $3C, $3B, $00
+	db $00, $48, $49, $49, $48, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $3D, $3E, $3F, $3F, $3E, $3D
+	db $4A, $4B, $4C, $4C, $4B, $4A
 
 	db $00
 
@@ -739,7 +788,7 @@ TileData_GroudonLimbs_RockTomb0_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $40, $41, $42, $42, $41, $40
+	db $4D, $4E, $4F, $4F, $4E, $4D
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -760,11 +809,11 @@ TileData_GroudonLimbs_RockTomb1_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $00, $5C, $5C, $00, $00
+	db $00, $00, $69, $69, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $50, $5D, $5E, $50, $00
+	db $00, $5D, $6A, $6B, $5D, $00
 
 	db $00
 
@@ -774,11 +823,11 @@ TileData_GroudonLimbs_RockTomb1_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $75, $76, $77, $75, $00
+	db $00, $FD, $FC, $FB, $FD, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $78, $79, $7A, $7A, $79, $78
+	db $FA, $F9, $F8, $F8, $F9, $FA
 
 	db $00
 
@@ -788,11 +837,11 @@ TileData_GroudonLimbs_RockTomb1_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $7B, $7C, $7D, $7D, $7C, $7B
+	db $F7, $F6, $F5, $F5, $F6, $F7
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
-	db $7E, $7F, $10, $10, $7F, $7E
+	db $F4, $F3, $10, $10, $F3, $F4
 
 	db $00
 
@@ -809,11 +858,11 @@ TileData_GroudonLimbs_RockTomb2_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $50, $5D, $5E, $50, $00
+	db $00, $5D, $6A, $6B, $5D, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $53, $FF, $FE, $53, $00
+	db $00, $60, $F2, $F1, $60, $00
 
 	db $00
 
@@ -823,11 +872,11 @@ TileData_GroudonLimbs_RockTomb2_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $FD, $FC, $FC, $FD, $00
+	db $00, $F0, $EF, $EF, $F0, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $00, $FB, $FA, $FA, $FB, $00
+	db $00, $EE, $ED, $ED, $EE, $00
 
 	db $00
 
@@ -837,11 +886,11 @@ TileData_GroudonLimbs_RockTomb2_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $F9, $F8, $F7, $F7, $F8, $F9
+	db $EC, $EB, $EA, $EA, $EB, $EC
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
-	db $F6, $F5, $00, $00, $F5, $F6
+	db $E9, $E8, $00, $00, $E8, $E9
 
 	db $00
 
@@ -858,11 +907,11 @@ TileData_GroudonLimbs_RockTomb3_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $53, $FF, $FE, $53, $00
+	db $00, $60, $F2, $F1, $60, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $FD, $FC, $FC, $FD, $00
+	db $00, $F0, $EF, $EF, $F0, $00
 
 	db $00
 
@@ -872,11 +921,11 @@ TileData_GroudonLimbs_RockTomb3_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $FB, $FA, $FA, $FB, $00
+	db $00, $EE, $ED, $ED, $EE, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $F4, $F3, $F2, $F2, $F3, $F4
+	db $E7, $E6, $E5, $E5, $E6, $E7
 
 	db $00
 
@@ -886,7 +935,7 @@ TileData_GroudonLimbs_RockTomb3_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $F1, $F0, $EF, $EF, $F0, $F1
+	db $E4, $E3, $E2, $E2, $E3, $E4
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -907,11 +956,11 @@ TileData_GroudonLimbs_RockTomb4_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $EE, $ED, $ED, $EE, $00
+	db $00, $E1, $E0, $E0, $E1, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $EC, $EB, $EB, $EC, $00
+	db $00, $DF, $DE, $DE, $DF, $00
 
 	db $00
 
@@ -921,11 +970,11 @@ TileData_GroudonLimbs_RockTomb4_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $EA, $E9, $E8, $E8, $E9, $EA
+	db $DD, $DC, $DB, $DB, $DC, $DD
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $E7, $E6, $E5, $E5, $E6, $E7
+	db $DA, $D9, $D8, $D8, $D9, $DA
 
 	db $00
 
@@ -935,7 +984,7 @@ TileData_GroudonLimbs_RockTomb4_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $E4, $E3, $E2, $E2, $E3, $E4
+	db $D7, $D6, $D5, $D5, $D6, $D7
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -956,11 +1005,11 @@ TileData_GroudonLimbs_RockTomb5_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $E1, $E0, $E0, $E1, $00
+	db $00, $D4, $D3, $D3, $D4, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $DF, $DE, $DE, $DF, $00
+	db $00, $D2, $D1, $D1, $D2, $00
 
 	db $00
 
@@ -970,11 +1019,11 @@ TileData_GroudonLimbs_RockTomb5_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $DD, $DC, $DB, $DB, $DC, $DD
+	db $D0, $CF, $CE, $CE, $CF, $D0
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $DA, $D9, $D8, $D8, $D9, $DA
+	db $CD, $CC, $CB, $CB, $CC, $CD
 
 	db $00
 
@@ -984,7 +1033,7 @@ TileData_GroudonLimbs_RockTomb5_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $00, $D7, $00, $00, $D7, $00
+	db $00, $CA, $00, $00, $CA, $00
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -1005,7 +1054,7 @@ TileData_GroudonLimbs_RockTomb6_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $D6, $E0, $E0, $D6, $00
+	db $00, $C9, $D3, $D3, $C9, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
@@ -1019,11 +1068,11 @@ TileData_GroudonLimbs_RockTomb6_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $D5, $D4, $1C, $1C, $D4, $D5
+	db $C8, $C7, $1C, $1C, $C7, $C8
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $D3, $D2, $1F, $1F, $D2, $D3
+	db $C6, $C5, $1F, $1F, $C5, $C6
 
 	db $00
 
@@ -1033,7 +1082,7 @@ TileData_GroudonLimbs_RockTomb6_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $00, $D1, $00, $00, $D1, $00
+	db $00, $C4, $00, $00, $C4, $00
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -1054,11 +1103,11 @@ TileData_GroudonLimbs_RockTomb7_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $D0, $FF, $FE, $D0, $00
+	db $00, $C3, $F2, $F1, $C3, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $EA, $CF, $CE, $CE, $CF, $EA
+	db $DD, $C2, $C1, $C1, $C2, $DD
 
 	db $00
 
@@ -1068,11 +1117,11 @@ TileData_GroudonLimbs_RockTomb7_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $CD, $CC, $CB, $CB, $CC, $CD
+	db $C0, $BF, $BE, $BE, $BF, $C0
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $F9, $CA, $C9, $C9, $CA, $F9
+	db $EC, $BD, $BC, $BC, $BD, $EC
 
 	db $00
 
@@ -1082,7 +1131,7 @@ TileData_GroudonLimbs_RockTomb7_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $F6, $F5, $00, $00, $F5, $F6
+	db $E9, $E8, $00, $00, $E8, $E9
 
 	db $06
 	dw vBGMap + 5 * $20 + 7
@@ -1111,11 +1160,11 @@ TileData_GroudonLimbs_RockTomb8_0:
 
 	db $06
 	dw vBGMap + 0 * $20 + 7
-	db $00, $00, $36, $37, $00, $00
+	db $00, $00, $43, $44, $00, $00
 
 	db $06
 	dw vBGMap + 1 * $20 + 7
-	db $00, $38, $39, $3A, $38, $00
+	db $00, $45, $46, $47, $45, $00
 
 	db $00
 
@@ -1125,11 +1174,11 @@ TileData_GroudonLimbs_RockTomb8_2:
 
 	db $06
 	dw vBGMap + 2 * $20 + 7
-	db $00, $3B, $3C, $3C, $3B, $00
+	db $00, $48, $49, $49, $48, $00
 
 	db $06
 	dw vBGMap + 3 * $20 + 7
-	db $3D, $3E, $3F, $3F, $3E, $3D
+	db $4A, $4B, $4C, $4C, $4B, $4A
 
 	db $00
 
@@ -1139,7 +1188,7 @@ TileData_GroudonLimbs_RockTomb8_4:
 
 	db $06
 	dw vBGMap + 4 * $20 + 7
-	db $40, $41, $42, $42, $41, $40
+	db $4D, $4E, $4F, $4F, $4E, $4D
 
 	db $06
 	dw vBGMap + 5 * $20 + 7

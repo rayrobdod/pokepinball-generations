@@ -2,6 +2,7 @@ ResolveGroudonBonusGameObjectCollisions:
 	call TryCloseGate_GroudonBonus
 	callba PlayLowTimeSfx
 	call CheckTimeRanOut_GroudonBonus
+	call ResolveGroudonCollision
 	call UpdateGroudonEventTimer
 	call UpdateGroudonFireball
 	call UpdateGroudonFireballBreakoutCooldown
@@ -37,6 +38,44 @@ TryCloseGate_GroudonBonus:
 
 LoadClosedGateGraphics_GroudonBonus:
 	; TODO
+	ret
+
+ResolveGroudonCollision:
+	ld a, [wGroudonGroudonCollision]
+	and a
+	ret z
+	xor a
+	ld [wGroudonGroudonCollision], a
+
+	ld a, [wNumGroudonHits]
+	inc a
+	ld [wNumGroudonHits], a
+
+	; Don't interupt attack animations with the hit frame
+	; Still count the hit, just don't make Groudon flinch
+	ld a, [wGroudonAnimationId]
+	cp a, GROUDONANIMATION_IDLE
+	jp nz, .skipHitAnimation
+	ld a, GROUDONANIMATION_HIT
+	ld [wGroudonAnimationId], a
+	sla a
+	ld e, a
+	ld d, $0
+	ld hl, GroudonAnimations
+	add hl, de
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	ld de, wGroudonAnimation
+	call InitAnimation
+	call UpdateGroudonLimbGraphics
+
+.skipHitAnimation
+	ld bc, GROUDON_COLLISION_POINTS
+	callba AddBigBCD6FromQueueWithBallMultiplier
+
+	lb de, $00, $07
+	call PlaySoundEffect
 	ret
 
 ; Pinball RS behavior:
@@ -312,7 +351,7 @@ GroudonAnimations:
 	const_def
 
 	GroudonAnimation GROUDONANIMATION_IDLE, IdleGroudonAnimation
-	;GroudonAnimation GROUDONANIMATION_HIT, HitGroudonAnimation
+	GroudonAnimation GROUDONANIMATION_HIT, HitGroudonAnimation
 	;GroudonAnimation GROUDONANIMATION_PROLOGUE, PrologueGroudonAnimation
 	GroudonAnimation GROUDONANIMATION_FIREBALL, FireballGroudonAnimation
 	GroudonAnimation GROUDONANIMATION_LAVAPLUME, LavaPlumeGroudonAnimation
@@ -321,6 +360,10 @@ GroudonAnimations:
 IdleGroudonAnimation:
 	db $28, GROUDONFRAME_IDLE_0
 	db $28, GROUDONFRAME_IDLE_1
+	db $00 ; terminator
+
+HitGroudonAnimation:
+	db $0C, GROUDONFRAME_HIT
 	db $00 ; terminator
 
 LavaPlumeGroudonAnimation:
@@ -380,6 +423,7 @@ GroudonFrames:
 
 	GroudonFrame GROUDONFRAME_IDLE_0, TileDataPointer_GroudonLimbs_Idle0, SPRITE2_GROUDON_IDLE_0
 	GroudonFrame GROUDONFRAME_IDLE_1, TileDataPointer_GroudonLimbs_Idle1, SPRITE2_GROUDON_IDLE_1
+	GroudonFrame GROUDONFRAME_HIT, TileDataPointer_GroudonLimbs_Hit, SPRITE2_GROUDON_HIT
 	GroudonFrame GROUDONFRAME_LAVAPLUME_WINDUP_0, TileDataPointer_GroudonLimbs_LavaPlumeWindup0, SPRITE2_GROUDON_LAVAPLUME_WINDUP_0
 	GroudonFrame GROUDONFRAME_LAVAPLUME_WINDUP_1, TileDataPointer_GroudonLimbs_LavaPlumeWindup1, SPRITE2_GROUDON_LAVAPLUME_WINDUP_1
 	GroudonFrame GROUDONFRAME_LAVAPLUME_WINDUP_2, TileDataPointer_GroudonLimbs_LavaPlumeWindup2, SPRITE2_GROUDON_LAVAPLUME_WINDUP_2

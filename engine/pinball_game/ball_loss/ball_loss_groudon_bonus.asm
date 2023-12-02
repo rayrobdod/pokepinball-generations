@@ -5,13 +5,13 @@ HandleBallLossGroudonBonus:
 	ret z
 
 	; if bonus stage was won, return to main stage
-	ld a, [wNumGroudonHits]
-	cp NUM_GROUDON_HITS
-	jr nc, .return_from_bonus_stage
+	ld a, [wCompletedBonusStage]
+	and a
+	jr nz, .return_from_bonus_stage
 	; if bonus stage was lost, return to main stage
 	ld a, [wFlippersDisabled]
 	and a
-	jr nz, .return_from_bonus_stage
+	jr nz, .return_from_bonus_stage_with_end_stage_text
 
 .continue_bonus_stage
 	; The base bonus stages temporarily take away your field multiplier for the duration of the bonus stage
@@ -42,6 +42,14 @@ HandleBallLossGroudonBonus:
 	call PlaySoundEffect
 	ret
 
+.return_from_bonus_stage_with_end_stage_text
+	call FillBottomMessageBufferWithBlackTile
+	call EnableBottomText
+	ld hl, wScrollingText3
+	ld de, EndGroudonStageText
+	call LoadScrollingText
+	; fall through
+
 .return_from_bonus_stage
 	xor a
 	ld [wTimeRanOut], a
@@ -53,12 +61,4 @@ HandleBallLossGroudonBonus:
 	ld [wd4c8], a
 	xor a
 	ld [wDisableHorizontalScrollForBallStart], a
-	ld a, [wCompletedBonusStage]
-	and a
-	ret nz
-	call FillBottomMessageBufferWithBlackTile
-	call EnableBottomText
-	ld hl, wScrollingText3
-	ld de, EndGroudonStageText
-	call LoadScrollingText
 	ret

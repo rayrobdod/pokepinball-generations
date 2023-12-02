@@ -8,3 +8,5 @@ DEF GROUDON_FIREBALL_COLLISION_SIZE EQU 16
 DEF GROUDON_FIREBALL_BREAKOUT_COUNTER EQU 8
 ; Minimum delay between consecutive flipper button presses to count towards fireball breakout
 DEF GROUDON_FIREBALL_BREAKOUT_COOLDOWN EQU 8
+
+DEF GROUDON_COLLISION_POINTS EQUS "FiveThousandPoints"

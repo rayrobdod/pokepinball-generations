@@ -1718,6 +1718,9 @@ wd79e:: ; 0xd79e
 wNumGroudonHits::
 	ds $1
 
+wGroudonGroudonCollision::
+	ds $2
+
 wGroudonBonusClosedGate::
 	ds $1
 
