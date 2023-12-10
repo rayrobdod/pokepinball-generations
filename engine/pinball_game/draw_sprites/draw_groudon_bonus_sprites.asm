@@ -32,7 +32,10 @@ DrawGroudonBodySprite:
 DrawGroudonBoulders:
 	ld hl, wGroudonBoulder0AnimationId
 	call DrawGroudonOneBoulder
-	ret
+	ld hl, wGroudonBoulder1AnimationId
+	call DrawGroudonOneBoulder
+	ld hl, wGroudonBoulder2AnimationId
+	; fall-through
 
 DrawGroudonOneBoulder:
 ; Input: hl = BoulderAnimationId

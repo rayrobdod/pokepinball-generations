@@ -1762,6 +1762,28 @@ wGroudonBoulder0XPos::
 wGroudonBoulder0YPos::
 	ds $1
 
+wGroudonBoulder1AnimationId::
+	ds $1
+wGroudonBoulder1Animation::
+	animation wGroudonBoulder1Animation
+wGroudonBoulder1Health::
+	ds $1
+wGroudonBoulder1XPos::
+	ds $1
+wGroudonBoulder1YPos::
+	ds $1
+
+wGroudonBoulder2AnimationId::
+	ds $1
+wGroudonBoulder2Animation::
+	animation wGroudonBoulder2Animation
+wGroudonBoulder2Health::
+	ds $1
+wGroudonBoulder2XPos::
+	ds $1
+wGroudonBoulder2YPos::
+	ds $1
+
 wLeftAndRightTiltPixelsOffset:: ; 0xd79f
 ; Horizontal offset in pixels that the left and right tilt are currently moving the screen.
 	ds $1

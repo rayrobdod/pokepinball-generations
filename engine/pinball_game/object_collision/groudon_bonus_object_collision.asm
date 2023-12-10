@@ -69,20 +69,22 @@ CheckGroudonBonusStageFireballCollision:
 	ret
 
 CheckGroudonBonusStageBoulderCollision:
-	ld a, [wGroudonBoulder0Health]
+FOR X, 0, 3
+	ld a, [wGroudonBoulder{d:X}Health]
 	and a
-	jr z, .checkBoulder1
-	ld a, [wGroudonBoulder0XPos]
+	jr z, .skipBoulder{d:X}
+	ld a, [wGroudonBoulder{d:X}XPos]
 	sub $8
 	ld b, a
-	ld a, [wGroudonBoulder0YPos]
+	ld a, [wGroudonBoulder{d:X}YPos]
 	add $8
 	ld c, a
 	call CheckOneGroudonBonusStageBoulderCollision
-	ld a, $0
+	ld a, {d:X}
 	jr c, .handleCollision
+.skipBoulder{d:X}
+ENDR
 
-.checkBoulder1
 	ret
 
 .handleCollision

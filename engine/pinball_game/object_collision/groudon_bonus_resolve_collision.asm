@@ -254,17 +254,18 @@ UpdateGroudonEventTimer:
 	ENDR
 
 .breakAllRocks
-	ld a, [wGroudonBoulder0Health]
+FOR X, 0, 3
+	ld a, [wGroudonBoulder{d:X}Health]
 	and a
-	jp z, .skipBreakBoulder0
+	jp z, .skipBreakBoulder{d:X}
 	xor a
-	ld [wGroudonBoulder0Health], a
-	ld [wGroudonBoulder0AnimationId], a
+	ld [wGroudonBoulder{d:X}Health], a
+	ld [wGroudonBoulder{d:X}AnimationId], a
 	ld hl, GroudonBoudlerHealth0Animation
-	ld de, wGroudonBoulder0Animation
+	ld de, wGroudonBoulder{d:X}Animation
 	call InitAnimation
-
-.skipBreakBoulder0
+.skipBreakBoulder{d:X}
+ENDR
 	ret
 
 .summonRocks
@@ -276,8 +277,29 @@ UpdateGroudonEventTimer:
 	and $0F
 	add $38
 	ld [wGroudonBoulder0YPos], a
+
+	call GenRandom
+	and $3F
+	add 160 - $3F - $10
+	ld [wGroudonBoulder1XPos], a
+	call GenRandom
+	and $0F
+	add $38
+	ld [wGroudonBoulder1YPos], a
+
+	call GenRandom
+	and $3F
+	add (160 - $3F - $10) / 2
+	ld [wGroudonBoulder2XPos], a
+	call GenRandom
+	and $1F
+	add $38
+	ld [wGroudonBoulder2YPos], a
+
 	ld a, GROUDON_BOULDER_HEALTH
 	ld [wGroudonBoulder0AnimationId], a
+	ld [wGroudonBoulder1AnimationId], a
+	ld [wGroudonBoulder2AnimationId], a
 	sla a
 	ld c, a
 	ld b, 0
@@ -286,7 +308,17 @@ UpdateGroudonEventTimer:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
+	push hl
 	ld de, wGroudonBoulder0Animation
+	call InitAnimation
+
+	pop hl
+	push hl
+	ld de, wGroudonBoulder1Animation
+	call InitAnimation
+
+	pop hl
+	ld de, wGroudonBoulder2Animation
 	call InitAnimation
 
 	ret
@@ -359,9 +391,16 @@ UpdateGroudonBoulderAnimations:
 	ld a, [wGroudonBoulder0AnimationId]
 	ld de, wGroudonBoulder0Animation
 	call UpdateOneGroudonBoulderAnimations
-	ret
+	ld a, [wGroudonBoulder1AnimationId]
+	ld de, wGroudonBoulder1Animation
+	call UpdateOneGroudonBoulderAnimations
+	ld a, [wGroudonBoulder2AnimationId]
+	ld de, wGroudonBoulder2Animation
+	; fall-through
 
 UpdateOneGroudonBoulderAnimations:
+; Input: a = BoulderAnimationId value
+;        de = BoulderAnimationFrame pointer
 	push de
 	sla a
 	ld e, a
@@ -371,42 +410,47 @@ UpdateOneGroudonBoulderAnimations:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	pop de
+	pop de ; de = BoulderAnimationFrameCounter
 	call UpdateAnimation
 	ret nc
 
-	inc de
+	inc de ; de = BoulderAnimationFrame
 	ld a, [de]
 	cp GROUDONBOULDERFRAME_WAITING_TO_FALL
 	; stagger the boulders' fall somewhat
 	jp nz, .skipWaitingToFall
-	dec de
+	dec de ; de = BoulderAnimationFrameCounter
 	call GenRandom
 	and $0F
 	ld [de], a
 	ret
 
 .skipWaitingToFall
+	 ; de = BoulderAnimationFrame
 	cp GROUDONBOULDERFRAME_FALLING
 	; make fall duration correspond to y position
 	; DrawGroudonBoulders uses duration during the falling frame as a y offset
 	; This combines to make the boulder fall from slightly above screen
 	jp nz, .skipFalling
 	ld hl, 4
-	add hl, de
+	add hl, de ; hl = BoulderYPos
 	ld a, [hl]
 	srl a
 	add a, 8
-	dec de
+	dec de ; de = BoulderAnimationFrameCounter
 	ld [de], a
 	ret
 
 .skipFalling
+	 ; de = BoulderAnimationFrame
 	cp GROUDONBOULDERFRAME_FELL
 	; delays setting the boulder's health until it has fallen
+	; so that the ball can't interact with the boulder until is has finished falling
 	jp nz, .skipHealth3
 	ld a, GROUDON_BOULDER_HEALTH
-	ld [wGroudonBoulder0Health], a
+	ld hl, 2
+	add hl, de ; hl = BoulderHealth
+	ld [hl], a
 	ret
 
 .skipHealth3
