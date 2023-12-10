@@ -2,6 +2,7 @@ DrawSpritesGroudonBonus:
 	lb bc, 127, 102
 	callba DrawTimer
 	call DrawGroudonFireball
+	call DrawGroudonBoulders
 	callba DrawFlippers
 	callba DrawPinball
 	call DrawGroudonBodySprite
@@ -26,6 +27,60 @@ DrawGroudonBodySprite:
 	add hl, de
 	ld a, [hl]
 	call LoadOAMData2
+	ret
+
+DrawGroudonBoulders:
+	ld hl, wGroudonBoulder0AnimationId
+	call DrawGroudonOneBoulder
+	ret
+
+DrawGroudonOneBoulder:
+; Input: hl = BoulderAnimationId
+	inc hl ; hl = BoulderAnimationFrameCounter
+	inc hl ; hl = BoulderAnimationFrame
+	push hl
+	ld a, [hl]
+	sla a
+	ld c, a
+	ld b, 0
+	ld hl, GroudonBoulderFrames
+	add hl, bc
+	ld a, [hli]
+	ld d, a
+	ld a, [hl]
+	cp $FF
+	pop hl ; hl = BoulderXAnimationFrame
+	ret z
+	ld e, a
+	; d = x offset
+	; e = sprite id
+
+	ld a, [hld] ; hl = BoulderXAnimationFrameCounter
+	cp GROUDONBOULDERFRAME_FALLING
+	ld a, 0
+	jr nz, .skipFallingYOffset
+	ld a, [hl]
+	sla a
+	cpl
+.skipFallingYOffset
+	ld bc, 5
+	add hl, bc ; hl = BoulderXYPos
+	add [hl]
+	dec hl ; hl = BoulderXXPos
+	push hl
+	ld hl, hSCY
+	sub [hl]
+	ld c, a
+	pop hl ; hl = BoulderXXPos
+
+	ld a, [hl]
+	ld hl, hSCX
+	sub [hl]
+	add d
+	ld b, a
+
+	ld a, e
+	call nz, LoadOAMData2
 	ret
 
 DrawGroudonFireball:

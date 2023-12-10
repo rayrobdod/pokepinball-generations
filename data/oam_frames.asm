@@ -2440,6 +2440,11 @@ OAMDataPointers2: ; 0x55d7
 	SpriteDataPointer GroudonFireballFireballDownSprite, SPRITE2_GROUDON_FIREBALL_FIREBALL_DOWN
 	SpriteDataPointer GroudonFireballFireballLeftSprite, SPRITE2_GROUDON_FIREBALL_FIREBALL_LEFT
 	SpriteDataPointer GroudonFireballFireballRightSprite, SPRITE2_GROUDON_FIREBALL_FIREBALL_RIGHT
+	SpriteDataPointer GroudonBoulderHealth3Sprite, SPRITE2_GROUDON_BOULDER_HEALTH_3
+	SpriteDataPointer GroudonBoulderHealth2Sprite, SPRITE2_GROUDON_BOULDER_HEALTH_2
+	SpriteDataPointer GroudonBoulderHealth1Sprite, SPRITE2_GROUDON_BOULDER_HEALTH_1
+	SpriteDataPointer GroudonBoulderCrumble0Sprite, SPRITE2_GROUDON_BOULDER_CRUMBLE_0
+	SpriteDataPointer GroudonBoulderCrumble1Sprite, SPRITE2_GROUDON_BOULDER_CRUMBLE_1
 
 OAMData2_0: ; 0x56e1
 	db $20, $20, $9E, $04
@@ -3903,4 +3908,14 @@ GroudonBoulderHealth2Sprite:
 GroudonBoulderHealth1Sprite:
 	db $08, $08, $24, $07
 	db $08, $00, $22, $07
+	db $80 ; terminator
+
+GroudonBoulderCrumble0Sprite:
+	db $08, $08, $28, $07
+	db $08, $00, $26, $07
+	db $80 ; terminator
+
+GroudonBoulderCrumble1Sprite:
+	db $08, $08, $2c, $07
+	db $08, $00, $2a, $07
 	db $80 ; terminator

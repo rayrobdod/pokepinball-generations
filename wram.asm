@@ -1748,6 +1748,20 @@ wGroudonFireballBreakoutCounter::
 wGroudonFireballBreakoutCooldown::
 	ds $1
 
+wGroudonBoulderCollision:: ; the boulder that was hit. $FF for no collision
+	ds $1
+
+wGroudonBoulder0AnimationId::
+	ds $1
+wGroudonBoulder0Animation::
+	animation wGroudonBoulder0Animation
+wGroudonBoulder0Health::
+	ds $1
+wGroudonBoulder0XPos::
+	ds $1
+wGroudonBoulder0YPos::
+	ds $1
+
 wLeftAndRightTiltPixelsOffset:: ; 0xd79f
 ; Horizontal offset in pixels that the left and right tilt are currently moving the screen.
 	ds $1

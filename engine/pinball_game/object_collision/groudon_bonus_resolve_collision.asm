@@ -3,10 +3,12 @@ ResolveGroudonBonusGameObjectCollisions:
 	callba PlayLowTimeSfx
 	call CheckTimeRanOut_GroudonBonus
 	call ResolveGroudonCollision
+	call ResolveGroudonBoulderCollision
 	call UpdateGroudonEventTimer
 	call UpdateGroudonFireball
 	call UpdateGroudonFireballBreakoutCooldown
 	call UpdateGroudonFireballBreakoutCounter
+	call UpdateGroudonBoulderAnimations
 	call UpdateGroudonAnimation
 	ret
 
@@ -78,6 +80,47 @@ ResolveGroudonCollision:
 	call PlaySoundEffect
 	ret
 
+ResolveGroudonBoulderCollision:
+	ld a, [wGroudonBoulderCollision]
+	cp $FF
+	ret z
+
+	ld b, a
+	ld a, $FF
+	ld [wGroudonBoulderCollision], a
+	ld a, b
+
+	ld a, b
+	sla b
+	add a, b
+	sla b
+	add a, b ; a *= 7
+	ld c, a
+	ld b, 0
+	ld hl, wGroudonBoulder0AnimationId
+	add hl, bc
+	push hl
+	ld c, 4
+	add hl, bc
+	ld a, [hl] ; hl = BoulderHealth
+	dec a
+	ld [hl], a
+	pop hl ; hl = BoulderAnimationId
+	ld [hl], a
+	inc hl ; hl = BoulderAnimation
+	ld d, h
+	ld e, l
+	sla a
+	ld c, a
+	ld b, 0
+	ld hl, GroudonBoulderAnimations
+	add hl, bc
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	call InitAnimation
+	ret
+
 ; Pinball RS behavior:
 ;   prologue has Groudon and three boulders drop from above.
 ;   the first attack is four seconds after groudon drops.
@@ -108,6 +151,8 @@ UpdateGroudonEventTimer:
 	GroudonEvent GROUDONEVENT_ROCKTOMB_STARTGROUDONANIMATION, .groudonRockTombAnimationInit
 	GroudonEvent GROUDONEVENT_FIREBALL_STARTGROUDONANIMATION, .groudonFireballAnimationInit
 	GroudonEvent GROUDONEVENT_FIREBALL_FIRE, .fireballFire
+	GroudonEvent GROUDONEVENT_ROCKTOMB_SUMMONROCKS, .summonRocks
+	GroudonEvent GROUDONEVENT_LAVAPLUME_BREAKROCKS, .breakAllRocks
 
 .idle
 	ret
@@ -208,17 +253,55 @@ UpdateGroudonEventTimer:
 	ENDR
 	ENDR
 
+.breakAllRocks
+	ld a, [wGroudonBoulder0Health]
+	and a
+	jp z, .skipBreakBoulder0
+	xor a
+	ld [wGroudonBoulder0Health], a
+	ld [wGroudonBoulder0AnimationId], a
+	ld hl, GroudonBoudlerHealth0Animation
+	ld de, wGroudonBoulder0Animation
+	call InitAnimation
+
+.skipBreakBoulder0
+	ret
+
+.summonRocks
+	call GenRandom
+	and $3F
+	add $10
+	ld [wGroudonBoulder0XPos], a
+	call GenRandom
+	and $0F
+	add $38
+	ld [wGroudonBoulder0YPos], a
+	ld a, GROUDON_BOULDER_HEALTH
+	ld [wGroudonBoulder0AnimationId], a
+	sla a
+	ld c, a
+	ld b, 0
+	ld hl, GroudonBoulderAnimations
+	add hl, bc
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	ld de, wGroudonBoulder0Animation
+	call InitAnimation
+
+	ret
+
 EventGroudonAnimation:
 	db 3 * 60, GROUDONEVENT_IDLE
 	db $0C + $18, GROUDONEVENT_LAVAPLUME_INITGROUDONANIMATION
-	;db $18, GROUDONEVENT_LAVAPLUME_BREAKROCKS
+	db $18, GROUDONEVENT_LAVAPLUME_BREAKROCKS
 	;db 3 * 60, GROUDONEVENT_LAVAPLUME_SPROUTLAVA
 	db 3 * 60, GROUDONEVENT_IDLE
 	db $20, GROUDONEVENT_FIREBALL_STARTGROUDONANIMATION
 	db 3 * 60, GROUDONEVENT_FIREBALL_FIRE
 	db 3 * 60, GROUDONEVENT_IDLE
 	db $46, GROUDONEVENT_ROCKTOMB_STARTGROUDONANIMATION
-	;db 3 * 60, GROUDONEVENT_ROCKTOMB_SUMMONROCKS
+	db 3 * 60, GROUDONEVENT_ROCKTOMB_SUMMONROCKS
 	db 3 * 60, GROUDONEVENT_IDLE
 	db $20, GROUDONEVENT_FIREBALL_STARTGROUDONANIMATION
 	db 3 * 60, GROUDONEVENT_FIREBALL_FIRE
@@ -271,6 +354,113 @@ UpdateGroudonFireballBreakoutCounter:
 	ld a, 1
 	ld [wEnableBallGravityAndTilt], a
 	ret
+
+UpdateGroudonBoulderAnimations:
+	ld a, [wGroudonBoulder0AnimationId]
+	ld de, wGroudonBoulder0Animation
+	call UpdateOneGroudonBoulderAnimations
+	ret
+
+UpdateOneGroudonBoulderAnimations:
+	push de
+	sla a
+	ld e, a
+	ld d, $0
+	ld hl, GroudonBoulderAnimations
+	add hl, de
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	pop de
+	call UpdateAnimation
+	ret nc
+
+	inc de
+	ld a, [de]
+	cp GROUDONBOULDERFRAME_WAITING_TO_FALL
+	; stagger the boulders' fall somewhat
+	jp nz, .skipWaitingToFall
+	dec de
+	call GenRandom
+	and $0F
+	ld [de], a
+	ret
+
+.skipWaitingToFall
+	cp GROUDONBOULDERFRAME_FALLING
+	; make fall duration correspond to y position
+	; DrawGroudonBoulders uses duration during the falling frame as a y offset
+	; This combines to make the boulder fall from slightly above screen
+	jp nz, .skipFalling
+	ld hl, 4
+	add hl, de
+	ld a, [hl]
+	srl a
+	add a, 8
+	dec de
+	ld [de], a
+	ret
+
+.skipFalling
+	cp GROUDONBOULDERFRAME_FELL
+	; delays setting the boulder's health until it has fallen
+	jp nz, .skipHealth3
+	ld a, GROUDON_BOULDER_HEALTH
+	ld [wGroudonBoulder0Health], a
+	ret
+
+.skipHealth3
+	ret
+
+GroudonBoulderAnimations:
+	dw GroudonBoudlerHealth0Animation
+	dw GroudonBoulderHealth1Animation
+	dw GroudonBoulderHealth2Animation
+	dw GroudonBoulderSummonAnimation
+
+GroudonBoudlerHealth0Animation:
+	db $08, GROUDONBOULDERFRAME_CRUMBLE_0
+	db $08, GROUDONBOULDERFRAME_CRUMBLE_1
+	db $01, GROUDONBOULDERFRAME_HIDDEN
+	db $00 ; terminator
+
+FOR X, 1, GROUDON_BOULDER_HEALTH
+GroudonBoulderHealth{u:X}Animation:
+	db $06, GROUDONBOULDERFRAME_HEALTH_{u:X}_RIGHT
+	db $06, GROUDONBOULDERFRAME_HEALTH_{u:X}_LEFT
+	db $01, GROUDONBOULDERFRAME_HEALTH_{u:X}
+	db $00 ; terminator
+ENDR
+
+GroudonBoulderSummonAnimation:
+	db $01, GROUDONBOULDERFRAME_HIDDEN
+	db $01, GROUDONBOULDERFRAME_WAITING_TO_FALL
+	db $01, GROUDONBOULDERFRAME_FALLING
+	db $01, GROUDONBOULDERFRAME_FELL
+	db $01, GROUDONBOULDERFRAME_HEALTH_3
+	db $00 ; terminator
+
+GroudonBoulderFrames:
+	MACRO GroudonBoulderFrame
+		const \1
+		db \2 ; x offset
+		db \3 ; sprite id
+	ENDM
+	const_def
+
+	GroudonBoulderFrame GROUDONBOULDERFRAME_HIDDEN, 0, $FF
+	GroudonBoulderFrame GROUDONBOULDERFRAME_HEALTH_3, 0, SPRITE2_GROUDON_BOULDER_HEALTH_3
+	GroudonBoulderFrame GROUDONBOULDERFRAME_HEALTH_2, 0, SPRITE2_GROUDON_BOULDER_HEALTH_2
+	GroudonBoulderFrame GROUDONBOULDERFRAME_HEALTH_2_RIGHT, 1, SPRITE2_GROUDON_BOULDER_HEALTH_2
+	GroudonBoulderFrame GROUDONBOULDERFRAME_HEALTH_2_LEFT, -1, SPRITE2_GROUDON_BOULDER_HEALTH_2
+	GroudonBoulderFrame GROUDONBOULDERFRAME_HEALTH_1, 0, SPRITE2_GROUDON_BOULDER_HEALTH_1
+	GroudonBoulderFrame GROUDONBOULDERFRAME_HEALTH_1_RIGHT, 1, SPRITE2_GROUDON_BOULDER_HEALTH_1
+	GroudonBoulderFrame GROUDONBOULDERFRAME_HEALTH_1_LEFT, -1, SPRITE2_GROUDON_BOULDER_HEALTH_1
+	GroudonBoulderFrame GROUDONBOULDERFRAME_CRUMBLE_0, 0, SPRITE2_GROUDON_BOULDER_CRUMBLE_0
+	GroudonBoulderFrame GROUDONBOULDERFRAME_CRUMBLE_1, 0, SPRITE2_GROUDON_BOULDER_CRUMBLE_1
+	GroudonBoulderFrame GROUDONBOULDERFRAME_WAITING_TO_FALL, 0, $FF
+	GroudonBoulderFrame GROUDONBOULDERFRAME_FALLING, 0, SPRITE2_GROUDON_BOULDER_HEALTH_3
+	GroudonBoulderFrame GROUDONBOULDERFRAME_FELL, 0, SPRITE2_GROUDON_BOULDER_HEALTH_3
 
 UpdateGroudonAnimation:
 	ld a, [wGroudonAnimationId]

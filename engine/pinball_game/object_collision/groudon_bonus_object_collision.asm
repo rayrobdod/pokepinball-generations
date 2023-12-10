@@ -1,6 +1,7 @@
 CheckGroudonBonusStageGameObjectCollisions:
 	call CheckGroudonBonusStageFireballCollision
 	call CheckGroudonBonusStageGroudonCollision
+	call CheckGroudonBonusStageBoulderCollision
 	ret
 
 CheckGroudonBonusStageFireballCollision:
@@ -65,6 +66,74 @@ CheckGroudonBonusStageFireballCollision:
 	ld a, GROUDON_FIREBALL_BREAKOUT_COUNTER
 	ld [wGroudonFireballBreakoutCounter], a
 
+	ret
+
+CheckGroudonBonusStageBoulderCollision:
+	ld a, [wGroudonBoulder0Health]
+	and a
+	jr z, .checkBoulder1
+	ld a, [wGroudonBoulder0XPos]
+	sub $8
+	ld b, a
+	ld a, [wGroudonBoulder0YPos]
+	add $8
+	ld c, a
+	call CheckOneGroudonBonusStageBoulderCollision
+	ld a, $0
+	jr c, .handleCollision
+
+.checkBoulder1
+	ret
+
+.handleCollision
+	ld [wGroudonBoulderCollision], a
+	ret
+
+CheckOneGroudonBonusStageBoulderCollision:
+; Input: b = xPos, c = yPos of boulder
+; Output: carry if there was a collision
+	ld a, [wBallXPos + 1]
+	sub b
+	cp $10
+	jr nc, .noCollision
+	ld b, a
+	ld a, [wBallYPos + 1]
+	sub c
+	cp $10
+	jr nc, .noCollision
+	ld c, a
+
+	ld e, c
+	ld d, $0
+	sla e
+	rl d
+	sla e
+	rl d
+	sla e
+	rl d
+	sla e
+	rl d
+	ld h, d
+	ld l, e
+	ld e, b
+	ld d, $0
+	add hl, de
+	ld de, GroudonBoulderCollisionAngles
+	add hl, de
+	ld a, BANK(GroudonBoulderCollisionAngles)
+	; hl = GroudonBoulderCollisionAngles + b + c * $10
+	call ReadByteFromBank
+	bit 7, a
+	jr nz, .noCollision
+	sla a
+	ld [wCollisionNormalAngle], a
+	ld a, $1
+	ld [wIsBallColliding], a
+	scf
+	ret
+
+.noCollision
+	and a
 	ret
 
 CheckGroudonBonusStageGroudonCollision:

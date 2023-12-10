@@ -1567,6 +1567,8 @@ StageGroudonBonusCollisionAttributes:
 	INCBIN "data/collision/maps/groudon_bonus.collision"
 StageGroudonBonusCollisionMasks:
 	INCBIN "data/collision/masks/groudon_bonus.1bpp"
+GroudonBoulderCollisionAngles:
+	INCBIN "data/collision/groudon_boulder_collision_angles.bin"
 
 INCLUDE "engine/pinball_game/stage_init/init_groudon_bonus.asm"
 INCLUDE "engine/pinball_game/ball_init/ball_init_groudon_bonus.asm"
