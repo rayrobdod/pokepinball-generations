@@ -14,8 +14,6 @@ InitBallGroudonBonusStage:
 	; so those variables don't have to be set here
 	ld a, $E0
 	ld [wGroudonFireballYPos], a
-	ld a, GROUDONANIMATION_IDLE
-	ld [wGroudonAnimationId], a
 	xor a
 	ld [wSCX], a
 	ld [wStageCollisionState], a
@@ -23,7 +21,4 @@ InitBallGroudonBonusStage:
 	ld [wGroudonFireballBreakoutCounter], a
 	ld [wLostBall], a
 
-	ld de, wGroudonAnimation
-	ld hl, IdleGroudonAnimation
-	call InitAnimation
 	ret

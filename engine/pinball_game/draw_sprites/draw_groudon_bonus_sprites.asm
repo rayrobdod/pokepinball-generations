@@ -1,5 +1,5 @@
 DrawSpritesGroudonBonus:
-	lb bc, 127, 102
+	lb bc, 127, 101
 	callba DrawTimer
 	call DrawGroudonFireball
 	call DrawGroudonBoulders
