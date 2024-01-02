@@ -141,16 +141,16 @@ DrawGroudonFireball:
 
 	ld a, [wGroudonFireballXVelocity + 1]
 	; -4 < a < 4
-	; change a's range to make comparisons easier
+	; change a's range to make comparisons not straddle zero
 	add $80
 	cp $82
-	jp c, .notTravelingRight
+	jr c, .notTravelingRight
 	ld a, SPRITE2_GROUDON_FIREBALL_FIREBALL_RIGHT
 	call LoadOAMData2
 	ret
 .notTravelingRight
 	cp $7E
-	jp nc, .notTravelingLeft
+	jr nc, .notTravelingLeft
 	ld a, SPRITE2_GROUDON_FIREBALL_FIREBALL_LEFT
 	call LoadOAMData2
 	ret

@@ -66,7 +66,7 @@ ResolveGroudonCollision:
 	; Still count the hit, just don't make Groudon flinch
 	ld a, [wGroudonAnimationId]
 	cp a, GROUDONANIMATION_IDLE
-	jp nz, .skipHitAnimation
+	jr nz, .skipHitAnimation
 	ld a, GROUDONANIMATION_HIT
 	ld [wGroudonAnimationId], a
 	sla a
@@ -172,7 +172,7 @@ ResolveGroudonPillarCollision:
 .do
 	ld a, [hl]
 	and a
-	ret z ; if health is already zero, don't lower its health further
+	ret z ; if health is already zero, don't lower health further
 	dec a
 	ld [hl], a
 	push bc
@@ -202,19 +202,13 @@ ResolveGroudonPillarCollision:
 
 	ret
 
-; Pinball RS behavior:
-;   prologue has Groudon and three boulders drop from above.
-;   the first attack is four seconds after groudon drops.
-;   about six or seven seconds between each attack
-;   attack order is: lava plume barriers -> fireball -> boulder drop -> fireball -> repeat
-
 
 UpdateGroudonEventTimer:
 	ld hl, EventGroudonAnimation
 	ld de, wGroudonEventAnimation
 	call UpdateAnimation
 	ret nc
-	jp nz, .skipReset
+	jr nz, .skipReset
 	ld hl, EventGroudonAnimation
 	ld de, wGroudonEventAnimation
 	call InitAnimation
@@ -242,11 +236,11 @@ UpdateGroudonEventTimer:
 
 .groudonLavaplumeAnimationInit
 	ld a, GROUDONANIMATION_LAVAPLUME
-	jp .groudonAnimationInit
+	jr .groudonAnimationInit
 
 .groudonRockTombAnimationInit
 	ld a, GROUDONANIMATION_ROCKTOMB
-	jp .groudonAnimationInit
+	jr .groudonAnimationInit
 
 .groudonFireballAnimationInit
 	ld a, GROUDONANIMATION_FIREBALL
@@ -340,7 +334,7 @@ UpdateGroudonEventTimer:
 FOR X, 0, 3
 	ld a, [wGroudonBoulder{d:X}Health]
 	and a
-	jp z, .skipBreakBoulder{d:X}
+	jr z, .skipBreakBoulder{d:X}
 	xor a
 	ld [wGroudonBoulder{d:X}Health], a
 	ld [wGroudonBoulder{d:X}AnimationId], a
@@ -410,7 +404,7 @@ ENDR
 FOR X, 0, 4
 	ld a, [wGroudonPillar{d:X}Health]
 	and a
-	jp z, .skipBreakPillar{d:X}
+	jr z, .skipBreakPillar{d:X}
 	xor a
 	ld [wGroudonPillar{d:X}Health], a
 	assert 0 == GROUDONPILLARANIMATION_DEFEAT
@@ -431,10 +425,12 @@ ENDR
 	ret
 
 .summonPillars
-FOR X, 0, 4
 	ld a, GROUDONPILLARANIMATION_SUMMON
+FOR X, 0, 4
 	ld [wGroudonPillar{d:X}AnimationId], a
+ENDR
 
+FOR X, 0, 4
 	ld hl, GroudonPillarSummonAnimation
 	ld de, wGroudonPillar{d:X}Animation
 	call InitAnimation
@@ -446,6 +442,12 @@ ENDR
 	ret
 
 EventGroudonAnimation:
+; Pinball RS behavior:
+;   prologue has Groudon and three boulders drop from above.
+;   the first attack is four seconds after groudon drops.
+;   about six or seven seconds between each attack
+;   attack order is: lava plume barriers -> fireball -> boulder drop -> fireball -> repeat
+
 	db (3 * 60) - 8, GROUDONEVENT_IDLE
 	db 8, GROUDONEVENT_LAVAPLUME_BREAKPILLARS
 	db $0C + $18, GROUDONEVENT_LAVAPLUME_INITGROUDONANIMATION
@@ -489,7 +491,7 @@ UpdateGroudonFireballBreakoutCounter:
 
 	ld hl, wKeyConfigLeftFlipper
 	call IsKeyPressed
-	jp nz, .checkCooldown
+	jr nz, .checkCooldown
 	ld hl, wKeyConfigRightFlipper
 	call IsKeyPressed
 	ret z
@@ -523,17 +525,19 @@ UpdateGroudonBoulderAnimations:
 
 UpdateOneGroudonBoulderAnimations:
 ; Input: a = BoulderAnimationId value
-;        de = BoulderAnimationFrame pointer
-	push de
+;        de = BoulderAnimation pointer
 	sla a
-	ld e, a
-	ld d, $0
-	ld hl, GroudonBoulderAnimations
-	add hl, de
+
+	add LOW(GroudonBoulderAnimations)
+	ld l, a
+	adc HIGH(GroudonBoulderAnimations)
+	sub l
+	ld h, a
+	; hl = GroudonBoulderAnimations + `AnimId` * 2
+
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	pop de ; de = BoulderAnimationFrameCounter
 	call UpdateAnimation
 	ret nc
 
@@ -541,7 +545,7 @@ UpdateOneGroudonBoulderAnimations:
 	ld a, [de]
 	cp GROUDONBOULDERFRAME_WAITING_TO_FALL
 	; stagger the boulders' fall somewhat
-	jp nz, .skipWaitingToFall
+	jr nz, .skipWaitingToFall
 	dec de ; de = BoulderAnimationFrameCounter
 	call GenRandom
 	and $0F
@@ -554,7 +558,7 @@ UpdateOneGroudonBoulderAnimations:
 	; make fall duration correspond to y position
 	; DrawGroudonBoulders uses duration during the falling frame as a y offset
 	; This combines to make the boulder fall from slightly above screen
-	jp nz, .skipFalling
+	jr nz, .skipFalling
 	ld hl, 4
 	add hl, de ; hl = BoulderYPos
 	ld a, [hl]
@@ -569,7 +573,7 @@ UpdateOneGroudonBoulderAnimations:
 	cp GROUDONBOULDERFRAME_FELL
 	; delays setting the boulder's health until it has fallen
 	; so that the ball can't interact with the boulder until is has finished falling
-	jp nz, .skipHealth3
+	jr nz, .skipHealth3
 	ld a, GROUDON_BOULDER_HEALTH
 	ld hl, 2
 	add hl, de ; hl = BoulderHealth
@@ -665,17 +669,16 @@ UpdateOneGroudonPillarAnimation:
 	pop bc
 	ret nc
 
-	jp nz, .skipRestartAnimation
+	jr nz, .skipRestartAnimation
 	dec de ; de = AnimationId
 	ld a, [de]
 	cp GROUDONPILLARANIMATION_DEFEAT
 	ret z
 	cp GROUDONPILLARANIMATION_SUMMON
-	jp nz, .skipSummonAnimationFinished
+	jr nz, .skipSummonAnimationFinished
 	dec a
 	ld [de], a
 	ld hl, 4
-.breakHere
 	add hl, de ; hl = Health
 	ld a, GROUDON_PILLAR_HEALTH
 	ld [hl], a
@@ -725,7 +728,7 @@ UpdateOneGroudonPillarCollision:
 ;        bc = TileDataPointers for the pillar
 	and a
 	ld l, GROUDONPILLAR_COLLISION_OFF * 2
-	jp z, .healthIsZero
+	jr z, .healthIsZero
 	ld l, GROUDONPILLAR_COLLISION_ON * 2
 .healthIsZero
 	ld h, 0
@@ -812,7 +815,7 @@ UpdateGroudonAnimation:
 	call UpdateAnimation
 	ret nc
 
-	jp nz, .skipStartIdleAnimation
+	jr nz, .skipStartIdleAnimation
 	; When any animation ends, return to the idle animation
 	ld a, GROUDONANIMATION_IDLE
 	ld [wGroudonAnimationId], a
@@ -833,16 +836,16 @@ UpdateGroudonAnimation:
 	; instead select the fireball attack frame that is facing towards the pinball
 	ld a, [wGroudonAnimationFrame]
 	cp GROUDONFRAME_FIREBALL_DOWN
-	jp nz, .skipFireballFacing
+	jr nz, .skipFireballFacing
 	ld a, [wBallXPos + 1]
 	cp $68
-	jp c, .fireballFacingIsNotRight
+	jr c, .fireballFacingIsNotRight
 	ld a, GROUDONFRAME_FIREBALL_RIGHT
 	ld [wGroudonAnimationFrame], a
-	jp .skipFireballFacing
+	jr .skipFireballFacing
 .fireballFacingIsNotRight
 	cp $38
-	jp nc, .skipFireballFacing
+	jr nc, .skipFireballFacing
 	ld a, GROUDONFRAME_FIREBALL_LEFT
 	ld [wGroudonAnimationFrame], a
 

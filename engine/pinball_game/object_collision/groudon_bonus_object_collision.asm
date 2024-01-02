@@ -15,9 +15,9 @@ CheckGroudonBonusStageFireballCollision:
 	ld b, a
 	ld a, [wGroudonFireballYPos]
 	sub b
-	jp nc, .skipNegateYDelta
+	jr nc, .skipNegateYDelta
 	cpl
-	add 1
+	inc a
 .skipNegateYDelta:
 	cp GROUDON_FIREBALL_COLLISION_SIZE
 	ret nc
@@ -28,16 +28,16 @@ CheckGroudonBonusStageFireballCollision:
 	ld b, a
 	ld a, [wGroudonFireballXPos + 1]
 	sub b
-	jp nc, .skipNegateXDelta
+	jr nc, .skipNegateXDelta
 	cpl
-	add 1
+	inc a
 .skipNegateXDelta:
 	cp GROUDON_FIREBALL_COLLISION_SIZE
 	ret nc
 
 	; bc = (ball.x - fireball.x) ** 2
 	; de = (ball.y - fireball.y) ** 2
-	assert 0 == SquaresLow % $100, "Execting SqauresLow to be aligned 8"
+	assert 0 == SquaresLow % $100, "Expecting SqauresLow to be aligned 8"
 	assert SquaresLow + $100 == SquaresHigh
 	ld h, SquaresLow / $100
 	ld l, a
@@ -106,23 +106,16 @@ CheckOneGroudonBonusStageBoulderCollision:
 	jr nc, .noCollision
 	ld c, a
 
-	ld e, c
-	ld d, $0
-	sla e
-	rl d
-	sla e
-	rl d
-	sla e
-	rl d
-	sla e
-	rl d
-	ld h, d
-	ld l, e
-	ld e, b
-	ld d, $0
-	add hl, de
-	ld de, GroudonBoulderCollisionAngles
-	add hl, de
+	; since b and c are both guaranteed to be less than $10 at this point,
+	; `swap c` is equivalent to a `* $10` and `b + c * $10` will not overflow
+	swap c
+	ld a, b
+	add c
+	add LOW(GroudonBoulderCollisionAngles)
+	ld l, a
+	adc HIGH(GroudonBoulderCollisionAngles)
+	sub l
+	ld h, a
 	ld a, BANK(GroudonBoulderCollisionAngles)
 	; hl = GroudonBoulderCollisionAngles + b + c * $10
 	call ReadByteFromBank
@@ -153,6 +146,7 @@ CheckGroudonBonusStagePillarCollision:
 	ld de, GroudonBonusStagePillar2CollisionData
 	ld hl, GroudonBonusStagePillar2CollisionAttributes
 	ld bc, wGroudonPillarCollision
+	; cleared carry flag from prior `and a` should not have changed
 	jp HandleGameObjectCollision
 
 CheckGroudonBonusStageGroudonCollision:
