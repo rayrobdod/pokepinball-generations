@@ -4,11 +4,13 @@ ResolveGroudonBonusGameObjectCollisions:
 	call CheckTimeRanOut_GroudonBonus
 	call ResolveGroudonCollision
 	call ResolveGroudonBoulderCollision
+	call ResolveGroudonPillarCollision
 	call UpdateGroudonEventTimer
 	call UpdateGroudonFireball
 	call UpdateGroudonFireballBreakoutCooldown
 	call UpdateGroudonFireballBreakoutCounter
 	call UpdateGroudonBoulderAnimations
+	call UpdateGroudonPillarAnimations
 	call UpdateGroudonAnimation
 	ret
 
@@ -35,6 +37,13 @@ TryCloseGate_GroudonBonus:
 	ld [wStageCollisionState], a
 	ld [wGroudonBonusClosedGate], a
 	callba LoadStageCollisionAttributes
+
+FOR X, 0, 4
+	ld a, [wGroudonPillar{d:X}Health]
+	ld bc, TileDataPointers_GroudonFlamePillar_{d:X}
+	call UpdateOneGroudonPillarCollision
+ENDR
+
 	call LoadClosedGateGraphics_GroudonBonus
 	ret
 
@@ -53,7 +62,7 @@ ResolveGroudonCollision:
 	inc a
 	ld [wNumGroudonHits], a
 
-	; Don't interupt attack animations with the hit frame
+	; Don't interrupt attack animations with the hit frame
 	; Still count the hit, just don't make Groudon flinch
 	ld a, [wGroudonAnimationId]
 	cp a, GROUDONANIMATION_IDLE
@@ -121,6 +130,78 @@ ResolveGroudonBoulderCollision:
 	call InitAnimation
 	ret
 
+ResolveGroudonPillarCollision:
+	ld a, [wGroudonPillarCollision]
+	and a
+	ret z
+	xor a
+	ld [wGroudonGroudonCollision], a
+
+	ld a, [wGroudonPillarCollisionId]
+	dec a
+	jr z, .pillar1
+	dec a
+	jr z, .pillar2
+	dec a
+	jr z, .pillar3
+
+.pillar0
+	ld hl, wGroudonPillar0Health
+	ld bc, TileDataPointers_GroudonFlamePillar_0
+	ld de, wGroudonPillar0Animation
+	jr .do
+
+.pillar1
+	ld hl, wGroudonPillar1Health
+	ld bc, TileDataPointers_GroudonFlamePillar_1
+	ld de, wGroudonPillar1Animation
+	jr .do
+
+.pillar2
+	ld hl, wGroudonPillar2Health
+	ld bc, TileDataPointers_GroudonFlamePillar_2
+	ld de, wGroudonPillar2Animation
+	jr .do
+
+.pillar3
+	ld hl, wGroudonPillar3Health
+	ld bc, TileDataPointers_GroudonFlamePillar_3
+	ld de, wGroudonPillar3Animation
+	jr .do
+
+.do
+	ld a, [hl]
+	and a
+	ret z ; if health is already zero, don't lower its health further
+	dec a
+	ld [hl], a
+	push bc
+	push de
+	push af
+	call UpdateOneGroudonPillarCollision
+
+	pop af
+	pop de
+	push de
+	dec de ; de = AnimationId
+	ld [de], a
+	inc de ; de = Animation
+	sla a
+	ld c, a
+	ld b, $0
+	ld hl, GroudonPillarAnimations
+	add hl, bc
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	call InitAnimation
+
+	pop de
+	pop bc
+	call UpdateOneGroudonPillarGraphics
+
+	ret
+
 ; Pinball RS behavior:
 ;   prologue has Groudon and three boulders drop from above.
 ;   the first attack is four seconds after groudon drops.
@@ -153,6 +234,8 @@ UpdateGroudonEventTimer:
 	GroudonEvent GROUDONEVENT_FIREBALL_FIRE, .fireballFire
 	GroudonEvent GROUDONEVENT_ROCKTOMB_SUMMONROCKS, .summonRocks
 	GroudonEvent GROUDONEVENT_LAVAPLUME_BREAKROCKS, .breakAllRocks
+	GroudonEvent GROUDONEVENT_LAVAPLUME_SUMMONPILLARS, .summonPillars
+	GroudonEvent GROUDONEVENT_LAVAPLUME_BREAKPILLARS, .breakAllPillars
 
 .idle
 	ret
@@ -323,11 +406,51 @@ ENDR
 
 	ret
 
+.breakAllPillars
+FOR X, 0, 4
+	ld a, [wGroudonPillar{d:X}Health]
+	and a
+	jp z, .skipBreakPillar{d:X}
+	xor a
+	ld [wGroudonPillar{d:X}Health], a
+	assert 0 == GROUDONPILLARANIMATION_DEFEAT
+	ld [wGroudonPillar{d:X}AnimationId], a
+
+	ld bc, TileDataPointers_GroudonFlamePillar_{d:X}
+	call UpdateOneGroudonPillarCollision
+
+	ld hl, GroudonPillarHealth0Animation
+	ld de, wGroudonPillar{d:X}Animation
+	call InitAnimation
+
+	ld bc, TileDataPointers_GroudonFlamePillar_{d:X}
+	ld de, wGroudonPillar{d:X}Animation
+	call UpdateOneGroudonPillarGraphics
+.skipBreakPillar{d:X}
+ENDR
+	ret
+
+.summonPillars
+FOR X, 0, 4
+	ld a, GROUDONPILLARANIMATION_SUMMON
+	ld [wGroudonPillar{d:X}AnimationId], a
+
+	ld hl, GroudonPillarSummonAnimation
+	ld de, wGroudonPillar{d:X}Animation
+	call InitAnimation
+
+	ld bc, TileDataPointers_GroudonFlamePillar_{d:X}
+	ld de, wGroudonPillar{d:X}Animation
+	call UpdateOneGroudonPillarGraphics
+ENDR
+	ret
+
 EventGroudonAnimation:
-	db 3 * 60, GROUDONEVENT_IDLE
+	db (3 * 60) - 8, GROUDONEVENT_IDLE
+	db 8, GROUDONEVENT_LAVAPLUME_BREAKPILLARS
 	db $0C + $18, GROUDONEVENT_LAVAPLUME_INITGROUDONANIMATION
 	db $18, GROUDONEVENT_LAVAPLUME_BREAKROCKS
-	;db 3 * 60, GROUDONEVENT_LAVAPLUME_SPROUTLAVA
+	db 3 * 60, GROUDONEVENT_LAVAPLUME_SUMMONPILLARS
 	db 3 * 60, GROUDONEVENT_IDLE
 	db $20, GROUDONEVENT_FIREBALL_STARTGROUDONANIMATION
 	db 3 * 60, GROUDONEVENT_FIREBALL_FIRE
@@ -505,6 +628,175 @@ GroudonBoulderFrames:
 	GroudonBoulderFrame GROUDONBOULDERFRAME_WAITING_TO_FALL, 0, $FF
 	GroudonBoulderFrame GROUDONBOULDERFRAME_FALLING, 0, SPRITE2_GROUDON_BOULDER_HEALTH_3
 	GroudonBoulderFrame GROUDONBOULDERFRAME_FELL, 0, SPRITE2_GROUDON_BOULDER_HEALTH_3
+
+
+UpdateGroudonPillarAnimations:
+	ld de, wGroudonPillar0AnimationId
+	ld bc, TileDataPointers_GroudonFlamePillar_0
+	call UpdateOneGroudonPillarAnimation
+
+	ld de, wGroudonPillar1AnimationId
+	ld bc, TileDataPointers_GroudonFlamePillar_1
+	call UpdateOneGroudonPillarAnimation
+
+	ld de, wGroudonPillar2AnimationId
+	ld bc, TileDataPointers_GroudonFlamePillar_2
+	call UpdateOneGroudonPillarAnimation
+
+	ld de, wGroudonPillar3AnimationId
+	ld bc, TileDataPointers_GroudonFlamePillar_3
+	; fall-through
+
+UpdateOneGroudonPillarAnimation:
+; Input: de = pointer to the pillar's animation id
+;        bc = TileDataPointers for the pillar
+	push bc
+	ld a, [de]
+	sla a
+	ld c, a
+	ld b, $0
+	ld hl, GroudonPillarAnimations
+	add hl, bc
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	inc de ; de = Animation (FrameCounter)
+	call UpdateAnimation
+	pop bc
+	ret nc
+
+	jp nz, .skipRestartAnimation
+	dec de ; de = AnimationId
+	ld a, [de]
+	cp GROUDONPILLARANIMATION_DEFEAT
+	ret z
+	cp GROUDONPILLARANIMATION_SUMMON
+	jp nz, .skipSummonAnimationFinished
+	dec a
+	ld [de], a
+	ld hl, 4
+.breakHere
+	add hl, de ; hl = Health
+	ld a, GROUDON_PILLAR_HEALTH
+	ld [hl], a
+	push de
+	push bc
+	call UpdateOneGroudonPillarCollision
+	pop bc
+	pop de
+.skipSummonAnimationFinished
+	push bc
+	sla a
+	ld c, a
+	ld b, $0
+	ld hl, GroudonPillarAnimations
+	add hl, bc
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	inc de ; de = Animation (FrameCounter)
+	push de
+	call InitAnimation
+	pop de
+	pop bc
+.skipRestartAnimation
+	; fall-though
+
+UpdateOneGroudonPillarGraphics:
+; Input: de = pointer to the pillar's animation
+;        bc = TileDataPointers for the pillar
+	inc de ; AnimationFrame
+	ld a, [de]
+	sla a
+	ld e, a
+	ld d, $0
+	ld h, b
+	ld l, c
+	add hl, de
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	ld a, BANK(TileDataPointers_GroudonFlamePillar_1)
+	call QueueGraphicsToLoad
+	ret
+
+UpdateOneGroudonPillarCollision:
+; Input: a = the pillar's health
+;        bc = TileDataPointers for the pillar
+	and a
+	ld l, GROUDONPILLAR_COLLISION_OFF * 2
+	jp z, .healthIsZero
+	ld l, GROUDONPILLAR_COLLISION_ON * 2
+.healthIsZero
+	ld h, 0
+	add hl, bc
+	ld a, [hli]
+	ld d, [hl]
+	ld e, a
+	call LoadTileLists
+	ret
+
+GroudonPillarAnimations:
+	MACRO GroudonPillarAnimation
+		const \1
+		dw \2
+	ENDM
+	const_def
+
+	GroudonPillarAnimation GROUDONPILLARANIMATION_DEFEAT, GroudonPillarHealth0Animation
+	GroudonPillarAnimation GROUDONPILLARANIMATION_HEALTH1, GroudonPillarHealth1Animation
+	GroudonPillarAnimation GROUDONPILLARANIMATION_HEALTH2, GroudonPillarHealth2Animation
+	GroudonPillarAnimation GROUDONPILLARANIMATION_HEALTH3, GroudonPillarHealth3Animation
+	GroudonPillarAnimation GROUDONPILLARANIMATION_SUMMON, GroudonPillarSummonAnimation
+
+GroudonPillarHealth0Animation:
+	db $03, GROUDONPILLARFRAME_SUMMON2
+	db $03, GROUDONPILLARFRAME_SUMMON0
+	db $01, GROUDONPILLARFRAME_HIDDEN
+	db $00
+
+GroudonPillarHealth1Animation:
+	db $10, GROUDONPILLARFRAME_HEALTH1_0
+	db $10, GROUDONPILLARFRAME_HEALTH1_1
+	db $00
+
+GroudonPillarHealth2Animation:
+	db $10, GROUDONPILLARFRAME_HEALTH2_0
+	db $10, GROUDONPILLARFRAME_HEALTH2_1
+	db $00
+
+GroudonPillarHealth3Animation:
+	db $10, GROUDONPILLARFRAME_HEALTH3_0
+	db $10, GROUDONPILLARFRAME_HEALTH3_1
+	db $00
+
+GroudonPillarSummonAnimation:
+	db $0c, GROUDONPILLARFRAME_SUMMON0
+	db $08, GROUDONPILLARFRAME_SUMMON1
+	db $06, GROUDONPILLARFRAME_SUMMON2
+	db $00
+
+GroudonPillarFrames:
+	; The order of these should match the order of `TileDataPointers_GroudonFlamePillar_X`
+	MACRO GroudonPillarFrame
+		const \1
+		db \2
+	ENDM
+	const_def
+
+	GroudonPillarFrame GROUDONPILLARFRAME_HIDDEN, $FF
+	GroudonPillarFrame GROUDONPILLARFRAME_SUMMON0, $FF
+	GroudonPillarFrame GROUDONPILLARFRAME_SUMMON1, $FF
+	GroudonPillarFrame GROUDONPILLARFRAME_SUMMON2, $FF
+	GroudonPillarFrame GROUDONPILLARFRAME_HEALTH1_0, SPRITE2_GROUDON_PILLAR_HEALTH_1
+	GroudonPillarFrame GROUDONPILLARFRAME_HEALTH1_1, SPRITE2_GROUDON_PILLAR_HEALTH_1
+	GroudonPillarFrame GROUDONPILLARFRAME_HEALTH2_0, SPRITE2_GROUDON_PILLAR_HEALTH_2
+	GroudonPillarFrame GROUDONPILLARFRAME_HEALTH2_1, SPRITE2_GROUDON_PILLAR_HEALTH_2
+	GroudonPillarFrame GROUDONPILLARFRAME_HEALTH3_0, SPRITE2_GROUDON_PILLAR_HEALTH_3
+	GroudonPillarFrame GROUDONPILLARFRAME_HEALTH3_1, SPRITE2_GROUDON_PILLAR_HEALTH_3
+	const GROUDONPILLAR_COLLISION_OFF
+	const GROUDONPILLAR_COLLISION_ON
+
 
 UpdateGroudonAnimation:
 	ld a, [wGroudonAnimationId]

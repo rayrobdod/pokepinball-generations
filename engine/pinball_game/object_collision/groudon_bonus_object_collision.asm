@@ -1,6 +1,7 @@
 CheckGroudonBonusStageGameObjectCollisions:
 	call CheckGroudonBonusStageFireballCollision
 	call CheckGroudonBonusStageGroudonCollision
+	call CheckGroudonBonusStagePillarCollision
 	call CheckGroudonBonusStageBoulderCollision
 	ret
 
@@ -137,6 +138,22 @@ CheckOneGroudonBonusStageBoulderCollision:
 .noCollision
 	and a
 	ret
+
+CheckGroudonBonusStagePillarCollision:
+	ld de, GroudonBonusStagePillar1CollisionData
+	ld hl, GroudonBonusStagePillar1CollisionAttributes
+	ld bc, wGroudonPillarCollision
+	and a
+	call HandleGameObjectCollision
+
+	ld a, [wGroudonPillarCollision]
+	and a
+	ret nz
+
+	ld de, GroudonBonusStagePillar2CollisionData
+	ld hl, GroudonBonusStagePillar2CollisionAttributes
+	ld bc, wGroudonPillarCollision
+	jp HandleGameObjectCollision
 
 CheckGroudonBonusStageGroudonCollision:
 	ld de, GroudonBonusStageGroudonCollisionData

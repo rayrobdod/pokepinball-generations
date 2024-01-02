@@ -2258,7 +2258,7 @@ OAMData_OctilleryHead4: ; FE
 	db $11, $0F, $76, $15
 	db $11, $07, $74, $15
 	db $80 ; terminator
-	
+
 
 
 OAMDataPointers2: ; 0x55d7
@@ -2445,6 +2445,9 @@ OAMDataPointers2: ; 0x55d7
 	SpriteDataPointer GroudonBoulderHealth1Sprite, SPRITE2_GROUDON_BOULDER_HEALTH_1
 	SpriteDataPointer GroudonBoulderCrumble0Sprite, SPRITE2_GROUDON_BOULDER_CRUMBLE_0
 	SpriteDataPointer GroudonBoulderCrumble1Sprite, SPRITE2_GROUDON_BOULDER_CRUMBLE_1
+	SpriteDataPointer GroudonPillarHealth3Sprite, SPRITE2_GROUDON_PILLAR_HEALTH_3
+	SpriteDataPointer GroudonPillarHealth2Sprite, SPRITE2_GROUDON_PILLAR_HEALTH_2
+	SpriteDataPointer GroudonPillarHealth1Sprite, SPRITE2_GROUDON_PILLAR_HEALTH_1
 
 OAMData2_0: ; 0x56e1
 	db $20, $20, $9E, $04
@@ -3601,7 +3604,7 @@ GoldSpinner6: ; 8E
 	db $0B, $0f, $7a, $22
 	db $0B, $07, $7a, $02
 	db $80 ; terminator
-	
+
 Chinchou1: ;8F
 	db $10, $18, $06, $1b
 	db $20, $10, $04, $1b
@@ -3615,7 +3618,7 @@ Chinchou2: ;90
 	db $10, $10, $12, $1b
 	db $10, $08, $10, $1b
 	db $80 ; terminator
-	
+
 Delibird_1_OAMData: ; 91
 	db $1C, $19, $2a, $13
 	db $1C, $11, $28, $13
@@ -3642,7 +3645,7 @@ Delibird_3_OAMData: ; 93
 	db $1C, $19, $74, $13
 	db $1C, $09, $70, $13
 	db $80 ; terminator
-	
+
 OAMData_Politoad1: ; 94
 	db $22, $18, $1e, $11
 	db $22, $10, $1c, $11
@@ -3660,7 +3663,7 @@ OAMData_Politoad2: ; 95
 	db $22, $10, $1c, $11
 	db $22, $08, $1a, $11
 	db $80 ; terminator
-	
+
 OAMData_Politoad3 : ;96
 	db $12, $18, $a8, $11
 	db $12, $10, $a6, $11
@@ -3918,4 +3921,19 @@ GroudonBoulderCrumble0Sprite:
 GroudonBoulderCrumble1Sprite:
 	db $08, $08, $2c, $07
 	db $08, $00, $2a, $07
+	db $80 ; terminator
+
+GroudonPillarHealth3Sprite:
+	db $08, $08, $30, $06
+	db $08, $00, $2e, $06
+	db $80 ; terminator
+
+GroudonPillarHealth2Sprite:
+	db $08, $08, $34, $06
+	db $08, $00, $32, $06
+	db $80 ; terminator
+
+GroudonPillarHealth1Sprite:
+	db $08, $08, $38, $06
+	db $08, $00, $36, $06
 	db $80 ; terminator

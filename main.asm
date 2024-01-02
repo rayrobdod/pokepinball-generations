@@ -1543,18 +1543,8 @@ GroudonBonusGroudonLimbsGfx:
 	INCBIN "gfx/stage/groudon_bonus/groudon_limbs.2bpp"
 GroudonBonusBlank:
 	INCBIN "gfx/stage/groudon_bonus/blank.2bpp"
-GroudonBonusFireballGfx:
-	INCBIN "gfx/stage/groudon_bonus/fireball.interleave.2bpp"
-
-SECTION "bank72", ROMX
-
-INCLUDE "data/billboard/billboard_pics_2.asm"
-
 GroudonBonusBaseGfx:
 	INCBIN "gfx/stage/groudon_bonus/base.2bpp"
-
-GroudonBonusBoulderGfx:
-	INCBIN "gfx/stage/groudon_bonus/boulder.interleave.2bpp"
 
 GroudonBonusTilemap:
 	INCBIN "gfx/tilemaps/stage_groudon_bonus.tilemap"
@@ -1565,6 +1555,24 @@ StageGroudonBonusCollisionAttributesBallEntrance:
 	INCBIN "data/collision/maps/groudon_bonus_ball_entrance.collision"
 StageGroudonBonusCollisionAttributes:
 	INCBIN "data/collision/maps/groudon_bonus.collision"
+
+SECTION "bank72", ROMX
+
+INCLUDE "data/billboard/billboard_pics_2.asm"
+
+GroudonBonusFireballGfx:
+	INCBIN "gfx/stage/groudon_bonus/fireball.interleave.2bpp"
+
+GroudonBonusBoulderGfx:
+	INCBIN "gfx/stage/groudon_bonus/boulder.interleave.2bpp"
+
+GroudonBonusPillarTopGfx:
+	INCBIN "gfx/stage/groudon_bonus/flame_pillar_top.interleave.2bpp"
+GroudonBonusPillarBaseGfx:
+	INCBIN "gfx/stage/groudon_bonus/flame_pillar_base.2bpp"
+GroudonBonusPillarBase2Gfx:
+	INCBIN "gfx/stage/groudon_bonus/flame_pillar_base_2.2bpp"
+
 StageGroudonBonusCollisionMasks:
 	INCBIN "data/collision/masks/groudon_bonus.1bpp"
 GroudonBoulderCollisionAngles:
@@ -1577,3 +1585,4 @@ INCLUDE "engine/pinball_game/object_collision/groudon_bonus_object_collision.asm
 INCLUDE "engine/pinball_game/object_collision/groudon_bonus_resolve_collision.asm"
 INCLUDE "engine/pinball_game/draw_sprites/draw_groudon_bonus_sprites.asm"
 INCLUDE "data/queued_tiledata/groudon_bonus/groudon_limbs.asm"
+INCLUDE "data/queued_tiledata/groudon_bonus/flame_pillar.asm"

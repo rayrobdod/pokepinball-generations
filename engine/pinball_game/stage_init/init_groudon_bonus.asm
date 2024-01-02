@@ -10,13 +10,27 @@ InitGroudonBonusStage:
 	ld [wGroudonBoulder0Health], a
 	ld [wGroudonBoulder1Health], a
 	ld [wGroudonBoulder2Health], a
+	ld [wGroudonPillar1Health], a
 	ld [wGroudonBoulder0AnimationFrameCounter], a
 	ld [wGroudonBoulder1AnimationFrameCounter], a
 	ld [wGroudonBoulder2AnimationFrameCounter], a
+	ld [wGroudonPillar0AnimationFrameCounter], a
+	ld [wGroudonPillar1AnimationFrameCounter], a
+	ld [wGroudonPillar2AnimationFrameCounter], a
+	ld [wGroudonPillar3AnimationFrameCounter], a
+	ld [wGroudonPillar0AnimationId], a
+	ld [wGroudonPillar1AnimationId], a
+	ld [wGroudonPillar2AnimationId], a
+	ld [wGroudonPillar3AnimationId], a
 	assert 0 == GROUDONBOULDERFRAME_HIDDEN
 	ld [wGroudonBoulder0AnimationFrame], a
 	ld [wGroudonBoulder1AnimationFrame], a
 	ld [wGroudonBoulder2AnimationFrame], a
+	assert 0 == GROUDONPILLARFRAME_HIDDEN
+	ld [wGroudonPillar0AnimationFrame], a
+	ld [wGroudonPillar1AnimationFrame], a
+	ld [wGroudonPillar2AnimationFrame], a
+	ld [wGroudonPillar3AnimationFrame], a
 	assert 0 == GROUDONANIMATION_IDLE
 	ld [wGroudonAnimationId], a
 

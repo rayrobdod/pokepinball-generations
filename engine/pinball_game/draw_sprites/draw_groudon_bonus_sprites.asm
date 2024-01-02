@@ -3,6 +3,7 @@ DrawSpritesGroudonBonus:
 	callba DrawTimer
 	call DrawGroudonFireball
 	call DrawGroudonBoulders
+	call DrawGroudonPillars
 	callba DrawFlippers
 	callba DrawPinball
 	call DrawGroudonBodySprite
@@ -83,6 +84,46 @@ DrawGroudonOneBoulder:
 	ld b, a
 
 	ld a, e
+	call nz, LoadOAMData2
+	ret
+
+DrawGroudonPillars:
+	ld de, wGroudonPillar0AnimationFrame
+	lb bc, (6 * 8), (3 * 8)
+	call DrawGroudonOnePillar
+
+	ld de, wGroudonPillar1AnimationFrame
+	lb bc, ((8 * 8) + 4), (6 * 8)
+	call DrawGroudonOnePillar
+
+	ld de, wGroudonPillar2AnimationFrame
+	lb bc, ((11 * 8) + 4), (6 * 8)
+	call DrawGroudonOnePillar
+
+	ld de, wGroudonPillar3AnimationFrame
+	lb bc, (14 * 8), (3 * 8)
+	; fall-through
+
+DrawGroudonOnePillar:
+; Input: bc = x,y position
+;        de = PillarAnimationFrame
+	ld a, b
+	ld hl, hSCX
+	sub [hl]
+	ld b, a
+	ld a, [de]
+	and 1
+	ld hl, hSCY
+	sub [hl]
+	add c
+	ld c, a
+	ld a, [de]
+	ld e, a
+	ld d, $0
+	ld hl, GroudonPillarFrames
+	add hl, de
+	ld a, [hl]
+	cp $FF
 	call nz, LoadOAMData2
 	ret
 
