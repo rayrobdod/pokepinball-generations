@@ -129,7 +129,7 @@ DrawGroudonOnePillar:
 
 DrawGroudonFireball:
 	ld a, [wGroudonFireballYPos]
-	cp $B0
+	cp $C0
 	ret nc ; disable fireball if it is below play area
 	ld hl, hSCY
 	sub [hl]

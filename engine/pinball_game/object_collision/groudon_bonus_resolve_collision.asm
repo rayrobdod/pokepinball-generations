@@ -465,7 +465,7 @@ EventGroudonAnimation:
 
 UpdateGroudonFireball:
 	ld a, [wGroudonFireballYPos]
-	cp $B0
+	cp $C0
 	ret nc ; disable fireball if it is below play area
 	add GROUDON_FIREBALL_Y_VELOCITY
 	ld [wGroudonFireballYPos], a
