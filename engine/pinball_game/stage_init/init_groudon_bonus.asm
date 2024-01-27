@@ -10,7 +10,10 @@ InitGroudonBonusStage:
 	ld [wGroudonBoulder0Health], a
 	ld [wGroudonBoulder1Health], a
 	ld [wGroudonBoulder2Health], a
+	ld [wGroudonPillar0Health], a
 	ld [wGroudonPillar1Health], a
+	ld [wGroudonPillar2Health], a
+	ld [wGroudonPillar3Health], a
 	ld [wGroudonBoulder0AnimationFrameCounter], a
 	ld [wGroudonBoulder1AnimationFrameCounter], a
 	ld [wGroudonBoulder2AnimationFrameCounter], a
