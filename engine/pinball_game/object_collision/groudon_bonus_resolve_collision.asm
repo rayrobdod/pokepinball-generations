@@ -58,9 +58,15 @@ ResolveGroudonCollision:
 	xor a
 	ld [wGroudonGroudonCollision], a
 
+	ld bc, GROUDON_COLLISION_POINTS
+	callba AddBigBCD6FromQueueWithBallMultiplier
+
 	ld a, [wNumGroudonHits]
 	inc a
 	ld [wNumGroudonHits], a
+
+	cp a, NUM_GROUDON_HITS
+	jr nc, .groudonDefeated
 
 	; Don't interrupt attack animations with the hit frame
 	; Still count the hit, just don't make Groudon flinch
@@ -82,11 +88,75 @@ ResolveGroudonCollision:
 	call UpdateGroudonLimbGraphics
 
 .skipHitAnimation
-	ld bc, GROUDON_COLLISION_POINTS
-	callba AddBigBCD6FromQueueWithBallMultiplier
-
 	lb de, $00, $07
 	call PlaySoundEffect
+	ret
+
+.groudonDefeated
+	ld a, $1
+	ld [wCompletedBonusStage], a
+	ld [wFlippersDisabled], a
+	; ld [wNextBonusStage], ???
+	call LoadFlippersPalette
+	callba StopTimer
+
+	; TODO: alternate between retreat animation and capture animation
+
+.initCaptureAnimation
+	ld a, HIGH(GROUDON - 1)
+	ld [wCurrentCatchEmMon], a
+	ld a, LOW(GROUDON - 1)
+	ld [wCurrentCatchEmMon + 1], a
+
+	callba ShowCapturedPokemonText
+	callba AddCaughtPokemonToParty
+	callba LoadShakeBallGfx
+
+	xor a
+	ld [wBallXVelocity], a
+	ld [wBallXVelocity + 1], a
+	ld [wBallYVelocity], a
+	ld [wBallYVelocity + 1], a
+	ld [wPinballIsVisible], a
+	ld [wEnableBallGravityAndTilt], a
+
+	ld a, GROUDONANIMATION_CATCH
+	ld [wGroudonAnimationId], a
+	sla a
+	ld e, a
+	ld d, $0
+	ld hl, GroudonAnimations
+	add hl, de
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	ld de, wGroudonAnimation
+	call InitAnimation
+	call UpdateGroudonLimbGraphics
+
+	ld a, $1
+	ld [wFlippersDisabled], a
+	call LoadFlippersPalette
+	callba StopTimer
+
+	lb de, $00, $0b
+	call PlaySoundEffect
+
+	ld bc, $20 - 6
+	ld hl, wStageCollisionMap + $40 + 7
+	ld d, 6
+	xor a
+.clearCollisionY
+	ld e, 6
+.clearCollisionX
+	ld [hl], a
+	inc hl
+	dec e
+	jr nz, .clearCollisionX
+	add hl, bc
+	dec d
+	jr nz, .clearCollisionY
+
 	ret
 
 ResolveGroudonBoulderCollision:
@@ -204,6 +274,11 @@ ResolveGroudonPillarCollision:
 
 
 UpdateGroudonEventTimer:
+	; no more events occur after groudon has been defeated
+	ld a, [wNumGroudonHits]
+	cp a, NUM_GROUDON_HITS
+	ret nc
+
 	ld hl, EventGroudonAnimation
 	ld de, wGroudonEventAnimation
 	call UpdateAnimation
@@ -816,7 +891,10 @@ UpdateGroudonAnimation:
 	ret nc
 
 	jr nz, .skipStartIdleAnimation
-	; When any animation ends, return to the idle animation
+	ld a, [wGroudonAnimationId]
+	cp GROUDONANIMATION_CATCH
+	jr z, .finishCatch
+	; When any animation other than RETREAT and CATCH ends, return to the idle animation
 	ld a, GROUDONANIMATION_IDLE
 	ld [wGroudonAnimationId], a
 	sla a
@@ -829,8 +907,8 @@ UpdateGroudonAnimation:
 	ld l, a
 	ld de, wGroudonAnimation
 	call InitAnimation
-
 .skipStartIdleAnimation
+
 	; Since UpdateAnimation cannot select a frame based on where the pinball is; instead do so here:
 	; If this animation just unconditionally updated to the fireball down attack frame,
 	; instead select the fireball attack frame that is facing towards the pinball
@@ -848,14 +926,46 @@ UpdateGroudonAnimation:
 	jr nc, .skipFireballFacing
 	ld a, GROUDONFRAME_FIREBALL_LEFT
 	ld [wGroudonAnimationFrame], a
-
 .skipFireballFacing
+
+	ld a, [wGroudonAnimationFrame]
+	cp GROUDONFRAME_CATCH_12
+	jr nz, .skipPlayPokeballWiggleSfx
+	lb de, $00, $41
+	call PlaySoundEffect
+.skipPlayPokeballWiggleSfx
+
 	; called here instead of in ResolveGroudonBonusGameObjectCollisions
 	; so that the limb graphics are only redrawn when the animation frame changes
 	call UpdateGroudonLimbGraphics
 	ret
 
+.finishCatch
+	call MainLoopUntilTextIsClear
+	ld a, $50
+	ld [wBallXPos + 1], a
+	ld a, $30
+	ld [wBallYPos + 1], a
+	ld a, $80
+	ld [wBallXVelocity], a
+	ld a, GROUDONFRAME_HIDDEN
+	ld [wGroudonAnimationFrame], a
+	xor a
+	ld [wBallXPos], a
+	ld [wBallYPos], a
+	ld a, $1
+	ld [wPinballIsVisible], a
+	ld [wEnableBallGravityAndTilt], a
 
+	call FillBottomMessageBufferWithBlackTile
+	call EnableBottomText
+	ld hl, wScrollingText3
+	ld de, GroudonStageClearedText
+	call LoadScrollingText
+	lb de, $4b, $2a
+	call PlaySoundEffect
+
+	ret
 
 UpdateGroudonLimbGraphics:
 	ld a, [wGroudonAnimationFrame]
@@ -885,6 +995,8 @@ GroudonAnimations:
 	GroudonAnimation GROUDONANIMATION_FIREBALL, FireballGroudonAnimation
 	GroudonAnimation GROUDONANIMATION_LAVAPLUME, LavaPlumeGroudonAnimation
 	GroudonAnimation GROUDONANIMATION_ROCKTOMB, RockTombGroudonAnimation
+	;GroudonAnimation GROUDONANIMATION_RETREAT, RetreatGroudonAnimation
+	GroudonAnimation GROUDONANIMATION_CATCH, CatchGroudonAnimation
 
 IdleGroudonAnimation:
 	db $28, GROUDONFRAME_IDLE_0
@@ -941,39 +1053,86 @@ FireballGroudonAnimation:
 	db $10, GROUDONFRAME_FIREBALL_RESET
 	db $00 ; terminator
 
+CatchGroudonAnimation:
+	; cannot use CapturePokemonAnimation
+	; since CapturePokemonAnimation performs unwanted state changes
+	; such as changing the music, showing a jackpot and changing the BallSaver lights
+
+	; cannot UpdateAnimation using BallCaptureAnimationData since BallCaptureAnimationData is in a different bank
+
+	; thus, requiring this duplication of BallCaptureAnimationData
+	db $05, GROUDONFRAME_CATCH_0
+	db $05, GROUDONFRAME_CATCH_1
+	db $05, GROUDONFRAME_CATCH_2
+	db $04, GROUDONFRAME_CATCH_3
+	db $06, GROUDONFRAME_CATCH_4
+	db $08, GROUDONFRAME_CATCH_5
+	db $07, GROUDONFRAME_CATCH_6
+	db $05, GROUDONFRAME_CATCH_7
+	db $04, GROUDONFRAME_CATCH_8
+	db $04, GROUDONFRAME_CATCH_9
+	db $04, GROUDONFRAME_CATCH_10
+	db $04, GROUDONFRAME_CATCH_11
+	db $24, GROUDONFRAME_CATCH_10
+	db $09, GROUDONFRAME_CATCH_12
+	db $09, GROUDONFRAME_CATCH_10
+	db $09, GROUDONFRAME_CATCH_12
+	db $27, GROUDONFRAME_CATCH_10
+	db $09, GROUDONFRAME_CATCH_12
+	db $09, GROUDONFRAME_CATCH_10
+	db $09, GROUDONFRAME_CATCH_12
+	db $24, GROUDONFRAME_CATCH_10
+	db $01, GROUDONFRAME_CATCH_10
+	db $00
+
 GroudonFrames:
 	MACRO GroudonFrame
 		const \1
 		dw \2
-		db $00
 		db \3
+		db \4
 	ENDM
 	const_def
 
-	GroudonFrame GROUDONFRAME_IDLE_0, TileDataPointer_GroudonLimbs_Idle0, SPRITE2_GROUDON_IDLE_0
-	GroudonFrame GROUDONFRAME_IDLE_1, TileDataPointer_GroudonLimbs_Idle1, SPRITE2_GROUDON_IDLE_1
-	GroudonFrame GROUDONFRAME_HIT, TileDataPointer_GroudonLimbs_Hit, SPRITE2_GROUDON_HIT
-	GroudonFrame GROUDONFRAME_LAVAPLUME_WINDUP_0, TileDataPointer_GroudonLimbs_LavaPlumeWindup0, SPRITE2_GROUDON_LAVAPLUME_WINDUP_0
-	GroudonFrame GROUDONFRAME_LAVAPLUME_WINDUP_1, TileDataPointer_GroudonLimbs_LavaPlumeWindup1, SPRITE2_GROUDON_LAVAPLUME_WINDUP_1
-	GroudonFrame GROUDONFRAME_LAVAPLUME_WINDUP_2, TileDataPointer_GroudonLimbs_LavaPlumeWindup2, SPRITE2_GROUDON_LAVAPLUME_WINDUP_2
-	GroudonFrame GROUDONFRAME_LAVAPLUME_3, TileDataPointer_GroudonLimbs_LavaPlume3, SPRITE2_GROUDON_LAVAPLUME_3
-	GroudonFrame GROUDONFRAME_LAVAPLUME_4, TileDataPointer_GroudonLimbs_LavaPlume4, SPRITE2_GROUDON_LAVAPLUME_4
-	GroudonFrame GROUDONFRAME_FIREBALL_WINDUP_0, TileDataPointer_GroudonLimbs_FireballWindup0, SPRITE2_GROUDON_FIREBALL_WINDUP_0
-	GroudonFrame GROUDONFRAME_FIREBALL_WINDUP_1, TileDataPointer_GroudonLimbs_FireballWindup1_HalfGlow, SPRITE2_GROUDON_FIREBALL_WINDUP_1
-	GroudonFrame GROUDONFRAME_FIREBALL_DOWN, TileDataPointer_GroudonLimbs_FireballDown_NoGlow, SPRITE2_GROUDON_FIREBALL_DOWN
-	GroudonFrame GROUDONFRAME_FIREBALL_RIGHT, TileDataPointer_GroudonLimbs_FireballRight_NoGlow, SPRITE2_GROUDON_FIREBALL_RIGHT
-	GroudonFrame GROUDONFRAME_FIREBALL_LEFT, TileDataPointer_GroudonLimbs_FireballLeft_NoGlow, SPRITE2_GROUDON_FIREBALL_LEFT
-	GroudonFrame GROUDONFRAME_FIREBALL_RESET, TileDataPointer_GroudonLimbs_FireballReset, SPRITE2_GROUDON_FIREBALL_RESET
-	GroudonFrame GROUDONFRAME_ROCKTOMB_0, TileDataPointer_GroudonLimbs_RockTomb0, SPRITE2_GROUDON_ROCKTOMB_0
-	GroudonFrame GROUDONFRAME_ROCKTOMB_1, TileDataPointer_GroudonLimbs_RockTomb1, SPRITE2_GROUDON_ROCKTOMB_1
-	GroudonFrame GROUDONFRAME_ROCKTOMB_2, TileDataPointer_GroudonLimbs_RockTomb2, SPRITE2_GROUDON_ROCKTOMB_2
-	GroudonFrame GROUDONFRAME_ROCKTOMB_3, TileDataPointer_GroudonLimbs_RockTomb3, SPRITE2_GROUDON_ROCKTOMB_3
-	GroudonFrame GROUDONFRAME_ROCKTOMB_4, TileDataPointer_GroudonLimbs_RockTomb4, SPRITE2_GROUDON_ROCKTOMB_4
-	GroudonFrame GROUDONFRAME_ROCKTOMB_5, TileDataPointer_GroudonLimbs_RockTomb5, SPRITE2_GROUDON_ROCKTOMB_5
-	GroudonFrame GROUDONFRAME_ROCKTOMB_6, TileDataPointer_GroudonLimbs_RockTomb6, SPRITE2_GROUDON_ROCKTOMB_6
-	GroudonFrame GROUDONFRAME_ROCKTOMB_7, TileDataPointer_GroudonLimbs_RockTomb7, SPRITE2_GROUDON_ROCKTOMB_7
-	GroudonFrame GROUDONFRAME_ROCKTOMB_8, TileDataPointer_GroudonLimbs_RockTomb8, SPRITE2_GROUDON_ROCKTOMB_8
-	GroudonFrame GROUDONFRAME_LAVAPLUME_WINDUP_2_HALFGLOW, TileDataPointer_GroudonLimbs_LavaPlumeWindup2_HalfGlow, SPRITE2_GROUDON_LAVAPLUME_WINDUP_2
-	GroudonFrame GROUDONFRAME_LAVAPLUME_3_HALFGLOW, TileDataPointer_GroudonLimbs_LavaPlume3_HalfGlow, SPRITE2_GROUDON_LAVAPLUME_3
-	GroudonFrame GROUDONFRAME_LAVAPLUME_3_FULLGLOW, TileDataPointer_GroudonLimbs_LavaPlume3_FullGlow, SPRITE2_GROUDON_LAVAPLUME_3
-	GroudonFrame GROUDONFRAME_LAVAPLUME_4_NOGLOW, TileDataPointer_GroudonLimbs_LavaPlume4_NoGlow, SPRITE2_GROUDON_LAVAPLUME_4
+	GroudonFrame GROUDONFRAME_IDLE_0, TileDataPointer_GroudonLimbs_Idle0, $FF, SPRITE2_GROUDON_IDLE_0
+	GroudonFrame GROUDONFRAME_IDLE_1, TileDataPointer_GroudonLimbs_Idle1, $FF, SPRITE2_GROUDON_IDLE_1
+	GroudonFrame GROUDONFRAME_HIT, TileDataPointer_GroudonLimbs_Hit, $FF, SPRITE2_GROUDON_HIT
+	GroudonFrame GROUDONFRAME_LAVAPLUME_WINDUP_0, TileDataPointer_GroudonLimbs_LavaPlumeWindup0, $FF, SPRITE2_GROUDON_LAVAPLUME_WINDUP_0
+	GroudonFrame GROUDONFRAME_LAVAPLUME_WINDUP_1, TileDataPointer_GroudonLimbs_LavaPlumeWindup1, $FF, SPRITE2_GROUDON_LAVAPLUME_WINDUP_1
+	GroudonFrame GROUDONFRAME_LAVAPLUME_WINDUP_2, TileDataPointer_GroudonLimbs_LavaPlumeWindup2, $FF, SPRITE2_GROUDON_LAVAPLUME_WINDUP_2
+	GroudonFrame GROUDONFRAME_LAVAPLUME_3, TileDataPointer_GroudonLimbs_LavaPlume3, $FF, SPRITE2_GROUDON_LAVAPLUME_3
+	GroudonFrame GROUDONFRAME_LAVAPLUME_4, TileDataPointer_GroudonLimbs_LavaPlume4, $FF, SPRITE2_GROUDON_LAVAPLUME_4
+	GroudonFrame GROUDONFRAME_FIREBALL_WINDUP_0, TileDataPointer_GroudonLimbs_FireballWindup0, $FF, SPRITE2_GROUDON_FIREBALL_WINDUP_0
+	GroudonFrame GROUDONFRAME_FIREBALL_WINDUP_1, TileDataPointer_GroudonLimbs_FireballWindup1_HalfGlow, $FF, SPRITE2_GROUDON_FIREBALL_WINDUP_1
+	GroudonFrame GROUDONFRAME_FIREBALL_DOWN, TileDataPointer_GroudonLimbs_FireballDown_NoGlow, $FF, SPRITE2_GROUDON_FIREBALL_DOWN
+	GroudonFrame GROUDONFRAME_FIREBALL_RIGHT, TileDataPointer_GroudonLimbs_FireballRight_NoGlow, $FF, SPRITE2_GROUDON_FIREBALL_RIGHT
+	GroudonFrame GROUDONFRAME_FIREBALL_LEFT, TileDataPointer_GroudonLimbs_FireballLeft_NoGlow, $FF, SPRITE2_GROUDON_FIREBALL_LEFT
+	GroudonFrame GROUDONFRAME_FIREBALL_RESET, TileDataPointer_GroudonLimbs_FireballReset, $FF, SPRITE2_GROUDON_FIREBALL_RESET
+	GroudonFrame GROUDONFRAME_ROCKTOMB_0, TileDataPointer_GroudonLimbs_RockTomb0, $FF, SPRITE2_GROUDON_ROCKTOMB_0
+	GroudonFrame GROUDONFRAME_ROCKTOMB_1, TileDataPointer_GroudonLimbs_RockTomb1, $FF, SPRITE2_GROUDON_ROCKTOMB_1
+	GroudonFrame GROUDONFRAME_ROCKTOMB_2, TileDataPointer_GroudonLimbs_RockTomb2, $FF, SPRITE2_GROUDON_ROCKTOMB_2
+	GroudonFrame GROUDONFRAME_ROCKTOMB_3, TileDataPointer_GroudonLimbs_RockTomb3, $FF, SPRITE2_GROUDON_ROCKTOMB_3
+	GroudonFrame GROUDONFRAME_ROCKTOMB_4, TileDataPointer_GroudonLimbs_RockTomb4, $FF, SPRITE2_GROUDON_ROCKTOMB_4
+	GroudonFrame GROUDONFRAME_ROCKTOMB_5, TileDataPointer_GroudonLimbs_RockTomb5, $FF, SPRITE2_GROUDON_ROCKTOMB_5
+	GroudonFrame GROUDONFRAME_ROCKTOMB_6, TileDataPointer_GroudonLimbs_RockTomb6, $FF, SPRITE2_GROUDON_ROCKTOMB_6
+	GroudonFrame GROUDONFRAME_ROCKTOMB_7, TileDataPointer_GroudonLimbs_RockTomb7, $FF, SPRITE2_GROUDON_ROCKTOMB_7
+	GroudonFrame GROUDONFRAME_ROCKTOMB_8, TileDataPointer_GroudonLimbs_RockTomb8, $FF, SPRITE2_GROUDON_ROCKTOMB_8
+	GroudonFrame GROUDONFRAME_LAVAPLUME_WINDUP_2_HALFGLOW, TileDataPointer_GroudonLimbs_LavaPlumeWindup2_HalfGlow, $FF, SPRITE2_GROUDON_LAVAPLUME_WINDUP_2
+	GroudonFrame GROUDONFRAME_LAVAPLUME_3_HALFGLOW, TileDataPointer_GroudonLimbs_LavaPlume3_HalfGlow, $FF, SPRITE2_GROUDON_LAVAPLUME_3
+	GroudonFrame GROUDONFRAME_LAVAPLUME_3_FULLGLOW, TileDataPointer_GroudonLimbs_LavaPlume3_FullGlow, $FF, SPRITE2_GROUDON_LAVAPLUME_3
+	GroudonFrame GROUDONFRAME_LAVAPLUME_4_NOGLOW, TileDataPointer_GroudonLimbs_LavaPlume4_NoGlow, $FF, SPRITE2_GROUDON_LAVAPLUME_4
+	; TODO: after pret merge, replace following `$19 + XX`s with `SPRITE_BALL_CAPTURE_XX`
+	GroudonFrame GROUDONFRAME_CATCH_0, TileDataPointer_GroudonLimbs_Hidden, $19 + 0, $FF
+	GroudonFrame GROUDONFRAME_CATCH_1, TileDataPointer_GroudonLimbs_Hidden, $19 + 1, $FF
+	GroudonFrame GROUDONFRAME_CATCH_2, TileDataPointer_GroudonLimbs_Hidden, $19 + 2, $FF
+	GroudonFrame GROUDONFRAME_CATCH_3, TileDataPointer_GroudonLimbs_Hidden, $19 + 3, $FF
+	GroudonFrame GROUDONFRAME_CATCH_4, TileDataPointer_GroudonLimbs_Hidden, $19 + 4, $FF
+	GroudonFrame GROUDONFRAME_CATCH_5, TileDataPointer_GroudonLimbs_Hidden, $19 + 5, $FF
+	GroudonFrame GROUDONFRAME_CATCH_6, TileDataPointer_GroudonLimbs_Hidden, $19 + 6, $FF
+	GroudonFrame GROUDONFRAME_CATCH_7, TileDataPointer_GroudonLimbs_Hidden, $19 + 7, $FF
+	GroudonFrame GROUDONFRAME_CATCH_8, TileDataPointer_GroudonLimbs_Hidden, $19 + 8, $FF
+	GroudonFrame GROUDONFRAME_CATCH_9, TileDataPointer_GroudonLimbs_Hidden, $19 + 9, $FF
+	GroudonFrame GROUDONFRAME_CATCH_10, TileDataPointer_GroudonLimbs_Hidden, $19 + 10, $FF
+	GroudonFrame GROUDONFRAME_CATCH_11, TileDataPointer_GroudonLimbs_Hidden, $19 + 11, $FF
+	GroudonFrame GROUDONFRAME_CATCH_12, TileDataPointer_GroudonLimbs_Hidden, $19 + 12, $FF
+	GroudonFrame GROUDONFRAME_HIDDEN, TileDataPointer_GroudonLimbs_Hidden, $FF, $FF

@@ -1,3 +1,26 @@
+TileDataPointer_GroudonLimbs_Hidden:
+	db $03
+	dw TileData_GroudonLimbs_Hidden_0
+	dw TileData_GroudonLimbs_Hidden_2
+	dw TileData_GroudonLimbs_Hidden_4
+
+FOR X, 0, 6, 2
+TileData_GroudonLimbs_Hidden_{u:X}:
+	dw LoadTileLists
+	db 2 * 6
+
+	db $06
+	dw vBGMap + {u:X} * $20 + 7
+	db $00, $00, $00, $00, $00, $00
+
+	db $06
+	dw vBGMap + ({u:X} + 1) * $20 + 7
+	db $00, $00, $00, $00, $00, $00
+
+	db $00
+ENDR
+
+
 TileDataPointer_GroudonLimbs_Idle0:
 	db $03
 	dw TileData_GroudonLimbs_Idle0_0

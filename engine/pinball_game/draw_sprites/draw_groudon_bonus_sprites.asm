@@ -14,10 +14,17 @@ DrawGroudonBodySprite:
 	ld hl, hSCX
 	sub [hl]
 	ld b, a
+	add a, $10
+	ld d, a
+
 	ld a, $0
 	ld hl, hSCY
 	sub [hl]
 	ld c, a
+	add a, $28
+	ld e, a
+	push de
+
 	ld a, [wGroudonAnimationFrame]
 	sla a
 	sla a
@@ -27,7 +34,15 @@ DrawGroudonBodySprite:
 	ld hl, GroudonFrames
 	add hl, de
 	ld a, [hl]
-	call LoadOAMData2
+	cp $ff
+	call nz, LoadOAMData2
+
+	pop bc
+	dec hl
+	ld a, [hl]
+	cp $ff
+	call nz, LoadOAMData
+
 	ret
 
 DrawGroudonBoulders:
