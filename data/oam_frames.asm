@@ -3924,16 +3924,16 @@ GroudonBoulderCrumble1Sprite:
 	db $80 ; terminator
 
 GroudonPillarHealth3Sprite:
-	db $08, $08, $30, $06
-	db $08, $00, $2e, $06
+	db $08, $08, $32, $06
+	db $08, $00, $30, $06
 	db $80 ; terminator
 
 GroudonPillarHealth2Sprite:
-	db $08, $08, $34, $06
-	db $08, $00, $32, $06
+	db $08, $08, $36, $06
+	db $08, $00, $34, $06
 	db $80 ; terminator
 
 GroudonPillarHealth1Sprite:
-	db $08, $08, $38, $06
-	db $08, $00, $36, $06
+	db $08, $08, $3e, $06
+	db $08, $00, $3c, $06
 	db $80 ; terminator

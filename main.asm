@@ -1566,8 +1566,10 @@ GroudonBonusFireballGfx:
 GroudonBonusBoulderGfx:
 	INCBIN "gfx/stage/groudon_bonus/boulder.interleave.2bpp"
 
-GroudonBonusPillarTopGfx:
-	INCBIN "gfx/stage/groudon_bonus/flame_pillar_top.interleave.2bpp"
+GroudonBonusPillarTopGfx1:
+	INCBIN "gfx/stage/groudon_bonus/flame_pillar_top.interleave.2bpp", 0, 8 * 16
+GroudonBonusPillarTopGfx2:
+	INCBIN "gfx/stage/groudon_bonus/flame_pillar_top.interleave.2bpp", 8 * 16, 4 * 16
 GroudonBonusPillarBaseGfx:
 	INCBIN "gfx/stage/groudon_bonus/flame_pillar_base.2bpp"
 GroudonBonusPillarBase2Gfx:

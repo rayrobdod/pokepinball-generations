@@ -318,7 +318,8 @@ StageGroudonBonusGfx_GameBoyColor: ; 0xec9a
 
 	VIDEO_DATA_TILES         Alphabet2Gfx, vTilesOB, $1a0
 	VIDEO_DATA_TILES         GroudonBonusBoulderGfx, vTilesOB + $1a0, 5 * 4 * 16
-	VIDEO_DATA_TILES         GroudonBonusPillarTopGfx, vTilesOB + $2e0, 3 * 4 * 16
+	VIDEO_DATA_TILES         GroudonBonusPillarTopGfx1, vTilesOB + $300, 2 * 4 * 16
+	VIDEO_DATA_TILES         GroudonBonusPillarTopGfx2, vTilesOB + $3c0, 4 * 16
 	VIDEO_DATA_TILES         PinballPokeballGfx, vTilesOB + $400, $320
 	VIDEO_DATA_TILES         PikachuSaverGfx, vTilesOB + $720, $E0
 	VIDEO_DATA_TILES         GroudonBonusFireballGfx, vTilesOB + $720, 12 * 16
