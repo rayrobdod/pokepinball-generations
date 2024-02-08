@@ -30,7 +30,7 @@ InitBlueField: ; 0x1c000
 	ld a, 3
 	ld [wNumBallLives], a
 	ld [wd610], a
-	ld a, BONUS_STAGE_ORDER_GROUDON
+	ld a, BONUS_STAGE_ORDER_MEOWTH
 	ld [wNextBonusStage], a
 	ld [wInitialNextBonusStage], a
 	ld a, $80
