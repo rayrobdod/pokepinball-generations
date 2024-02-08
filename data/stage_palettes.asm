@@ -80,7 +80,7 @@ SeelBonusOBJPalette7: ; 0xdc8f8
 	RGB 20, 20, 20
 	RGB 8, 8, 8
 	RGB 0, 0, 0
-	
+
 UnusedPalettes_dc900: ; 0xdc900
 	RGB 31, 27, 29
 	RGB 31, 31, 31
@@ -752,8 +752,8 @@ MeowthBonusOBJPalette7: ; 0xdccf8
 GroudonBonusPalettes:
 GroudonBonusBgPalette0:
 	RGB 31, 31, 31
-	RGB 20, 20, 20
-	RGB 8, 8, 8
+	RGB 13, 20, 31
+	RGB 31, 4, 4
 	RGB 0, 0, 0
 GroudonBonusBgPaletteWall:
 	RGB 31, 31, 31
@@ -2077,7 +2077,7 @@ StageGoldFieldTopOBJPalette7: ; 0xdc9f8
 	RGB 31, 15, 13
 	RGB 21, 0, 0
 	RGB 4, 0, 0
-	
+
 StageGoldFieldBottomPalettes: ; 0xdca80
 StageGoldFieldBottomBGPalette0: ; 0xdca80
 	RGB 31, 31, 31
@@ -2421,7 +2421,7 @@ StageRubyFieldTopOBJPalette7: ; 0xdc9f8
 	RGB 31, 15, 13
 	RGB 21, 0, 0
 	RGB 4, 0, 0
-	
+
 StageRubyFieldBottomPalettes: ; 0xdca80
 StageRubyFieldBottomBGPalette0: ; 0xdca80
 	RGB 31, 31, 31
