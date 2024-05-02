@@ -10,40 +10,56 @@ DrawSpritesGroudonBonus:
 	ret
 
 DrawGroudonBodySprite:
-	ld a, $40
-	ld hl, hSCX
-	sub [hl]
-	ld b, a
-	add a, $10
-	ld d, a
-
-	ld a, $0
-	ld hl, hSCY
-	sub [hl]
-	ld c, a
-	add a, $28
-	ld e, a
-	push de
-
 	ld a, [wGroudonAnimationFrame]
-	sla a
-	sla a
-	or $3
-	ld e, a
 	ld d, $0
+	sla a
+	rl d
+	sla a
+	rl d
+	or $2
+	ld e, a
 	ld hl, GroudonFrames
 	add hl, de
 	ld a, [hl]
 	cp $ff
-	call nz, LoadOAMData2
+	jr z, .drawSprite1
 
-	pop bc
-	dec hl
+.drawSprite2
+	ld a, [hl+]
+	ld e, a
+
+	ld a, [hl]
+	ld hl, hSCY
+	sub [hl]
+	ld c, a
+
+	ld hl, hSCX
+	ld a, $40
+	sub [hl]
+	ld b, a
+
+	ld a, e
+	jp LoadOAMData2
+
+.drawSprite1
+	inc hl
 	ld a, [hl]
 	cp $ff
-	call nz, LoadOAMData
+	ret z
+	ld e, a
 
-	ret
+	ld hl, hSCY
+	ld a, $28
+	sub [hl]
+	ld c, a
+
+	ld hl, hSCX
+	ld a, $50
+	sub [hl]
+	ld b, a
+
+	ld a, e
+	jp LoadOAMData
 
 DrawGroudonBoulders:
 	ld hl, wGroudonBoulder0AnimationId

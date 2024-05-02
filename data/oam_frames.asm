@@ -2427,16 +2427,11 @@ OAMDataPointers2: ; 0x55d7
 	SpriteDataPointer GroudonFireballDownSprite, SPRITE2_GROUDON_FIREBALL_DOWN
 	SpriteDataPointer GroudonFireballRightSprite, SPRITE2_GROUDON_FIREBALL_RIGHT
 	SpriteDataPointer GroudonFireballLeftSprite, SPRITE2_GROUDON_FIREBALL_LEFT
-	SpriteDataPointer GroudonFireballResetSprite, SPRITE2_GROUDON_FIREBALL_RESET
-	SpriteDataPointer GroudonRockTomb0Sprite, SPRITE2_GROUDON_ROCKTOMB_0
 	SpriteDataPointer GroudonRockTomb1Sprite, SPRITE2_GROUDON_ROCKTOMB_1
 	SpriteDataPointer GroudonRockTomb2Sprite, SPRITE2_GROUDON_ROCKTOMB_2
 	SpriteDataPointer GroudonRockTomb3Sprite, SPRITE2_GROUDON_ROCKTOMB_3
-	SpriteDataPointer GroudonRockTomb4Sprite, SPRITE2_GROUDON_ROCKTOMB_4
-	SpriteDataPointer GroudonRockTomb5Sprite, SPRITE2_GROUDON_ROCKTOMB_5
 	SpriteDataPointer GroudonRockTomb6Sprite, SPRITE2_GROUDON_ROCKTOMB_6
 	SpriteDataPointer GroudonRockTomb7Sprite, SPRITE2_GROUDON_ROCKTOMB_7
-	SpriteDataPointer GroudonRockTomb8Sprite, SPRITE2_GROUDON_ROCKTOMB_8
 	SpriteDataPointer GroudonFireballFireballDownSprite, SPRITE2_GROUDON_FIREBALL_FIREBALL_DOWN
 	SpriteDataPointer GroudonFireballFireballLeftSprite, SPRITE2_GROUDON_FIREBALL_FIREBALL_LEFT
 	SpriteDataPointer GroudonFireballFireballRightSprite, SPRITE2_GROUDON_FIREBALL_FIREBALL_RIGHT
@@ -3787,26 +3782,6 @@ GroudonFireballLeftSprite:
 	db $2A, $1C, $4C, $29
 	db $80 ; terminator
 
-GroudonFireballResetSprite:
-	db $1A, $08, $30, $09
-	db $1A, $10, $2A, $09
-	db $1A, $18, $2A, $29
-	db $1A, $20, $30, $29
-	db $2A, $0C, $32, $09
-	db $2A, $14, $34, $29
-	db $2A, $1C, $32, $29
-	db $80 ; terminator
-
-GroudonRockTomb0Sprite:
-	db $1A, $08, $30, $09
-	db $1A, $10, $2A, $09
-	db $1A, $18, $2A, $29
-	db $1A, $20, $30, $29
-	db $2A, $0C, $32, $09
-	db $2A, $14, $34, $29
-	db $2A, $1C, $32, $29
-	db $80 ; terminator
-
 GroudonRockTomb1Sprite:
 	db $1A, $10, $52, $09
 	db $1A, $18, $52, $29
@@ -3834,24 +3809,6 @@ GroudonRockTomb3Sprite:
 	db $1F, $18, $5E, $29
 	db $80 ; terminator
 
-GroudonRockTomb4Sprite:
-	db $0B, $08, $56, $09
-	db $0B, $10, $58, $09
-	db $0B, $18, $58, $29
-	db $0B, $20, $56, $29
-	db $1B, $10, $5E, $09
-	db $1B, $18, $5E, $29
-	db $80 ; terminator
-
-GroudonRockTomb5Sprite:
-	db $09, $08, $56, $09
-	db $09, $10, $58, $09
-	db $09, $18, $58, $29
-	db $09, $20, $56, $29
-	db $19, $10, $5E, $09
-	db $19, $18, $5E, $29
-	db $80 ; terminator
-
 GroudonRockTomb6Sprite:
 	db $09, $0C, $76, $09
 	db $09, $14, $78, $09
@@ -3868,16 +3825,6 @@ GroudonRockTomb7Sprite:
 	db $1F, $0C, $7E, $09
 	db $1F, $14, $80, $09
 	db $1F, $1C, $7E, $29
-	db $80 ; terminator
-
-GroudonRockTomb8Sprite:
-	db $1A, $08, $30, $09
-	db $1A, $10, $2A, $09
-	db $1A, $18, $2A, $29
-	db $1A, $20, $30, $29
-	db $2A, $0C, $32, $09
-	db $2A, $14, $34, $29
-	db $2A, $1C, $32, $29
 	db $80 ; terminator
 
 GroudonFireballFireballDownSprite:
